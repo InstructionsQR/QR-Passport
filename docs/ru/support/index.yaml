@@ -1,0 +1,36 @@
+# fullScreen: true
+blocks:
+  - type: header-block
+    title: Техническая поддержка
+    description: |
+      Описание раздела технической поддержки
+    textWidth: 's'
+    verticalOffset: 's'
+    background:
+      light:
+        color: '#F5F5F5'
+        fullWidth: false
+      dark:
+        color: '#424147'
+        fullWidth: false
+
+  - type: card-layout-block
+    colSizes:
+      all: 12
+      sm: 6
+    children:
+      - type: basic-card
+        title: 
+          text: Тикеты
+          textSize: s
+        text: |
+          [Создание и управление тикетами](support.md)
+          
+      - type: basic-card
+        title: 
+          text: Категории тикетов
+          textSize: s
+        text: |
+          [Настройка категорий](ticket_categories.md)
+
+animated: true

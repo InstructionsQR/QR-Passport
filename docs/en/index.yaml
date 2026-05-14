@@ -1,0 +1,10 @@
+title: Documentation
+links:
+  - title: About
+    href: about.md
+  - title: Company
+    href: page.md
+  - title: Department
+    href: anotherpage.md
+  - title: Support
+    href: sub-section/

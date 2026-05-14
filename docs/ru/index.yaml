@@ -1,0 +1,90 @@
+
+blocks:
+  - type: header-block
+    title: Инструкция пользователя QR-Passport
+    description: |
+      Полный контрол‍ь над технической документацией вашего оборудования
+    buttons:
+      - text: 'Войти'
+        size: 'promo'
+        url: 'https://qrpassport.app/admin/'
+      - text: 'Задать вопрос'
+        theme: 'outlined'
+        size: 'promo'
+        url: 'https://www.qrpassport.tech/#:~:text=info%40qrpassport.tech'
+    textWidth: 's'
+    verticalOffset: 's'
+    background:
+      light:
+        image:
+          mobile: './_images/logo.png'
+          desktop: './_images/logo.png'
+          disableCompress: true
+        color: '#F5F5F5'
+        fullWidth: false
+      dark:
+        color: '#424147'
+        fullWidth: false
+  - type: card-layout-block
+    colSizes:
+      all: 12
+      xl: 6
+      sm: 6
+      md: 6
+    children:
+      - type: basic-card
+        title: 
+          text: О платформе
+          textSize: s
+        text: |
+          [Начало работы](about.md)
+          
+          [Быстрый старт](quick_start.md)
+
+          [История изменений](updates.md)
+
+          [Часто задаваемые вопросы](FAQ.md)
+      - type: basic-card
+        title: 
+          text: Раздел «Организация»
+          textSize: s
+        text: |
+          [О разделе](company/about_company.md)
+
+          [Общая информация](company/company.md)
+          
+          [Пользователи](company/users.md) 
+          
+          [Департаменты](company/department.md) 
+          
+          [Должности](company/positions.md)        
+      - type: basic-card
+        title: 
+          text: Раздел «Оборудование»
+          textSize: s
+        text: |
+          [О разделе](equipment/about_equipment.md)
+
+          [Группы](equipment/equipment.md)
+          
+          [Модели оборудования](equipment/models.md)
+          
+          [Зарегистрированные изделия](equipment/registered_products.md)
+          
+          [Динамические параметры](equipment/dynamic_parameters.md)
+          
+          [Производители](equipment/manufacturers.md)
+      - type: basic-card
+        title: 
+          text: Раздел «Техническая поддержка»
+          textSize: s
+        text: |
+          [О разделе](support/about_support.md)
+        
+          [Тикеты](support/support.md)
+
+          [Категории тикетов](support/ticket_categories.md)
+  - type: content-layout-block
+    size: s
+
+animated: true  

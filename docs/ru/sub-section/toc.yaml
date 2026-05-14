@@ -1,0 +1,5 @@
+title: Пример содержания подраздела
+href: index.yaml
+items:
+  - name: Страница раздела в подразделе
+    href: content.md

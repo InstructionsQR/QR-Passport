@@ -1,0 +1,13 @@
+title: Раздел «Организация»
+href: index.yaml
+items:
+  - name: О разделе
+    href: about_company.md
+  - name: Общая информация
+    href: company.md
+  - name: Пользователи
+    href: users.md
+  - name: Департаменты
+    href: department.md
+  - name: Должности
+    href: positions.md

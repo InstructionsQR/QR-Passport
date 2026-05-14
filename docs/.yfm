@@ -1,0 +1,17 @@
+langs: ['ru', 'en']
+
+docs-viewer:
+  langs: ['en','ru']
+
+themes: ['light', 'dark']
+
+interface:
+  favicon-src: https://cdn.prod.website-files.com/6603d96aba3ded64d735fd75/662674f3e10f740ca73c9943_Favicon.png 
+
+search:
+  provider: local
+  tolerance: 2
+  confidenсe: phrased
+
+
+

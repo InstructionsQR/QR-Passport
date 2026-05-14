@@ -1,0 +1,13 @@
+title: Documentation
+href: index.yaml
+items: 
+  - name: About
+    href: about.md
+  - name: Company 
+    href: page.md
+  - name: Department
+    href: anotherpage.md
+  - name: Support 
+    include:
+      path: sub-section/toc.yaml
+      mode: link

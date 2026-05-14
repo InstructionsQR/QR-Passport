@@ -1,0 +1,6 @@
+build/
+.output/
+node_modules/
+.npm
+.yarn/
+docs-html/

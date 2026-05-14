@@ -1,0 +1,36 @@
+href: index.yaml
+navigation:
+  logo:
+    url: "/qr-passport-docs/ru/"
+    urlTitle: 'Вернуться на главную'
+    dark:
+      icon: "https://cdn.prod.website-files.com/6603d96aba3ded64d735fd75/6608f2be8d8302eabf161fdb_logo.svg"
+    light:
+      icon: "https://cdn.prod.website-files.com/6603d96aba3ded64d735fd75/6608f2be8d8302eabf161fdb_logo.svg"
+items: 
+  - name: Начало работы
+    href: about.md
+    
+  - name: Быстрый старт
+    href: quick_start.md
+    
+  - name: Раздел «Организация»
+    include:
+      path: company/toc.yaml
+      mode: link   
+      
+  - name: Раздел «Оборудование»
+    include:
+      path: equipment/toc.yaml
+      mode: link  
+      
+  - name: Раздел «Техническая поддержка»
+    include:
+      path: support/toc.yaml
+      mode: link
+        
+  - name: История изменений
+    href: updates.md
+
+  - name: Часто задаваемые вопросы
+    href: FAQ.md

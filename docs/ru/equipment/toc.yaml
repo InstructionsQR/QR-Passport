@@ -1,0 +1,15 @@
+title: Раздел «Оборудование»
+href: index.yaml
+items:
+  - name: О разделе
+    href: about_equipment.md
+  - name: Группы
+    href: equipment.md
+  - name: Модели оборудования
+    href: models.md
+  - name: Зарегистрированные изделия
+    href: registered_products.md
+  - name: Динамические параметры
+    href: dynamic_parameters.md
+  - name: Производители
+    href: manufacturers.md

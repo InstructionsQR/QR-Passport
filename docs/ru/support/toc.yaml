@@ -1,0 +1,9 @@
+title: Раздел «Техническая поддержка»
+href: index.yaml
+items:
+  - name: О разделе
+    href: about_support.md
+  - name: Тикеты
+    href: support.md
+  - name: Категории тикетов
+    href: ticket_categories.md
