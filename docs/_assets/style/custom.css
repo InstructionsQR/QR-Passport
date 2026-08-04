@@ -5,3 +5,16 @@
 .header__logo img {
   filter: grayscale(1) brightness(0);
 }
+
+/* Кнопка «Войти» на титульной странице */
+a[href="https://app.qrpassport.tech/login"] {
+  background-color: #5e6ad2 !important;
+  border-color: #5e6ad2 !important;
+  color: #ffffff !important;
+}
+
+/* Чуть темнее при наведении */
+a[href="https://app.qrpassport.tech/login"]:hover {
+  background-color: #4a54c0 !important;
+  border-color: #4a54c0 !important;
+}
