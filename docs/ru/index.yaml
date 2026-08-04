@@ -3,11 +3,11 @@ blocks:
   - type: header-block
     title: Инструкция пользователя QR-Passport
     description: |
-      Полный контрол‍ь над технической документацией вашего оборудования
+      Цифровой паспорт вашей продукции
     buttons:
       - text: 'Войти'
         size: 'promo'
-        url: 'https://qrpassport.app/admin/'
+        url: 'https://app.qrpassport.tech/login'
       - text: 'Задать вопрос'
         theme: 'outlined'
         size: 'promo'
@@ -20,10 +20,10 @@ blocks:
           mobile: './_images/logo.png'
           desktop: './_images/logo.png'
           disableCompress: true
-        color: '#F5F5F5'
+        color: '#5e6ad2'
         fullWidth: false
       dark:
-        color: '#424147'
+        color: '#5e6ad2'
         fullWidth: false
   - type: card-layout-block
     colSizes:
