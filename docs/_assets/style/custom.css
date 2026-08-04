@@ -1,20 +1,19 @@
-/* Перекраска логотипа в чёрный */
-.pc-header-logo__image,
-.header-logo img,
-.docs-logo img,
-.header__logo img {
-  filter: grayscale(1) brightness(0);
-}
-
-/* Кнопка «Войти» на титульной странице */
+/* Кнопка «Войти»: фирменный цвет + возвращаем скруглённые углы */
 a[href="https://app.qrpassport.tech/login"] {
   background-color: #5e6ad2 !important;
   border-color: #5e6ad2 !important;
   color: #ffffff !important;
+  border-radius: 10px !important;
 }
 
-/* Чуть темнее при наведении */
 a[href="https://app.qrpassport.tech/login"]:hover {
   background-color: #4a54c0 !important;
   border-color: #4a54c0 !important;
+}
+
+/* Логотип в шапке: перекрашиваем в чёрный и делаем чуть меньше */
+img[src*="logo.svg"] {
+  filter: grayscale(1) brightness(0) !important;
+  height: 32px !important;
+  width: auto !important;
 }
