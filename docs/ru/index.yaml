@@ -20,10 +20,10 @@ blocks:
           mobile: './_images/logo.png'
           desktop: './_images/logo.png'
           disableCompress: true
-        color: '#5e6ad2'
+        color: '#ffffff'
         fullWidth: false
       dark:
-        color: '#5e6ad2'
+        color: '#ffffff'
         fullWidth: false
   - type: card-layout-block
     colSizes:

@@ -1,0 +1,7 @@
+/* Перекраска логотипа в чёрный */
+.pc-header-logo__image,
+.header-logo img,
+.docs-logo img,
+.header__logo img {
+  filter: grayscale(1) brightness(0);
+}
