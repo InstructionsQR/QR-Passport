@@ -1,4 +1,3 @@
-
 blocks:
   - type: header-block
     title: Инструкция пользователя QR-Passport
@@ -25,6 +24,7 @@ blocks:
       dark:
         color: '#ffffff'
         fullWidth: false
+
   - type: card-layout-block
     colSizes:
       all: 12
@@ -33,58 +33,48 @@ blocks:
       md: 6
     children:
       - type: basic-card
-        title: 
-          text: О платформе
+        title:
+          text: О приложении
           textSize: s
         text: |
           [Начало работы](about.md)
-          
+
           [Быстрый старт](quick_start.md)
 
           [История изменений](updates.md)
 
           [Часто задаваемые вопросы](FAQ.md)
+
       - type: basic-card
-        title: 
-          text: Раздел «Организация»
+        title:
+          text: Оборудование
           textSize: s
         text: |
-          [О разделе](company/about_company.md)
+          [Марки материалов](equipment/material_grades/about.md)
 
-          [Общая информация](company/company.md)
-          
-          [Пользователи](company/users.md) 
-          
-          [Департаменты](company/department.md) 
-          
-          [Должности](company/positions.md)        
+          [Сертификаты](equipment/certificates/about.md)
+
+          [Модели](equipment/models/about.md)
+
+          [Детали](equipment/details/about.md)
+
+          [Зарегистрированные изделия](equipment/registered_products/about.md)
+
       - type: basic-card
-        title: 
-          text: Раздел «Оборудование»
+        title:
+          text: Организация
           textSize: s
         text: |
-          [О разделе](equipment/about_equipment.md)
+          [Управление доступом](organization/access_management.md)
 
-          [Группы](equipment/equipment.md)
-          
-          [Модели оборудования](equipment/models.md)
-          
-          [Зарегистрированные изделия](equipment/registered_products.md)
-          
-          [Динамические параметры](equipment/dynamic_parameters.md)
-          
-          [Производители](equipment/manufacturers.md)
       - type: basic-card
-        title: 
-          text: Раздел «Техническая поддержка»
+        title:
+          text: Личный кабинет
           textSize: s
         text: |
-          [О разделе](support/about_support.md)
-        
-          [Тикеты](support/support.md)
+          [О разделе](account/personal_account.md)
 
-          [Категории тикетов](support/ticket_categories.md)
   - type: content-layout-block
     size: s
 
-animated: true  
+animated: true

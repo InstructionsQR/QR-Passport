@@ -8,27 +8,56 @@ navigation:
     light:
       icon: "https://qrpassport.tech/logo.svg"
 items: 
-  - name: Начало работы
-    href: about.md
-    
-  - name: Быстрый старт
-    href: quick_start.md
-    
-  - name: Раздел «Организация»
-    include:
-      path: company/toc.yaml
-      mode: link   
-      
-  - name: Раздел «Оборудование»
-    include:
-      path: equipment/toc.yaml
-      mode: link  
-      
-  - name: Раздел «Техническая поддержка»
-    include:
-      path: support/toc.yaml
-      mode: link
-        
+  - name: О приложении
+    items:
+      - name: Начало работы
+        href: about.md
+      - name: Быстрый старт
+        href: quick_start.md
+
+  - name: Оборудование
+    items:
+      - name: Марки материалов
+        items:
+          - name: О разделе
+            href: equipment/material_grades/about.md
+          - name: Химические свойства
+            href: equipment/material_grades/chemical_properties.md
+          - name: Механические свойства
+            href: equipment/material_grades/mechanical_properties.md
+      - name: Сертификаты
+        items:
+          - name: О разделе
+            href: equipment/certificates/about.md
+          - name: Партии/плавки
+            href: equipment/certificates/batches_heats.md
+      - name: Модели
+        items:
+          - name: О разделе
+            href: equipment/models/about.md
+          - name: Описание шаблонов
+            href: equipment/models/templates.md
+          - name: Создание модели
+            href: equipment/models/create_model.md
+      - name: Детали
+        items:
+          - name: О разделе
+            href: equipment/details/about.md
+      - name: Зарегистрированные изделия
+        items:
+          - name: О разделе
+            href: equipment/registered_products/about.md
+
+  - name: Организация
+    items:
+      - name: Управление доступом
+        href: organization/access_management.md
+
+  - name: Личный кабинет
+    items:
+      - name: О разделе
+        href: account/about.md
+
   - name: История изменений
     href: updates.md
 
