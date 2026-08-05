@@ -7,15 +7,18 @@ navigation:
       icon: "https://qrpassport.tech/logo.svg"
     light:
       icon: "https://qrpassport.tech/logo.svg"
-items: 
-  - name: О приложении
+
+items:
+  - name: О ПРИЛОЖЕНИИ
+    type: heading
     items:
       - name: Начало работы
         href: about.md
       - name: Быстрый старт
         href: quick_start.md
 
-  - name: Оборудование
+  - name: ОБОРУДОВАНИЕ
+    type: heading
     items:
       - name: Марки материалов
         items:
@@ -48,12 +51,14 @@ items:
           - name: О разделе
             href: equipment/registered_products/about.md
 
-  - name: Организация
+  - name: ОРГАНИЗАЦИЯ
+    type: heading
     items:
       - name: Управление доступом
         href: organization/access_management.md
 
-  - name: Личный кабинет
+  - name: ЛИЧНЫЙ КАБИНЕТ
+    type: heading
     items:
       - name: О разделе
         href: account/about.md
