@@ -53,11 +53,8 @@ img[src*="logo.svg"] {
 
 /* Кнопки «режим чтения / настройки / язык» — в шапку рядом с поиском */
 .dc-doc-page__controls {
-  position: fixed !important;
-  top: 26px !important;
-  right: 260px !important;
-  z-index: 100;
-  margin: 0 !important;
+  position: static !important;
+  margin: 0 12px 0 0 !important;
 }
 
 .dc-doc-page__controls .dc-controls {

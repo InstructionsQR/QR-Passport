@@ -62,3 +62,27 @@
   })();
 })();
 
+/* Переносим «режим чтения / настройки / язык» в шапку рядом с поиском */
+(function () {
+  var tries = 0;
+  var t = setInterval(function () {
+    tries++;
+    var controls = document.querySelector('.dc-doc-page__controls');
+    var input = document.querySelector('input[placeholder*="оиск"]');
+    if (controls && input) {
+      var bar = null, wrap = null, node = input;
+      while (node.parentElement) {
+        var p = node.parentElement;
+        if (p.querySelector('img') && p.querySelector('input')) { bar = p; wrap = node; break; }
+        node = p;
+      }
+      console.log('move controls: bar=', !!bar, 'wrap=', !!wrap, 'already=', bar ? bar.contains(controls) : '-');
+      if (bar && wrap && !bar.contains(controls)) {
+        bar.insertBefore(controls, wrap);
+        console.log('controls moved');
+      }
+      clearInterval(t);
+    }
+    if (tries >= 30) clearInterval(t);
+  }, 300);
+})();

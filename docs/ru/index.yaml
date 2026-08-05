@@ -19,14 +19,14 @@ blocks:
           mobile: './_images/logo.png'
           desktop: './_images/logo.png'
           disableCompress: true
-        color: '#5e6ad2'
+        
         fullWidth: false
       dark:
         image:
           mobile: './_images/logo_dark.png'
           desktop: './_images/logo_dark.png'
           disableCompress: true
-        color: '#5e6ad2'
+       
         fullWidth: false
 
   - type: card-layout-block
