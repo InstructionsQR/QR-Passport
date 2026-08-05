@@ -1,4 +1,4 @@
-/* Кнопка «Войти»: фирменный цвет + возвращаем скруглённые углы */
+/* ===== Кнопка «Войти» ===== */
 a[href="https://app.qrpassport.tech/login"] {
   background-color: #5e6ad2 !important;
   border-color: #5e6ad2 !important;
@@ -11,29 +11,28 @@ a[href="https://app.qrpassport.tech/login"]:hover {
   border-color: #4a54c0 !important;
 }
 
-/* Логотип в шапке: перекрашиваем в чёрный и делаем чуть меньше */
+/* ===== Логотип: чёрный и чуть меньше ===== */
 img[src*="logo.svg"] {
   filter: grayscale(1) brightness(0) !important;
-  height: 28px !important;
+  height: 32px !important;
   width: auto !important;
 }
 
-/* Карточки на титульной: нежный градиент от #cbcefe к белому */
+/* ===== Карточки: градиент только на внешней рамке ===== */
 [class*="basic-card"] {
-  background: linear-gradient(180deg, #cbcefe 0%, #ffffff 100%) !important;
+  background: transparent !important;
 }
 
-/* Верхние разделы меню — плоские заголовки, как в Diplodoc */
+[class*="basic-card"]:not([class*="__"]) {
+  background: linear-gradient(180deg, #cbceff 0%, #ffffff 100%) !important;
+}
+
+/* ===== Плоские заголовки разделов в меню ===== */
 .dc-toc__list-item_main > button.dc-toc-item__text {
-  pointer-events: none !important;   /* заголовок не кликается и не сворачивается */
+  pointer-events: none !important;
   cursor: default !important;
-  color: #7d8490 !important;         /* серый цвет, как у шапок в Diplodoc */
-  font-weight: 600 !important;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
 }
 
-/* Прячем стрелку только у верхних заголовков */
 .dc-toc__list-item_main > button.dc-toc-item__text svg,
 .dc-toc__list-item_main > svg {
   display: none !important;
