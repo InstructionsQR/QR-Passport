@@ -1,4 +1,4 @@
-/* ===== 1. Несколько открытых разделов меню + запоминание между страницами ===== */
+/* ===== 1. Меню: несколько открытых разделов + запоминание между страницами ===== */
 (function () {
   var KEY = 'qrpass-toc-open';
 
@@ -23,7 +23,7 @@
     if (isOpen(btn)) { if (i > -1) list.splice(i, 1); }
     else if (i === -1) { list.push(name); }
     save(list);
-    scheduleReopen('click');
+    scheduleReopen();
   }, true);
 
   function reopen() {
@@ -55,11 +55,15 @@
 
 /* ===== 2. Перенос кнопок управления в шапку рядом с поиском ===== */
 (function () {
+  console.log('qr: controls mover started');
+
   function place(controls, input) {
     var bar = null, wrap = null, node = input;
     while (node.parentElement) {
       var p = node.parentElement;
-      if (p.querySelector('img[src*="logo.svg"]') && p.querySelector('input')) { bar = p; wrap = node; break; }
+      if (p.querySelector('img[src*="logo.svg"]') && p.querySelector('input')) {
+        bar = p; wrap = node; break;
+      }
       node = p;
     }
     if (!bar) return false;
@@ -78,17 +82,21 @@
     return false;
   }
 
-  /* Переносим в тот же кадр, когда кнопки появились в DOM — мигания нет */
   var mo = new MutationObserver(function () {
-    if (tryMove()) mo.disconnect();
+    if (tryMove()) {
+      console.log('qr: controls moved');
+      mo.disconnect();
+    }
   });
   mo.observe(document.body, { childList: true, subtree: true });
 
-  /* Страховка: если за 2 сек перенос не удался — показать на старом месте */
   setTimeout(function () {
     mo.disconnect();
     var c = document.querySelector('.dc-doc-page__controls');
-    if (c && !c.classList.contains('qr-moved')) c.style.opacity = '1';
+    if (c && !c.classList.contains('qr-moved')) {
+      console.log('qr: move failed, showing at old place');
+      c.style.opacity = '1';
+    }
   }, 2000);
 
   tryMove();
