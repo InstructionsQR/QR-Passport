@@ -38,3 +38,29 @@ img[src*="logo.svg"] {
 .dc-toc__list-item_main > svg {
   display: none !important;
 }
+
+/* ===== ТЁМНАЯ ТЕМА ===== */
+
+/* Лого в шапке: светлое, чтобы было видно на тёмном фоне */
+.g-root_theme_dark img[src*="logo.svg"] {
+  filter: grayscale(1) brightness(0) invert(1) !important;
+}
+
+/* Карточки в тёмной теме: #292b4e сверху → #09090b снизу */
+.g-root_theme_dark [class*="basic-card"]:not([class*="__"]) {
+  background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
+}
+
+/* Кнопки «режим чтения / настройки / язык» — в шапку рядом с поиском */
+.dc-doc-page__controls {
+  position: fixed !important;
+  top: 26px !important;
+  right: 260px !important;
+  z-index: 100;
+  margin: 0 !important;
+}
+
+.dc-doc-page__controls .dc-controls {
+  flex-direction: row !important;
+  gap: 8px;
+}
