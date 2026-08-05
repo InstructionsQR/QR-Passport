@@ -1,5 +1,5 @@
+/* ===== 1. Несколько открытых разделов меню + запоминание между страницами ===== */
 (function () {
-  console.log('custom.js v5');
   var KEY = 'qrpass-toc-open';
 
   function load() {
@@ -12,12 +12,9 @@
   function isOpen(btn) { return btn.getAttribute('aria-expanded') === 'true'; }
   function groupButtons() { return document.querySelectorAll('button.dc-toc-item__text'); }
 
-  console.log('stored:', JSON.stringify(load()));
-
-  /* Запоминаем, что открыл/закрыл пользователь */
   window.addEventListener('click', function (e) {
     var btn = e.target.closest('button.dc-toc-item__text');
-    if (!btn || btn.tagName !== 'BUTTON') return;
+    if (!btn) return;
 
     var list = load();
     var name = nameOf(btn);
@@ -26,63 +23,73 @@
     if (isOpen(btn)) { if (i > -1) list.splice(i, 1); }
     else if (i === -1) { list.push(name); }
     save(list);
-    console.log('toc save:', JSON.stringify(list));
-
     scheduleReopen('click');
   }, true);
 
-  /* Раскрываем сохранённые разделы */
-  function reopen(source) {
+  function reopen() {
     var list = load();
     groupButtons().forEach(function (btn) {
       var n = nameOf(btn);
-      if (list.indexOf(n) > -1 && !isOpen(btn)) {
-        console.log('reopen:', n, '| source:', source);
-        btn.click();
-      }
+      if (list.indexOf(n) > -1 && !isOpen(btn)) btn.click();
     });
   }
 
   var timer = null;
-  function scheduleReopen(source) {
+  function scheduleReopen() {
     var tries = 0;
     if (timer) clearInterval(timer);
     timer = setInterval(function () {
-      reopen(source);
+      reopen();
       if (++tries >= 30) clearInterval(timer);
     }, 300);
   }
 
-  scheduleReopen('load');
+  scheduleReopen();
 
-  var mo = new MutationObserver(function () { reopen('observer'); });
+  var mo = new MutationObserver(function () { reopen(); });
   (function watch() {
-    var toc = document.querySelector('nav') || document.body;
+    var toc = document.querySelector('.dc-toc') || document.body;
     mo.observe(toc, { childList: true, subtree: true });
   })();
 })();
 
-/* Переносим «режим чтения / настройки / язык» в шапку рядом с поиском */
+/* ===== 2. Перенос кнопок управления в шапку рядом с поиском ===== */
 (function () {
-  var tries = 0;
-  var t = setInterval(function () {
-    tries++;
+  function place(controls, input) {
+    var bar = null, wrap = null, node = input;
+    while (node.parentElement) {
+      var p = node.parentElement;
+      if (p.querySelector('img') && p.querySelector('input')) { bar = p; wrap = node; break; }
+      node = p;
+    }
+    if (!bar) return false;
+    bar.style.position = 'relative';
+    bar.insertBefore(controls, wrap);
+    controls.classList.add('qr-moved');
+    return true;
+  }
+
+  function tryMove() {
     var controls = document.querySelector('.dc-doc-page__controls');
     var input = document.querySelector('input[placeholder*="оиск"]');
-    if (controls && input) {
-      var bar = null, wrap = null, node = input;
-      while (node.parentElement) {
-        var p = node.parentElement;
-        if (p.querySelector('img') && p.querySelector('input')) { bar = p; wrap = node; break; }
-        node = p;
-      }
-      console.log('move controls: bar=', !!bar, 'wrap=', !!wrap, 'already=', bar ? bar.contains(controls) : '-');
-      if (bar && wrap && !bar.contains(controls)) {
-        bar.insertBefore(controls, wrap);
-        console.log('controls moved');
-      }
-      clearInterval(t);
+    if (controls && input && !controls.classList.contains('qr-moved')) {
+      return place(controls, input);
     }
-    if (tries >= 30) clearInterval(t);
-  }, 300);
+    return false;
+  }
+
+  /* Переносим в тот же кадр, когда кнопки появились в DOM — мигания нет */
+  var mo = new MutationObserver(function () {
+    if (tryMove()) mo.disconnect();
+  });
+  mo.observe(document.body, { childList: true, subtree: true });
+
+  /* Страховка: если за 2 сек перенос не удался — показать на старом месте */
+  setTimeout(function () {
+    mo.disconnect();
+    var c = document.querySelector('.dc-doc-page__controls');
+    if (c && !c.classList.contains('qr-moved')) c.style.opacity = '1';
+  }, 2000);
+
+  tryMove();
 })();

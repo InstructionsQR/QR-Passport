@@ -5,56 +5,54 @@ a[href="https://app.qrpassport.tech/login"] {
   color: #ffffff !important;
   border-radius: 10px !important;
 }
-
 a[href="https://app.qrpassport.tech/login"]:hover {
   background-color: #4a54c0 !important;
   border-color: #4a54c0 !important;
 }
 
-/* ===== Логотип: чёрный и чуть меньше ===== */
+/* ===== Лого: чёрное в светлой, белое в тёмной, чуть меньше ===== */
 img[src*="logo.svg"] {
   filter: grayscale(1) brightness(0) !important;
   height: 32px !important;
   width: auto !important;
 }
-
-/* ===== Карточки: градиент только на внешней рамке ===== */
-[class*="basic-card"] {
-  background: transparent !important;
+.g-root_theme_dark img[src*="logo.svg"] {
+  filter: grayscale(1) brightness(0) invert(1) !important;
 }
 
+/* ===== Карточки ===== */
+[class*="basic-card"] { background: transparent !important; }
 [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #cbceff 0%, #e6e8ff 55%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cbceff 0%, #ffffff 100%) !important;
+}
+.g-root_theme_dark [class*="basic-card"]:not([class*="__"]) {
+  background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
 }
 
-
-/* ===== Плоские заголовки разделов в меню ===== */
+/* ===== Меню: плоские верхние заголовки ===== */
 .dc-toc__list-item_main > button.dc-toc-item__text {
   pointer-events: none !important;
   cursor: default !important;
 }
-
 .dc-toc__list-item_main > button.dc-toc-item__text svg,
 .dc-toc__list-item_main > svg {
   display: none !important;
 }
 
-/* ===== ТЁМНАЯ ТЕМА ===== */
-
-/* Лого в шапке: светлое, чтобы было видно на тёмном фоне */
-.g-root_theme_dark img[src*="logo.svg"] {
-  filter: grayscale(1) brightness(0) invert(1) !important;
+/* ===== Кнопки управления: скрыты до переноса в шапку ===== */
+.dc-doc-page__controls:not(.qr-moved) {
+  opacity: 0 !important;
+  animation: qr-fallback-show 0s linear 2.5s forwards !important;
 }
+@keyframes qr-fallback-show { to { opacity: 1; } }
 
-/* Карточки в тёмной теме: #292b4e сверху → #09090b снизу */
-.g-root_theme_dark [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
-}
-
-/* Кнопки «режим чтения / настройки / язык» — в шапку рядом с поиском */
-.dc-doc-page__controls {
-  position: static !important;
-  margin: 0 12px 0 0 !important;
+.dc-doc-page__controls.qr-moved {
+  position: absolute !important;
+  top: 50% !important;
+  right: 250px !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+  z-index: 5;
 }
 
 .dc-doc-page__controls .dc-controls {
