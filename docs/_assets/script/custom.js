@@ -1,5 +1,5 @@
 (function () {
-  console.log('custom.js loaded');
+  console.log('custom.js v4');
   var KEY = 'qrpass-toc-open';
 
   function load() {
@@ -17,8 +17,10 @@
     return document.querySelectorAll('.dc-toc button.dc-toc-item__text_clickable');
   }
 
+  console.log('stored:', JSON.stringify(load()));
+
   /* Запоминаем открытия/закрытия */
-  document.addEventListener('click', function (e) {
+  window.addEventListener('click', function (e) {
     var btn = e.target.closest('button.dc-toc-item__text_clickable');
     if (!btn || !btn.closest('.dc-toc')) return;
 
@@ -52,14 +54,12 @@
     if (timer) clearInterval(timer);
     timer = setInterval(function () {
       reopen(source);
-      if (++tries >= 20) clearInterval(timer);
-    }, 250);
+      if (++tries >= 30) clearInterval(timer);
+    }, 300);
   }
 
-  /* Старт при загрузке страницы: ждём меню до 5 секунд */
   scheduleReopen('load');
 
-  /* И следим за изменениями меню */
   var mo = new MutationObserver(function () { reopen('observer'); });
   (function watch() {
     var toc = document.querySelector('.dc-toc');
