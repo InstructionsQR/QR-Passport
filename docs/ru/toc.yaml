@@ -10,7 +10,6 @@ navigation:
 
 items:
   - name: О ПРИЛОЖЕНИИ
-    type: heading
     items:
       - name: Начало работы
         href: about.md
@@ -18,7 +17,6 @@ items:
         href: quick_start.md
 
   - name: ОБОРУДОВАНИЕ
-    type: heading
     items:
       - name: Марки материалов
         items:
@@ -52,13 +50,11 @@ items:
             href: equipment/registered_products/about.md
 
   - name: ОРГАНИЗАЦИЯ
-    type: heading
     items:
       - name: Управление доступом
         href: organization/access_management.md
 
   - name: ЛИЧНЫЙ КАБИНЕТ
-    type: heading
     items:
       - name: О разделе
         href: account/about.md

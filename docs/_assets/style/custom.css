@@ -18,7 +18,23 @@ img[src*="logo.svg"] {
   width: auto !important;
 }
 
-/* Карточки на титульной: нежный градиент от #cbceff к белому */
+/* Карточки на титульной: нежный градиент от #cbcefe к белому */
 [class*="basic-card"] {
-  background: linear-gradient(180deg, #cbceff 0%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cbcefe 0%, #ffffff 100%) !important;
+}
+
+/* Верхние разделы меню — плоские заголовки, как в Diplodoc */
+.dc-toc__list-item_main > button.dc-toc-item__text {
+  pointer-events: none !important;   /* заголовок не кликается и не сворачивается */
+  cursor: default !important;
+  color: #7d8490 !important;         /* серый цвет, как у шапок в Diplodoc */
+  font-weight: 600 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Прячем стрелку только у верхних заголовков */
+.dc-toc__list-item_main > button.dc-toc-item__text svg,
+.dc-toc__list-item_main > svg {
+  display: none !important;
 }
