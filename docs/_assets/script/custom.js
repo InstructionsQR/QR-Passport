@@ -59,7 +59,7 @@
     var bar = null, wrap = null, node = input;
     while (node.parentElement) {
       var p = node.parentElement;
-      if (p.querySelector('img') && p.querySelector('input')) { bar = p; wrap = node; break; }
+      if (p.querySelector('img[src*="logo.svg"]') && p.querySelector('input')) { bar = p; wrap = node; break; }
       node = p;
     }
     if (!bar) return false;
