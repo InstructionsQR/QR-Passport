@@ -10,7 +10,7 @@ a[href="https://app.qrpassport.tech/login"]:hover {
   border-color: #4a54c0 !important;
 }
 
-/* ===== Лого: чёрное в светлой, белое в тёмной, чуть меньше ===== */
+/* ===== Лого: чёрное в светлой, белое в тёмной, компактное ===== */
 img[src*="logo.svg"] {
   filter: grayscale(1) brightness(0) !important;
   height: 32px !important;
@@ -20,7 +20,7 @@ img[src*="logo.svg"] {
   filter: grayscale(1) brightness(0) invert(1) !important;
 }
 
-/* ===== Карточки ===== */
+/* ===== Карточки титульной ===== */
 [class*="basic-card"] { background: transparent !important; }
 [class*="basic-card"]:not([class*="__"]) {
   background: linear-gradient(180deg, #cbceff 0%, #ffffff 100%) !important;
@@ -37,32 +37,4 @@ img[src*="logo.svg"] {
 .dc-toc__list-item_main > button.dc-toc-item__text svg,
 .dc-toc__list-item_main > svg {
   display: none !important;
-}
-
-/* ===== Кнопки управления: скрыты до переноса в шапку ===== */
-.dc-doc-page__controls:not(.qr-moved) {
-  opacity: 0 !important;
-  animation: qr-fallback-show 0s linear 2.5s forwards !important;
-}
-@keyframes qr-fallback-show { to { opacity: 1; } }
-
-.dc-doc-page__controls.qr-moved {
-  position: fixed !important;
-  top: 26px !important;
-  right: 255px !important;
-  transform: none !important;
-  margin: 0 !important;
-  z-index: 9999 !important;
-}
-
-.dc-doc-page__controls .dc-controls {
-  flex-direction: row !important;
-  gap: 8px;
-  align-items: center !important;   /* все кнопки на одной линии */
-}
-
-/* Глобус и остальные кнопки не подпрыгивают при наведении */
-.dc-doc-page__controls .g-button {
-  transform: none !important;
-  align-self: center !important;
 }

@@ -1,4 +1,4 @@
-/* ===== 1. Меню: несколько открытых разделов + запоминание между страницами ===== */
+/* Меню: несколько открытых разделов + запоминание между страницами */
 (function () {
   var KEY = 'qrpass-toc-open';
 
@@ -51,31 +51,4 @@
     var toc = document.querySelector('.dc-toc') || document.body;
     mo.observe(toc, { childList: true, subtree: true });
   })();
-})();
-
-/* ===== 2. Кнопки управления рядом с поиском ===== */
-(function () {
-  function tryMove() {
-    var controls = document.querySelector('.dc-doc-page__controls');
-    if (controls && !controls.classList.contains('qr-moved')) {
-      document.body.appendChild(controls);
-      controls.classList.add('qr-moved');
-      console.log('qr: controls moved to body');
-      return true;
-    }
-    return false;
-  }
-
-  var mo = new MutationObserver(function () {
-    if (tryMove()) mo.disconnect();
-  });
-  mo.observe(document.body, { childList: true, subtree: true });
-
-  setTimeout(function () {
-    mo.disconnect();
-    var c = document.querySelector('.dc-doc-page__controls');
-    if (c && !c.classList.contains('qr-moved')) c.style.opacity = '1';
-  }, 2000);
-
-  tryMove();
 })();
