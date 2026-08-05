@@ -2,7 +2,7 @@
 
 Раздел содержит пошаговую инструкцию по освоению основного процесса работы в системе QR-Passport – создание моделей оборудования и регистрация изделий.
 
-## Порядок работы
+<!--## Порядок работы
 Инструкция разделена на этапы, выполнение которых позволяет последовательно освоить функционал системы. Каждый этап содержит четкие шаги и пояснения. Для начала работы рекомендуется ознакомиться с основными понятиями системы и перейти к тестовой модели.
 
 ## Основные понятия и процессы
@@ -53,7 +53,7 @@
 <!--### Роль в системе
 Для данной задачи ваша роль в системе – _company administrator_ с полными правами доступа к системе, кроме доступа к разделу **Техническая поддержка**.-->
 
-## Шаги выполнения
+<!--## Шаги выполнения
 Для начала работы с QR-Passport войдите в систему по [ссылке][1]. 
 
 {% note info %}
@@ -301,5 +301,5 @@ QR-коды тестовых моделей не предназначены дл
 [2]: https://drive.google.com/file/d/1xh0eA0VrihKidtuXI3gAO0bzgLKrW8QQ/view?usp=drive_link
 [3]: https://drive.google.com/file/d/1YYg4_5evp6vykjUT1olIjb18uZoRsn_g/view?usp=drive_link
 [4]: https://drive.google.com/file/d/1mRRGFpbjrGEp9eqvCwIgDGdlGtZt26YH/view?usp=drive_link 
-[5]: https://drive.google.com/file/d/1k1JICkHH7NllwAIMN5Knjx--m0q1d6O_/view?usp=drive_link
+[5]: https://drive.google.com/file/d/1k1JICkHH7NllwAIMN5Knjx--m0q1d6O_/view?usp=drive_link-->
 
