@@ -1,4 +1,3 @@
-/* Несколько открытых разделов меню + запоминание между переходами */
 (function () {
   console.log('custom.js loaded');
   var KEY = 'qrpass-toc-open';
@@ -18,7 +17,7 @@
     return document.querySelectorAll('.dc-toc button.dc-toc-item__text_clickable');
   }
 
-  /* Запоминаем, что пользователь открыл/закрыл */
+  /* Запоминаем открытия/закрытия */
   document.addEventListener('click', function (e) {
     var btn = e.target.closest('button.dc-toc-item__text_clickable');
     if (!btn || !btn.closest('.dc-toc')) return;
@@ -27,30 +26,44 @@
     var name = nameOf(btn);
     var i = list.indexOf(name);
 
-    if (isOpen(btn)) { if (i > -1) list.splice(i, 1); }  // закрыли — убираем из списка
-    else if (i === -1) { list.push(name); }              // открыли — добавляем
+    if (isOpen(btn)) { if (i > -1) list.splice(i, 1); }
+    else if (i === -1) { list.push(name); }
     save(list);
+    console.log('toc save:', JSON.stringify(list));
 
-    scheduleReopen();
+    scheduleReopen('click');
   }, true);
 
-  /* Раскрываем сохранённые разделы (и возвращаем закрытые просмотрщиком) */
-  function reopen() {
+  /* Раскрываем сохранённые */
+  function reopen(source) {
     var list = load();
     groupButtons().forEach(function (btn) {
-      if (list.indexOf(nameOf(btn)) > -1 && !isOpen(btn)) btn.click();
+      var n = nameOf(btn);
+      if (list.indexOf(n) > -1 && !isOpen(btn)) {
+        console.log('reopen:', n, '| source:', source);
+        btn.click();
+      }
     });
   }
 
   var timer = null;
-  function scheduleReopen() {
+  function scheduleReopen(source) {
     var tries = 0;
     if (timer) clearInterval(timer);
     timer = setInterval(function () {
-      reopen();
-      if (++tries >= 8) clearInterval(timer);
-    }, 150);
+      reopen(source);
+      if (++tries >= 20) clearInterval(timer);
+    }, 250);
   }
 
-  scheduleReopen(); /* при каждой загрузке страницы */
+  /* Старт при загрузке страницы: ждём меню до 5 секунд */
+  scheduleReopen('load');
+
+  /* И следим за изменениями меню */
+  var mo = new MutationObserver(function () { reopen('observer'); });
+  (function watch() {
+    var toc = document.querySelector('.dc-toc');
+    if (toc) mo.observe(toc, { childList: true, subtree: true });
+    else setTimeout(watch, 200);
+  })();
 })();

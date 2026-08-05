@@ -24,8 +24,9 @@ img[src*="logo.svg"] {
 }
 
 [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #cbceff 0%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cbceff 0%, #cbceff 30%, #ffffff 100%) !important;
 }
+
 
 /* ===== Плоские заголовки разделов в меню ===== */
 .dc-toc__list-item_main > button.dc-toc-item__text {
