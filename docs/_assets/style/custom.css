@@ -24,7 +24,7 @@ img[src*="logo.svg"] {
 }
 
 [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #cbceff 0%, #cbceff 30%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cbceff 0%, #ffffff 30%, #ffffff 100%) !important;
 }
 
 

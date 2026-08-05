@@ -1,5 +1,5 @@
 (function () {
-  console.log('custom.js v4');
+  console.log('custom.js v5');
   var KEY = 'qrpass-toc-open';
 
   function load() {
@@ -9,20 +9,15 @@
     try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
   }
   function nameOf(btn) { return (btn.textContent || '').trim(); }
-  function isOpen(btn) {
-    var li = btn.parentElement;
-    return !!(li && li.classList.contains('dc-toc__list-item_opened'));
-  }
-  function groupButtons() {
-    return document.querySelectorAll('.dc-toc button.dc-toc-item__text_clickable');
-  }
+  function isOpen(btn) { return btn.getAttribute('aria-expanded') === 'true'; }
+  function groupButtons() { return document.querySelectorAll('button.dc-toc-item__text'); }
 
   console.log('stored:', JSON.stringify(load()));
 
-  /* Запоминаем открытия/закрытия */
+  /* Запоминаем, что открыл/закрыл пользователь */
   window.addEventListener('click', function (e) {
-    var btn = e.target.closest('button.dc-toc-item__text_clickable');
-    if (!btn || !btn.closest('.dc-toc')) return;
+    var btn = e.target.closest('button.dc-toc-item__text');
+    if (!btn || btn.tagName !== 'BUTTON') return;
 
     var list = load();
     var name = nameOf(btn);
@@ -36,7 +31,7 @@
     scheduleReopen('click');
   }, true);
 
-  /* Раскрываем сохранённые */
+  /* Раскрываем сохранённые разделы */
   function reopen(source) {
     var list = load();
     groupButtons().forEach(function (btn) {
@@ -62,8 +57,7 @@
 
   var mo = new MutationObserver(function () { reopen('observer'); });
   (function watch() {
-    var toc = document.querySelector('.dc-toc');
-    if (toc) mo.observe(toc, { childList: true, subtree: true });
-    else setTimeout(watch, 200);
+    var toc = document.querySelector('nav') || document.body;
+    mo.observe(toc, { childList: true, subtree: true });
   })();
 })();
