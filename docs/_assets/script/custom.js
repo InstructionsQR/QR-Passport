@@ -53,50 +53,28 @@
   })();
 })();
 
-/* ===== 2. Перенос кнопок управления в шапку рядом с поиском ===== */
+/* ===== 2. Кнопки управления рядом с поиском ===== */
 (function () {
-  console.log('qr: controls mover started');
-
-  function place(controls, input) {
-    var bar = null, wrap = null, node = input;
-    while (node.parentElement) {
-      var p = node.parentElement;
-      if (p.querySelector('img[src*="logo.svg"]') && p.querySelector('input')) {
-        bar = p; wrap = node; break;
-      }
-      node = p;
-    }
-    if (!bar) return false;
-    bar.style.position = 'relative';
-    bar.insertBefore(controls, wrap);
-    controls.classList.add('qr-moved');
-    return true;
-  }
-
   function tryMove() {
     var controls = document.querySelector('.dc-doc-page__controls');
-    var input = document.querySelector('input[placeholder*="оиск"]');
-    if (controls && input && !controls.classList.contains('qr-moved')) {
-      return place(controls, input);
+    if (controls && !controls.classList.contains('qr-moved')) {
+      document.body.appendChild(controls);
+      controls.classList.add('qr-moved');
+      console.log('qr: controls moved to body');
+      return true;
     }
     return false;
   }
 
   var mo = new MutationObserver(function () {
-    if (tryMove()) {
-      console.log('qr: controls moved');
-      mo.disconnect();
-    }
+    if (tryMove()) mo.disconnect();
   });
   mo.observe(document.body, { childList: true, subtree: true });
 
   setTimeout(function () {
     mo.disconnect();
     var c = document.querySelector('.dc-doc-page__controls');
-    if (c && !c.classList.contains('qr-moved')) {
-      console.log('qr: move failed, showing at old place');
-      c.style.opacity = '1';
-    }
+    if (c && !c.classList.contains('qr-moved')) c.style.opacity = '1';
   }, 2000);
 
   tryMove();
