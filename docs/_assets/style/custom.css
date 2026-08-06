@@ -39,8 +39,18 @@ img[src*="logo.svg"] {
   display: none !important;
 }
 
-/* ===== Скриншоты в тёмной теме: мягкая инверсия (кроме подложки) ===== */
+/* ===== Скриншоты: аккуратная рамка в светлой теме ===== */
+.dc-doc-page__main img:not([src*="logo"]) {
+  border: 1px solid #e6e7eb;
+  border-radius: 10px;
+}
+
+/* В тёмной теме рамка становится тёмной, чтобы не светило */
+.g-root_theme_dark .dc-doc-page__main img:not([src*="logo"]) {
+  border-color: #3f4046;
+}
+
+/* ===== Тёмная тема: ещё более мягкая инверсия (кроме подложки) ===== */
 .g-root_theme_dark .dc-doc-page__main img:not([src*="logo_dark"]) {
-  filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(0.8);
-  border-radius: 8px;
+  filter: invert(1) hue-rotate(180deg) brightness(1.4) contrast(0.72);
 }
