@@ -13,7 +13,7 @@ a[href="https://app.qrpassport.tech/login"]:hover {
 /* ===== Лого: чёрное в светлой, белое в тёмной, компактное ===== */
 img[src*="logo.svg"] {
   filter: grayscale(1) brightness(0) !important;
-  height: 32px !important;
+  height: 28px !important;
   width: auto !important;
 }
 .g-root_theme_dark img[src*="logo.svg"] {
