@@ -41,6 +41,7 @@ img[src*="logo.svg"] {
 
 /* ===== Скриншоты в тёмной теме: автоматическая инверсия ===== */
 .g-root_theme_dark .dc-doc-page__main img {
-  filter: invert(1) hue-rotate(180deg);
+  filter: brightness(0.85) contrast(0.95);
+  border: 1px solid #3a3b40;
   border-radius: 8px;
 }
