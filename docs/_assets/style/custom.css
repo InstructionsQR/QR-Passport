@@ -39,9 +39,8 @@ img[src*="logo.svg"] {
   display: none !important;
 }
 
-/* ===== Скриншоты в тёмной теме: автоматическая инверсия ===== */
-.g-root_theme_dark .dc-doc-page__main img {
-  filter: brightness(0.85) contrast(0.95);
-  border: 1px solid #3a3b40;
+/* ===== Скриншоты в тёмной теме: мягкая инверсия (кроме подложки) ===== */
+.g-root_theme_dark .dc-doc-page__main img:not([src*="logo_dark"]) {
+  filter: invert(1) hue-rotate(180deg) brightness(1.2) contrast(0.8);
   border-radius: 8px;
 }
