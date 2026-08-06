@@ -38,3 +38,9 @@ img[src*="logo.svg"] {
 .dc-toc__list-item_main > svg {
   display: none !important;
 }
+
+/* ===== Скриншоты в тёмной теме: автоматическая инверсия ===== */
+.g-root_theme_dark .dc-doc-page__main img {
+  filter: invert(1) hue-rotate(180deg);
+  border-radius: 8px;
+}
