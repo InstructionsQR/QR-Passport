@@ -4,6 +4,7 @@ docs-viewer:
   langs: ['en','ru']
   logo-options:
   src: https://qrpassport.tech/logo.svg
+  controls-position: top
 
 themes: ['light', 'dark']
 
