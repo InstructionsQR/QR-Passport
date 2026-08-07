@@ -23,7 +23,7 @@ img[src*="logo.svg"] {
 /* ===== Карточки титульной ===== */
 [class*="basic-card"] { background: transparent !important; }
 [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #cbceff 55%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cbceff 70%, #ffffff 100%) !important;
 }
 .g-root_theme_dark [class*="basic-card"]:not([class*="__"]) {
   background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
@@ -57,5 +57,5 @@ img[src*="logo.svg"] {
 
 /* ===== Меньше расстояние от подложки до карточек ===== */
 [class*="card-layout"] {
-  margin-top: -40px !important;
+  margin-top: -20px !important;
 }
