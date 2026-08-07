@@ -31,13 +31,13 @@ img[src*="logo.svg"] {
 
 /* Нижние две карточки: сверху светлый → к низу темнее */
 [class*="card-layout"]:not([class*="__"]) > *:nth-last-child(-n+2) [class*="basic-card"]:not([class*="__"]),
-[class*="card-layout"]:not([class*="__"]) > [class*="basic-card"]:not([class*="__"]):nth-last-child(-n+2) {
+[class*="card-layout"]:not([class*="__"]) > *:last-child [class*="basic-card"]:not([class*="__"]) {
   background: linear-gradient(180deg, #f4f5fd 0%, #cdcffd 100%) !important;
 }
 
 /* То же зеркало для тёмной темы */
 .g-root_theme_dark [class*="card-layout"]:not([class*="__"]) > *:nth-last-child(-n+2) [class*="basic-card"]:not([class*="__"]),
-.g-root_theme_dark [class*="card-layout"]:not([class*="__"]) > [class*="basic-card"]:not([class*="__"]):nth-last-child(-n+2) {
+.g-root_theme_dark [class*="card-layout"]:not([class*="__"]) > *:last-child [class*="basic-card"]:not([class*="__"]) {
   background: linear-gradient(180deg, #09090b 0%, #292b4e 100%) !important;
 }
 
