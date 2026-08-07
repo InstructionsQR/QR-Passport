@@ -29,6 +29,18 @@ img[src*="logo.svg"] {
   background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
 }
 
+/* Нижние две карточки: сверху светлый → к низу темнее */
+[class*="card-layout"]:not([class*="__"]) > *:nth-last-child(-n+2) [class*="basic-card"]:not([class*="__"]),
+[class*="card-layout"]:not([class*="__"]) > [class*="basic-card"]:not([class*="__"]):nth-last-child(-n+2) {
+  background: linear-gradient(180deg, #f4f5fd 0%, #cdcffd 100%) !important;
+}
+
+/* То же зеркало для тёмной темы */
+.g-root_theme_dark [class*="card-layout"]:not([class*="__"]) > *:nth-last-child(-n+2) [class*="basic-card"]:not([class*="__"]),
+.g-root_theme_dark [class*="card-layout"]:not([class*="__"]) > [class*="basic-card"]:not([class*="__"]):nth-last-child(-n+2) {
+  background: linear-gradient(180deg, #09090b 0%, #292b4e 100%) !important;
+}
+
 /* ===== Меню: плоские верхние заголовки ===== */
 .dc-toc__list-item_main > button.dc-toc-item__text {
   pointer-events: none !important;
@@ -57,5 +69,5 @@ img[src*="logo.svg"] {
 
 /* ===== Расстояние от подложки до карточек (только внешний блок) ===== */
 [class*="card-layout"]:not([class*="__"]) {
-  margin-top: -20px !important;
+  margin-top: 10px !important;
 }
