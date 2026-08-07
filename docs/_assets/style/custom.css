@@ -23,7 +23,7 @@ img[src*="logo.svg"] {
 /* ===== Карточки титульной ===== */
 [class*="basic-card"] { background: transparent !important; }
 [class*="basic-card"]:not([class*="__"]) {
-  background: linear-gradient(180deg, #cbceff 70%, #ffffff 100%) !important;
+  background: linear-gradient(180deg, #cdcffd 0%, #f4f5fd 100%) !important;
 }
 .g-root_theme_dark [class*="basic-card"]:not([class*="__"]) {
   background: linear-gradient(180deg, #292b4e 0%, #09090b 100%) !important;
@@ -55,7 +55,7 @@ img[src*="logo.svg"] {
   filter: invert(1) hue-rotate(180deg) brightness(1.4) contrast(0.72);
 }
 
-/* ===== Меньше расстояние от подложки до карточек ===== */
-[class*="card-layout"] {
+/* ===== Расстояние от подложки до карточек (только внешний блок) ===== */
+[class*="card-layout"]:not([class*="__"]) {
   margin-top: -20px !important;
 }
