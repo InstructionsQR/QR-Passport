@@ -23,11 +23,28 @@
 
 ## Техническая поддержка
 
-Если возникнут трудности, напишите нашим специалистам в Telegram:
+Если возникнут трудности — мы на связи. Выберите удобный способ:
 
-|  Розалия  |  Эрнест  |
+<div class="contacts-grid">
+  <a href="mailto:info@qrpassport.tech" class="contact-card">
+    <img src="../_images/icon_email.svg" width="28" alt="">
+    <div><strong>Email</strong><br><span>info@qrpassport.tech</span></div>
+  </a>
+  <a href="https://max.ru/u/f9LHodD0cOJtyuTGaqVohFwY9J_oThzVp6dTDYOtiMee5uMTvVtQVub2BWM" class="contact-card" target="_blank">
+    <img src="../_images/icon_max.svg" width="28" alt="">
+    <div><strong>MAX</strong><br><span>Написать в мессенджере</span></div>
+  </a>
+  <a href="https://t.me/ya_rozaliya" class="contact-card" target="_blank">
+    <img src="../_images/icon_telegram.svg" width="28" alt="">
+    <div><strong>Telegram</strong><br><span>@ya_rozaliya</span></div>
+  </a>
+</div>
+
+<!--|  Розалия  |  Эрнест  |
 |:---------:|:--------:|
-|![QR_1](./_images/QR_Rozaliya.png)|![QR_2](./_images/QR_Ernest.png)|
+|![QR_1](./_images/QR_Rozaliya.png)|![QR_2](./_images/QR_Ernest.png)|-->
+
+
 
 
 

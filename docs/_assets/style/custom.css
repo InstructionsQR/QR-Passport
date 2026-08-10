@@ -59,3 +59,62 @@ img[src*="logo.svg"] {
 [class*="card-layout"]:not([class*="__"]) {
   margin-top: 10px !important;
 }
+
+/* ===== Карточки контактов техподдержки ===== */
+.contacts-grid {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border: 1px solid #e6e7eb;
+  border-radius: 12px;
+  text-decoration: none !important;
+  color: inherit !important;
+  flex: 1;
+  min-width: 200px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.contact-card:hover {
+  background: #f4f5fd;
+  border-color: #cbceff;
+}
+
+.contact-card strong {
+  color: #1a1a1a;
+  font-size: 15px;
+}
+
+.contact-card span {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark .contact-card {
+  border-color: #3f4046;
+}
+
+.g-root_theme_dark .contact-card:hover {
+  background: rgba(41, 43, 78, 0.2);
+  border-color: #5e6ad2;
+}
+
+.g-root_theme_dark .contact-card strong {
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .contact-card span {
+  color: #9ca3af;
+}
+
+.g-root_theme_dark .contact-card img {
+  filter: invert(1);
+}
