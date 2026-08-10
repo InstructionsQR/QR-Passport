@@ -27,15 +27,15 @@
 
 <div class="contacts-grid">
   <a href="mailto:info@qrpassport.tech" class="contact-card">
-    <img src="../_images/icon_email.svg" width="28" alt="">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
     <div><strong>Email</strong><br><span>info@qrpassport.tech</span></div>
   </a>
   <a href="https://max.ru/u/f9LHodD0cOJtyuTGaqVohFwY9J_oThzVp6dTDYOtiMee5uMTvVtQVub2BWM" class="contact-card" target="_blank">
-    <img src="../_images/icon_max.svg" width="28" alt="">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
     <div><strong>MAX</strong><br><span>Написать в мессенджере</span></div>
   </a>
   <a href="https://t.me/ya_rozaliya" class="contact-card" target="_blank">
-    <img src="../_images/icon_telegram.svg" width="28" alt="">
+    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
     <div><strong>Telegram</strong><br><span>@ya_rozaliya</span></div>
   </a>
 </div>

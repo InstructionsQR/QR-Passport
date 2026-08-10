@@ -97,6 +97,11 @@ img[src*="logo.svg"] {
   font-size: 13px;
 }
 
+.contact-card svg {
+  color: #4b5563;
+  flex-shrink: 0;
+}
+
 /* Тёмная тема */
 .g-root_theme_dark .contact-card {
   border-color: #3f4046;
@@ -107,14 +112,4 @@ img[src*="logo.svg"] {
   border-color: #5e6ad2;
 }
 
-.g-root_theme_dark .contact-card strong {
-  color: #f4f5fd;
-}
-
-.g-root_theme_dark .contact-card span {
-  color: #9ca3af;
-}
-
-.g-root_theme_dark .contact-card img {
-  filter: invert(1);
-}
+.g-root_theme_dark .contact-card
