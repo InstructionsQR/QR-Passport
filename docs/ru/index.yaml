@@ -76,7 +76,7 @@ blocks:
           text: Личный кабинет
           textSize: s
         text: |
-          [О разделе](account/personal_account.md)
+          [О разделе](account/about.md)
 
   - type: content-layout-block
     size: s

@@ -113,3 +113,9 @@ img[src*="logo.svg"] {
 }
 
 .g-root_theme_dark .contact-card
+
+/* Заголовки карточек контактов в тёмной теме — принудительно светлые */
+.g-root_theme_dark .contact-card strong,
+.g-root_theme_dark .contact-card div {
+  color: #f4f5fd !important;
+}
