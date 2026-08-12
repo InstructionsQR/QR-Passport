@@ -122,7 +122,8 @@ img[src*="logo.svg"] {
 
 /* ===== Телефон с QR-скриншотом: уменьшаем в 2 раза ===== */
 .dc-doc-page__main img[src*="products_qr_phone"] {
-  width: 360px;
+  width: 451px;    /* ровно половина реальной ширины 902px */
+  height: auto;    /* высота посчитается сама: 872px */
   max-width: 100%;
   display: block;
   margin: 16px auto;
