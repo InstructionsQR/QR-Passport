@@ -150,3 +150,20 @@ img[src*="logo.svg"] {
 .g-root_theme_dark [class*="basic-card"] a:hover {
   color: #8b93ff !important;
 }
+
+/* ===== Кнопки «Настройки» и «Язык» в шапке рядом с поиском ===== */
+.dc-doc-page__controls {
+  position: fixed;
+  top: 14px;
+  right: 300px;
+  margin: 0 !important;
+  z-index: 100;
+}
+
+/* На узких экранах возвращаем кнопки на прежнее место */
+@media (max-width: 1024px) {
+  .dc-doc-page__controls {
+    position: static;
+    margin: 8px 0 0 auto !important;
+  }
+}
