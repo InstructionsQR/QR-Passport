@@ -1,3 +1,7 @@
+<div class="breadcrumbs">
+  <a href="../../index.yaml">Главная</a><span class="breadcrumbs__sep">/</span><span>Оборудование</span><span class="breadcrumbs__sep">/</span><span>Марки материалов</span><span class="breadcrumbs__sep">/</span><span class="breadcrumbs__current">Химические свойства</span>
+</div>
+
 # Химические свойства
 
 Химический состав материала одинаков для всех технологий изготовления и задается в блоке «Химические свойства» формы марки материала.
