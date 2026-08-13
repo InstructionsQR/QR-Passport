@@ -1,4 +1,3 @@
-href: index.yaml
 navigation:
   logo:
     url: "/QR-Passport/ru/"
@@ -7,8 +6,6 @@ navigation:
       icon: "https://qrpassport.tech/logo.svg"
     light:
       icon: "https://qrpassport.tech/logo.svg"
-
-navigation:
   header:
     rightItems:
       - search

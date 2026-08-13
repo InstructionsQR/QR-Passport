@@ -1,20 +1,23 @@
-title: Documentation
-href: index.yaml
-
 navigation:
+  logo:
+    url: "/QR-Passport/en/"
+    urlTitle: 'Back to home'
+    dark:
+      icon: "https://qrpassport.tech/logo.svg"
+    light:
+      icon: "https://qrpassport.tech/logo.svg"
   header:
     rightItems:
       - search
       - controls
 
-items: 
-  - name: About
-    href: about.md
-  - name: Company 
-    href: page.md
-  - name: Department
-    href: anotherpage.md
-  - name: Support 
-    include:
-      path: sub-section/toc.yaml
-      mode: link
+items:
+  - name: ABOUT
+    expanded: true
+    items:
+      - name: Getting started
+        href: about.md
+      - name: Key concepts
+        href: concepts.md
+      - name: Practice guide
+        href: quick_start.md
