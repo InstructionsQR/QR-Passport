@@ -14,7 +14,9 @@ items:
     items:
       - name: Начало работы
         href: about.md
-      - name: Быстрый старт
+      - name: Основные понятия
+        href: concepts.md
+      - name: Практическое руководство
         href: quick_start.md
 
   - name: ОБОРУДОВАНИЕ
@@ -56,6 +58,8 @@ items:
     items:
       - name: Управление доступом
         href: organization/access_management.md
+      - name: Компания
+        href: organization/company.md  
 
   - name: ЛИЧНЫЙ КАБИНЕТ
     expanded: true
@@ -65,6 +69,9 @@ items:
 
   - name: История изменений
     href: updates.md
+
+  - name: Типовые ошибки и решения
+    href: troubleshooting.md  
 
   - name: Часто задаваемые вопросы
     href: FAQ.md
