@@ -75,7 +75,7 @@ blocks:
         text: |
           [Управление доступом](organization/access_management.md)
 
-          [Компания](organization/organization/company.md)
+          [Компания](organization/company.md)
 
       - type: basic-card
         title:
