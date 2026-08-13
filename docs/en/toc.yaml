@@ -17,7 +17,3 @@ items:
     items:
       - name: Getting started
         href: about.md
-      - name: Key concepts
-        href: concepts.md
-      - name: Practice guide
-        href: quick_start.md
