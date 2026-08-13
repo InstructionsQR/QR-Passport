@@ -112,8 +112,6 @@ img[src*="logo.svg"] {
   border-color: #5e6ad2;
 }
 
-.g-root_theme_dark .contact-card
-
 /* Заголовки карточек контактов в тёмной теме – принудительно светлые */
 .g-root_theme_dark .contact-card strong,
 .g-root_theme_dark .contact-card div {
@@ -127,4 +125,28 @@ img[src*="logo.svg"] {
   max-width: 100%;
   display: block;
   margin: 16px auto;
+}
+
+/* ===== Карточки главной: чёрный текст вместо фиолетового ===== */
+[class*="basic-card"] h3,
+[class*="basic-card"] p,
+[class*="basic-card"] span,
+[class*="basic-card"] a {
+  color: #1a1a1a !important;
+}
+
+[class*="basic-card"] a:hover {
+  color: #5e6ad2 !important;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark [class*="basic-card"] h3,
+.g-root_theme_dark [class*="basic-card"] p,
+.g-root_theme_dark [class*="basic-card"] span,
+.g-root_theme_dark [class*="basic-card"] a {
+  color: #f4f5fd !important;
+}
+
+.g-root_theme_dark [class*="basic-card"] a:hover {
+  color: #8b93ff !important;
 }
