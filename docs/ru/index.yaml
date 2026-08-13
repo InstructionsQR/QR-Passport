@@ -43,9 +43,13 @@ blocks:
         text: |
           [Начало работы](about.md)
 
+          [Основные понятия](concepts.md)
+
           [Практическое руководство](quick_start.md)
 
           [История изменений](updates.md)
+
+          [Типовые ошибки и решения](troubleshooting.md)
 
           [Часто задаваемые вопросы](FAQ.md)
 
@@ -70,6 +74,8 @@ blocks:
           textSize: s
         text: |
           [Управление доступом](organization/access_management.md)
+
+          [Компания](organization/organization/company.md)
 
       - type: basic-card
         title:
