@@ -150,11 +150,3 @@ img[src*="logo.svg"] {
 .g-root_theme_dark [class*="basic-card"] a:hover {
   color: #8b93ff !important;
 }
-
-.dc-controls {
-  position: fixed !important;
-  top: 16px !important;
-  right: 240px !important;
-  margin: 0 !important;
-  z-index: 100 !important;
-}

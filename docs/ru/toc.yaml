@@ -8,6 +8,12 @@ navigation:
     light:
       icon: "https://qrpassport.tech/logo.svg"
 
+navigation:
+  header:
+    rightItems:
+      - search
+      - controls
+
 items:
   - name: О ПРИЛОЖЕНИИ
     expanded: true

@@ -1,5 +1,12 @@
 title: Documentation
 href: index.yaml
+
+navigation:
+  header:
+    rightItems:
+      - search
+      - controls
+
 items: 
   - name: About
     href: about.md
