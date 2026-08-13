@@ -151,19 +151,10 @@ img[src*="logo.svg"] {
   color: #8b93ff !important;
 }
 
-/* ===== Кнопки «Настройки» и «Язык» рядом с поиском ===== */
 .dc-controls {
-  position: fixed;
-  top: 16px;              /* вертикально по центру шапки */
-  right: 240px;           /* левее поля поиска */
+  position: fixed !important;
+  top: 16px !important;
+  right: 240px !important;
   margin: 0 !important;
-  z-index: 100;
-}
-
-/* На узких экранах возвращаем как было */
-@media (max-width: 1024px) {
-  .dc-controls {
-    position: static;
-    margin: 8px 0 0 auto !important;
-  }
+  z-index: 100 !important;
 }
