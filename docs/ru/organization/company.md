@@ -1,3 +1,7 @@
+<div class="breadcrumbs">
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Компания</span>
+</div>
+
 # Компания
 
 Раздел «Компания» хранит реквизиты организации и информацию о тарифном плане. Реквизиты используются для идентификации организации в системе.

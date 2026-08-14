@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
-  <a href="/QR-Passport/ru/" title="Главная">Главная</a><span class="breadcrumbs__sep"> / </span><a href="/QR-Passport/ru/equipment">Оборудование</a><span class="breadcrumbs__sep"> / </span><a href="/QR-Passport/ru/equipment/material_grades">Марки материалов</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Химические свойства</span>
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Химические свойства</span>
 </div>
 
 # Химические свойства

@@ -1,3 +1,8 @@
+<div class="breadcrumbs">
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">	
+Начало работы</span>
+</div>
+
 # Начинаем работу с QR-Passport
 Данная инструкция содержит всю необходимую информацию для освоения системы и эффективной работы с QR-Passport.
 

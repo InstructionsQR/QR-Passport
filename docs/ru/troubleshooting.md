@@ -1,3 +1,7 @@
+<div class="breadcrumbs">
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Типовые ошибки и решения</span>
+</div>
+
 # Типовые ошибки и решения
 
 На этой странице собраны частые ситуации и шаги по их устранению. Если вашей ошибки нет в списке – напишите в [поддержку](about.md#техническая-поддержка).

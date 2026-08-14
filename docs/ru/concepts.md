@@ -1,3 +1,7 @@
+<div class="breadcrumbs">
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Основные понятия</span>
+</div>
+
 # Основные понятия
 
 Здесь собраны главные термины QR-Passport. Они помогут разобраться, как устроена система, перед переходом к [Практическому руководству](quick_start.md).

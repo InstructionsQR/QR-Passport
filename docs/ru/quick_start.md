@@ -1,3 +1,7 @@
+<div class="breadcrumbs">
+  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Практическое руководство</span>
+</div>
+
 # Практическое руководство
 
 Раздел содержит пошаговую инструкцию по освоению основного процесса работы в системе QR-Passport – создания моделей оборудования и регистрации изделий.
