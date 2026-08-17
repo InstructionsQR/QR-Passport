@@ -151,8 +151,10 @@ img[src*="logo.svg"] {
   color: #8b93ff !important;
 }
 
-
-
+/* ===== Скрываем кнопку «...» (копировать/открыть Markdown) ===== */
+.dc-controls button:last-child {
+  display: none !important;
+}
 
 
 
