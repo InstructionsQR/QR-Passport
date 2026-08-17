@@ -151,25 +151,28 @@ img[src*="logo.svg"] {
   color: #8b93ff !important;
 }
 
-/* ===== Поиск + настройки + язык в одной строке ===== */
-@media (min-width: 768px) {
-  .pc-desktop-navigation__buttons {
-    flex-basis: auto !important;
-    width: auto !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    gap: 8px !important;
-  }
 
-  .pc-desktop-navigation__buttons .pc-desktop-navigation__item {
-    display: contents !important;
-  }
 
-  .pc-desktop-navigation__buttons .dc-controls {
-    display: flex !important;
-    align-items: center !important;
-    flex-wrap: nowrap !important;
-    margin: 0 !important;
-  }
+
+
+
+
+/* Кнопки «Настройки» и «Язык» рядом с поиском */
+.custom-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+
+/* Убираем вертикальное позиционирование у перенесённых кнопок */
+.custom-header-controls .dc-control {
+  position: static;
+  flex-shrink: 0;
+}
+
+/* Саму верхнюю панель выравниваем по центру */
+.pc-desktop-navigation__right {
+  display: flex;
+  align-items: center;
 }

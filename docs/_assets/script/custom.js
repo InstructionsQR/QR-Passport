@@ -52,3 +52,62 @@
     mo.observe(toc, { childList: true, subtree: true });
   })();
 })();
+
+
+
+
+
+(function () {
+  function moveControls() {
+    const navigationRight = document.querySelector(
+      '.pc-desktop-navigation__right'
+    );
+
+    const search = document.querySelector(
+      '.pc-desktop-navigation__buttons'
+    );
+
+    const settings = document.querySelector(
+      '.dc-control[aria-label="Настройки"]'
+    );
+
+    const language = document.querySelector(
+      '.dc-control[aria-label="Язык"]'
+    );
+
+    if (!navigationRight || !search || !settings || !language) {
+      return;
+    }
+
+    // Создаём контейнер для кнопок, если его ещё нет
+    let controls = document.querySelector('.custom-header-controls');
+
+    if (!controls) {
+      controls = document.createElement('div');
+      controls.className = 'custom-header-controls';
+
+      // Ставим контейнер после поиска
+      search.parentNode.insertBefore(controls, search.nextSibling);
+    }
+
+    // Переносим кнопки в новый контейнер
+    if (settings.parentElement !== controls) {
+      controls.appendChild(settings);
+    }
+
+    if (language.parentElement !== controls) {
+      controls.appendChild(language);
+    }
+  }
+
+  // Запускаем после загрузки
+  moveControls();
+
+  // Diplodoc может перерисовывать элементы — отслеживаем это
+  const observer = new MutationObserver(moveControls);
+
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
+})();
