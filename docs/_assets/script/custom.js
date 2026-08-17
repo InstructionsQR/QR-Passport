@@ -58,56 +58,72 @@
 
 
 (function () {
-  function moveControls() {
-    const navigationRight = document.querySelector(
-      '.pc-desktop-navigation__right'
-    );
+    function positionHeaderControls() {
+        // Работаем только на десктопе
+        if (window.innerWidth < 768) {
+            return;
+        }
 
-    const search = document.querySelector(
-      '.pc-desktop-navigation__buttons'
-    );
+        const search = document.querySelector(
+            '.pc-desktop-navigation__buttons .dc-search-suggest'
+        );
 
-    const settings = document.querySelector(
-      '.dc-control[aria-label="Настройки"]'
-    );
+        const settings = document.querySelector(
+            '.dc-control[aria-label="Настройки"]'
+        );
 
-    const language = document.querySelector(
-      '.dc-control[aria-label="Язык"]'
-    );
+        const language = document.querySelector(
+            '.dc-control[aria-label="Язык"]'
+        );
 
-    if (!navigationRight || !search || !settings || !language) {
-      return;
+        if (!search || !settings || !language) {
+            return;
+        }
+
+        const searchRect = search.getBoundingClientRect();
+
+        // Расстояние между поиском и первой кнопкой
+        const gap = 6;
+
+        // Положение кнопок относительно поиска
+        const settingsLeft = searchRect.right + gap;
+        const languageLeft = settingsLeft + settings.offsetWidth + 2;
+
+        const searchCenter = searchRect.top + searchRect.height / 2;
+
+        settings.style.position = 'fixed';
+        settings.style.left = settingsLeft + 'px';
+        settings.style.top =
+            (searchCenter - settings.offsetHeight / 2) + 'px';
+        settings.style.zIndex = '1000';
+
+        language.style.position = 'fixed';
+        language.style.left = languageLeft + 'px';
+        language.style.top =
+            (searchCenter - language.offsetHeight / 2) + 'px';
+        language.style.zIndex = '1000';
     }
 
-    // Создаём контейнер для кнопок, если его ещё нет
-    let controls = document.querySelector('.custom-header-controls');
+    function init() {
+        positionHeaderControls();
 
-    if (!controls) {
-      controls = document.createElement('div');
-      controls.className = 'custom-header-controls';
+        // При изменении размера окна
+        window.addEventListener('resize', positionHeaderControls);
 
-      // Ставим контейнер после поиска
-      search.parentNode.insertBefore(controls, search.nextSibling);
+        // Diplodoc может дорисовывать интерфейс после загрузки
+        const observer = new MutationObserver(function () {
+            positionHeaderControls();
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
     }
 
-    // Переносим кнопки в новый контейнер
-    if (settings.parentElement !== controls) {
-      controls.appendChild(settings);
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
-
-    if (language.parentElement !== controls) {
-      controls.appendChild(language);
-    }
-  }
-
-  // Запускаем после загрузки
-  moveControls();
-
-  // Diplodoc может перерисовывать элементы — отслеживаем это
-  const observer = new MutationObserver(moveControls);
-
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
 })();

@@ -157,22 +157,18 @@ img[src*="logo.svg"] {
 
 
 
-/* Кнопки «Настройки» и «Язык» рядом с поиском */
-.custom-header-controls {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-left: 8px;
+/* Настройки и Язык рядом с поиском */
+.dc-control[aria-label="Настройки"],
+.dc-control[aria-label="Язык"] {
+    transition: none !important;
 }
 
-/* Убираем вертикальное позиционирование у перенесённых кнопок */
-.custom-header-controls .dc-control {
-  position: static;
-  flex-shrink: 0;
-}
-
-/* Саму верхнюю панель выравниваем по центру */
-.pc-desktop-navigation__right {
-  display: flex;
-  align-items: center;
+/* На мобильных возвращаем стандартное поведение */
+@media (max-width: 767px) {
+    .dc-control[aria-label="Настройки"],
+    .dc-control[aria-label="Язык"] {
+        position: static !important;
+        left: auto !important;
+        top: auto !important;
+    }
 }
