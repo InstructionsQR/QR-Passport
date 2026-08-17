@@ -157,18 +157,3 @@ img[src*="logo.svg"] {
 
 
 
-/* Настройки и Язык рядом с поиском */
-.dc-control[aria-label="Настройки"],
-.dc-control[aria-label="Язык"] {
-    transition: none !important;
-}
-
-/* На мобильных возвращаем стандартное поведение */
-@media (max-width: 767px) {
-    .dc-control[aria-label="Настройки"],
-    .dc-control[aria-label="Язык"] {
-        position: static !important;
-        left: auto !important;
-        top: auto !important;
-    }
-}
