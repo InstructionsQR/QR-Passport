@@ -5,7 +5,7 @@ langs: ['ru', 'en']
 docs-viewer:
   langs: ['en','ru']
   logo-options:
-  src: https://qrpassport.tech/logo.svg
+    src: https://qrpassport.tech/logo.svg
   controls-position: top
 
 themes: ['light', 'dark']
@@ -16,7 +16,7 @@ interface:
 search:
   provider: local
   tolerance: 2
-  confidenсe: phrased
+  confidence: phrased
 
 allowCustomResources: true
 
