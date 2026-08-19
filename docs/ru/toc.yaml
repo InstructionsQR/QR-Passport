@@ -40,10 +40,11 @@ items:
         items:
           - name: О разделе
             href: equipment/models/about.md
-          - name: Описание шаблонов
-            href: equipment/models/templates.md
           - name: Создание модели
             href: equipment/models/create_model.md
+          - name: Описание шаблонов
+            href: equipment/models/templates.md
+
       - name: Детали
         items:
           - name: О разделе
