@@ -15,8 +15,7 @@ interface:
 
 search:
   provider: local
-  tolerance: 2
-  confidence: phrased
+
 
 allowCustomResources: true
 
