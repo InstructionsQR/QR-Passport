@@ -10,7 +10,7 @@ blocks:
       - text: 'Задать вопрос'
         theme: 'outlined'
         size: 'promo'
-        url: 'https://www.qrpassport.tech/#:~:text=info%40qrpassport.tech'
+        url: 'https://qrpassport.tech/#:~:text=info%40qrpassport.tech'
     textWidth: 's'
     verticalOffset: 's'
     background:
