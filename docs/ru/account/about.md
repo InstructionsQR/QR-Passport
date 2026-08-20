@@ -1,5 +1,5 @@
 <div class="breadcrumbs">
-  <a href="/QR-Passport/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Личный кабинет</span>
+  <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Личный кабинет</span>
 </div>
 
 # Личный кабинет

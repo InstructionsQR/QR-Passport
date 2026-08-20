@@ -1,7 +1,7 @@
 href: index.yaml
 navigation:
   logo:
-    url: "/QR-Passport/ru/"
+    url: "/ru/"
     urlTitle: 'Вернуться на главную'
     dark:
       icon: "https://qrpassport.tech/logo.svg"
