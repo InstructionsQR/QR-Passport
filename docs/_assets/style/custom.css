@@ -73,7 +73,8 @@ img[src*="logo.svg"] {
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  border: 1px solid #e6e7eb;
+  background: #e5ecff;
+  border: 1px solid #c9d6ff;
   border-radius: 12px;
   text-decoration: none !important;
   color: inherit !important;
@@ -83,8 +84,8 @@ img[src*="logo.svg"] {
 }
 
 .contact-card:hover {
-  background: #f4f5fd;
-  border-color: #cbceff;
+  background: #dbe6ff;
+  border-color: #5e6ad2;
 }
 
 .contact-card strong {
@@ -102,20 +103,27 @@ img[src*="logo.svg"] {
   flex-shrink: 0;
 }
 
-/* Тёмная тема */
+/* ===== Тёмная тема ===== */
 .g-root_theme_dark .contact-card {
-  border-color: #3f4046;
+  background: #343d5c;
+  border-color: #4a5580;
 }
 
 .g-root_theme_dark .contact-card:hover {
-  background: rgba(41, 43, 78, 0.2);
-  border-color: #5e6ad2;
+  background: #3d476b;
+  border-color: #7b86ff;
 }
 
-/* Заголовки карточек контактов в тёмной теме – принудительно светлые */
-.g-root_theme_dark .contact-card strong,
-.g-root_theme_dark .contact-card div {
-  color: #f4f5fd !important;
+.g-root_theme_dark .contact-card strong {
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .contact-card span {
+  color: #9ca3af;
+}
+
+.g-root_theme_dark .contact-card svg {
+  color: #b6bdd6;
 }
 
 /* ===== Телефон с QR-скриншотом: уменьшаем в 2 раза ===== */
