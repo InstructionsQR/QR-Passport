@@ -25,3 +25,5 @@ resources:
   script:
     - _assets/script/custom.js
 
+pdf:
+  enabled: true
