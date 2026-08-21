@@ -73,7 +73,7 @@ img[src*="logo.svg"] {
   align-items: center;
   gap: 12px;
   padding: 16px 20px;
-  background: #e5ecff;
+  background: #e5ecff !important;
   border: 1px solid #c9d6ff;
   border-radius: 12px;
   text-decoration: none !important;
@@ -84,7 +84,7 @@ img[src*="logo.svg"] {
 }
 
 .contact-card:hover {
-  background: #dbe6ff;
+  background: #dbe6ff !important;
   border-color: #5e6ad2;
 }
 
@@ -103,14 +103,14 @@ img[src*="logo.svg"] {
   flex-shrink: 0;
 }
 
-/* ===== Тёмная тема ===== */
+/* ===== Карточки в тёмной теме ===== */
 .g-root_theme_dark .contact-card {
-  background: #343d5c;
+  background: #343d5c !important;
   border-color: #4a5580;
 }
 
 .g-root_theme_dark .contact-card:hover {
-  background: #3d476b;
+  background: #3d476b !important;
   border-color: #7b86ff;
 }
 
@@ -125,6 +125,7 @@ img[src*="logo.svg"] {
 .g-root_theme_dark .contact-card svg {
   color: #b6bdd6;
 }
+
 
 /* ===== Телефон с QR-скриншотом: уменьшаем в 2 раза ===== */
 .dc-doc-page__main img[src*="products_qr_phone"] {
