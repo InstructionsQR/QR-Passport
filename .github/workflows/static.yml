@@ -31,18 +31,40 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Build docs
+
+      # ========== НОВОЕ: подставляем текущую дату в обложки ==========
+      - name: Inject build date
+        run: |
+          sed -i "s/{{date}}/$(date +'%d.%m.%Y')/g" docs/ru/_pdf/cover.md docs/en/_pdf/cover.md
+
+      - name: Build docs (HTML)
         uses: diplodoc-platform/docs-build-static-action@v1
         with:
           src-root: './docs'
           build-root: './docs-html'
+
+      # ========== НОВОЕ: собираем PDF и кладём в папку сайта ==========
+      - name: Setup Node for PDF
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build and generate PDF
+        run: |
+          npm install @diplodoc/cli @diplodoc/pdf-generator
+          npx yfm build -i ./docs -o ./docs-pdf --pdf
+          npx @diplodoc/pdf-generator -i ./docs-pdf
+          cp docs-pdf/ru/single-page.pdf docs-html/ru/single-page.pdf
+          cp docs-pdf/en/single-page.pdf docs-html/en/single-page.pdf
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire reposi
           path: './docs-html'
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
