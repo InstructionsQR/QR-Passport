@@ -54,8 +54,8 @@ jobs:
 
       - name: Build and generate PDF
         run: |
-          npm install @diplodoc/cli @diplodoc/pdf-generator
-          npx yfm build -i ./docs -o ./docs-pdf
+          npm install @diplodoc/cli@5.15.2 @diplodoc/pdf-generator
+          npx yfm build -i ./docs -o ./docs-pdf --pdf
           npx @diplodoc/pdf-generator -i ./docs-pdf
           cp docs-pdf/ru/single-page.pdf docs-html/ru/single-page.pdf
           cp docs-pdf/en/single-page.pdf docs-html/en/single-page.pdf
