@@ -127,10 +127,10 @@ img[src*="logo.svg"] {
 }
 
 
-/* ===== Телефон с QR-скриншотом: уменьшаем в 2 раза ===== */
-.dc-doc-page__main img[src*="products_qr_phone"] {
+/* ===== Телефон с QR-скриншотом: уменьшаем в 2 раза (сайт и PDF) ===== */
+img[src*="products_qr_phone"] {
   width: 200px;    /* от реальной ширины 902px */
-  height: auto;    /* высота посчитается сама: 872px */
+  height: auto;
   max-width: 100%;
   display: block;
   margin: 16px auto;
@@ -163,6 +163,58 @@ img[src*="logo.svg"] {
 /* ===== Скрываем кнопку «...» (копировать/открыть Markdown) ===== */
 .dc-controls button:last-child {
   display: none !important;
+}
+
+
+/* ===== PDF: скрываем навигационные элементы ===== */
+@media print {
+  .breadcrumbs {
+    display: none !important;
+  }
+}
+
+
+
+
+
+/* ===== PDF: титульный лист ===== */
+.pdf-cover {
+  height: 290mm;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  page-break-after: always;
+}
+
+.pdf-cover-logo {
+  width: 230px;
+  margin-bottom: 10mm;
+  transform: translateY(-15mm);
+}
+
+.pdf-cover-title {
+  font-size: 26pt;
+  text-align: center;
+  transform: translateY(-15mm);
+}
+
+.pdf-cover-date {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11pt;
+  color: #6b7280;
+}
+
+/* ===== PDF: заголовок оглавления ===== */
+.pdf-toc-title {
+  font-size: 16pt;
+  font-weight: bold;
+  margin-left: 15mm;
 }
 
 

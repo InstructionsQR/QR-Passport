@@ -8,7 +8,9 @@ navigation:
     light:
       icon: "https://qrpassport.tech/logo.svg"
 
-
+pdf:
+  startPages:
+    - _pdf/cover.md
 items:
   - name: ABOUT
     expanded: true

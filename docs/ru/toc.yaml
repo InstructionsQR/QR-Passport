@@ -7,7 +7,9 @@ navigation:
       icon: "https://qrpassport.tech/logo.svg"
     light:
       icon: "https://qrpassport.tech/logo.svg"
-
+pdf:
+  startPages:
+    - _pdf/cover.md
 items:
   - name: О ПРИЛОЖЕНИИ
     expanded: true
