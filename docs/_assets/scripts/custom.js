@@ -5,7 +5,7 @@
     a.className = 'g-button g-button_view_flat-secondary g-button_size_m g-button_pin_round-round dc-control dc-controls__control pdf-dl-btn';
     a.href = isEn ? '/en/single-page.pdf' : '/ru/single-page.pdf';
     a.setAttribute('download', '');
-    a.setAttribute('title', isEn ? 'Download PDF' : 'Скачать PDF');
+    a.setAttribute('data-tooltip', isEn ? 'Download PDF' : 'Скачать PDF');
     a.setAttribute('aria-label', isEn ? 'Download PDF' : 'Скачать PDF');
     a.innerHTML =
       '<span class="g-button__icon"><span class="g-button__icon-inner">' +

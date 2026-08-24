@@ -221,6 +221,42 @@ img[src*="products_qr_phone"] {
 /* ===== Иконка скачивания PDF в панели управления ===== */
 .pdf-dl-btn {
   text-decoration: none !important;
+  margin-left: -6px;   /* сдвиг влево; если мало — поставьте -8 или -10 */
+  position: relative;
+}
+
+/* тултип в стиле viewer'а */
+.pdf-dl-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  line-height: 1;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s;
+  z-index: 1001;
+  pointer-events: none;
+}
+
+.pdf-dl-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.g-root_theme_dark .pdf-dl-btn::after {
+  background: #2b3145;
+  color: #f4f5fd;
+  border-color: #4a5580;
 }
 
 @media print {
@@ -228,4 +264,3 @@ img[src*="products_qr_phone"] {
     display: none !important;
   }
 }
-
