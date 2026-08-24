@@ -14,17 +14,19 @@
     return a;
   }
 
-  function tryAdd() {
+  function ensureButton() {
     var host = document.querySelector('.dc-controls');
-    if (!host) return false;
-    if (host.querySelector('.pdf-dl-btn')) return true;
+    if (!host) return;
+    if (host.querySelector('.pdf-dl-btn')) return;
     host.appendChild(makeButton());
-    return true;
   }
 
-  var tries = 0;
-  var timer = setInterval(function () {
-    tries += 1;
-    if (tryAdd() || tries > 100) clearInterval(timer);
-  }, 200);
+  ensureButton();
+
+  // Следим за перерисовками (SPA-переходы): как только .dc-controls
+  // появился/перерисовался — вставляем кнопку, если её там нет.
+  var observer = new MutationObserver(function () {
+    ensureButton();
+  });
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
