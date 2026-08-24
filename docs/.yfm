@@ -23,7 +23,7 @@ resources:
   style:
     - _assets/style/custom.css
   script:
-    - _assets/script/custom.js
+    - _assets/scripts/custom.js
 
 pdf:
   enabled: true
