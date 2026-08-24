@@ -4,7 +4,7 @@
     var a = document.createElement('a');
     a.className = 'g-button g-button_view_flat-secondary g-button_size_m g-button_pin_round-round dc-control dc-controls__control pdf-dl-btn';
     a.href = isEn ? '/en/single-page.pdf' : '/ru/single-page.pdf';
-    a.setAttribute('download', '');
+    a.setAttribute('download', isEn ? 'User guide QR-Passport.pdf' : 'Инструкция пользователя QR-Passport.pdf');
     a.setAttribute('data-tooltip', isEn ? 'Download PDF' : 'Скачать PDF');
     a.setAttribute('aria-label', isEn ? 'Download PDF' : 'Скачать PDF');
     a.innerHTML =
