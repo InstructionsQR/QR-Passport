@@ -223,15 +223,24 @@ img[src*="products_qr_phone"] {
   text-decoration: none !important;
   margin-left: -6px;
   position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
+.pdf-dl-btn:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transform: translateY(-1px);
+}
+
+/* подпись — слева от кнопки, по центру её высоты */
 .pdf-dl-btn::after {
   content: attr(data-tooltip);
   position: absolute;
-  top: calc(100% + 6px) !important;
-  right: 0 !important;
+  top: 50% !important;
+  right: calc(100% + 8px) !important;
   left: auto !important;
   bottom: auto !important;
+  transform: translateY(-50%) translateX(4px) !important;
   width: max-content;
   min-width: 90px;
   padding: 6px 12px;
@@ -242,10 +251,10 @@ img[src*="products_qr_phone"] {
   font-size: 13px;
   line-height: 1.2;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.15s;
+  transition: opacity 0.15s ease, transform 0.15s ease;
   z-index: 1001;
   pointer-events: none;
   text-align: center;
@@ -254,6 +263,7 @@ img[src*="products_qr_phone"] {
 .pdf-dl-btn:hover::after {
   opacity: 1;
   visibility: visible;
+  transform: translateY(-50%) translateX(0) !important;
 }
 
 .g-root_theme_dark .pdf-dl-btn::after {
