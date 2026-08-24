@@ -17,14 +17,19 @@
   function ensureButton() {
     var host = document.querySelector('.dc-controls');
     if (!host) return;
-    if (host.querySelector('.pdf-dl-btn')) return;
-    host.appendChild(makeButton());
+    var btn = host.querySelector('.pdf-dl-btn');
+    if (!btn) {
+      btn = makeButton();
+      host.appendChild(btn);
+    }
+    // вертикальная панель или горизонтальная — подставляем нужный отступ
+    var vertical = window.getComputedStyle(host).flexDirection === 'column';
+    btn.classList.toggle('pdf-vertical', vertical);
   }
 
   ensureButton();
+  window.addEventListener('resize', ensureButton);
 
-  // Следим за перерисовками (SPA-переходы): как только .dc-controls
-  // появился/перерисовался — вставляем кнопку, если её там нет.
   var observer = new MutationObserver(function () {
     ensureButton();
   });
