@@ -4,3 +4,4 @@ node_modules/
 .npm
 .yarn/
 docs-html/
+docs-output/
