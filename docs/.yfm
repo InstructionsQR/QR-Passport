@@ -19,10 +19,6 @@ search:
 
 allowCustomResources: true
 
-analytics:
-  metrika:
-    - id: 111923254
-
 resources:
   style:
     - _assets/style/custom.css
