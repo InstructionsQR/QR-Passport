@@ -9,13 +9,13 @@ langs: ['ru', 'en']
 docs-viewer:
   langs: ['en','ru']
   logo-options:
-    src: /ru/_files/quick_start/logo.png
+    src: /ru/_files/logo.svg
   controls-position: top
 
 themes: ['light', 'dark']
 
 interface:
-  favicon-src: https://qrpassport.tech/favicon.ico
+  favicon-src: /ru/_files/favicon.ico
 
 search:
   provider: local
