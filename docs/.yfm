@@ -9,7 +9,7 @@ langs: ['ru', 'en']
 docs-viewer:
   langs: ['en','ru']
   logo-options:
-    src: /ru/_files/logo.svg
+    src: /ru/_files/logo.png
   controls-position: top
 
 themes: ['light', 'dark']
