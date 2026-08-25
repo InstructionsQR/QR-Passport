@@ -12,7 +12,7 @@ a[href="https://app.qrpassport.tech/login"]:hover {
 
 /* ===== Лого: чёрное в светлой, белое в тёмной, компактное ===== */
 .pc-logo__icon,
-nav img[src*="logo.png"],
+nav img[src*="logo.svg"],
 nav a[class*="logo"] img {
   filter: grayscale(1) brightness(0) !important;
   height: 28px !important;
@@ -20,7 +20,7 @@ nav a[class*="logo"] img {
 }
 
 .g-root_theme_dark .pc-logo__icon,
-.g-root_theme_dark nav img[src*="logo.png"],
+.g-root_theme_dark nav img[src*="logo.svg"],
 .g-root_theme_dark nav a[class*="logo"] img {
   filter: grayscale(1) brightness(0) invert(1) !important;
 }
