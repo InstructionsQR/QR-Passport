@@ -11,12 +11,13 @@ a[href="https://app.qrpassport.tech/login"]:hover {
 }
 
 /* ===== Лого: чёрное в светлой, белое в тёмной, компактное ===== */
-img[src*="logo.png"] {
+.pc-logo__icon {
   filter: grayscale(1) brightness(0) !important;
   height: 28px !important;
   width: auto !important;
 }
-.g-root_theme_dark img[src*="logo.png"] {
+
+.g-root_theme_dark .pc-logo__icon {
   filter: grayscale(1) brightness(0) invert(1) !important;
 }
 
