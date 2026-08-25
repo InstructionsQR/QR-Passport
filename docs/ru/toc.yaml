@@ -4,9 +4,9 @@ navigation:
     url: "/ru/"
     urlTitle: 'Вернуться на главную'
     dark:
-      icon: "https://qrpassport.tech/logo.svg"
+      icon: "https://docs.qrpassport.tech/ru/_files/logo.png"
     light:
-      icon: "https://qrpassport.tech/logo.svg"
+      icon: "https://docs.qrpassport.tech/ru/_files/logo.png"
 pdf:
   startPages:
     - _pdf/cover.md

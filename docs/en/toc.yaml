@@ -4,9 +4,9 @@ navigation:
     url: "/en/"
     urlTitle: 'Back to home'
     dark:
-      icon: "https://qrpassport.tech/logo.svg"
+      icon: "https://docs.qrpassport.tech/ru/_files/logo.png"
     light:
-      icon: "https://qrpassport.tech/logo.svg"
+      icon: "https://docs.qrpassport.tech/ru/_files/logo.png"
 
 pdf:
   startPages:
