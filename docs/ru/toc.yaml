@@ -46,6 +46,10 @@ items:
             href: equipment/models/create_model.md
           - name: Описание шаблонов
             href: equipment/models/templates.md
+          - name: Трубопроводная арматура
+            href: equipment/models/templates/pipeline_valves.md
+          - name: Пневмоприводы
+            href: equipment/models/templates/pneumatic_drives.md
 
       - name: Детали
         items:
