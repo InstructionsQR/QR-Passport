@@ -77,6 +77,8 @@ blocks:
 
           [Компания](organization/company.md)
 
+          [Биллинг](organization/billing.md)
+
       - type: basic-card
         title:
           text: Личный кабинет

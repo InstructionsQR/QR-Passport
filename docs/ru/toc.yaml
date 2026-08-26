@@ -62,7 +62,9 @@ items:
       - name: Управление доступом
         href: organization/access_management.md
       - name: Компания
-        href: organization/company.md  
+        href: organization/company.md
+      - name: Биллинг
+        href: organization/billing.md
 
   - name: ЛИЧНЫЙ КАБИНЕТ
     expanded: true

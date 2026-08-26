@@ -22,7 +22,7 @@
       btn = makeButton();
       host.appendChild(btn);
     }
-    // вертикальная панель или горизонтальная — подставляем нужный отступ
+    // вертикальная панель или горизонтальная – подставляем нужный отступ
     var vertical = window.getComputedStyle(host).flexDirection === 'column';
     btn.classList.toggle('pdf-vertical', vertical);
   }
