@@ -49,15 +49,15 @@ items:
           - name: Трубопроводная арматура
             href: equipment/models/templates/pipeline_valves/index.md
             items:
-              - name: Общепромышленный (РФ)
+              - name: Общепром. (РФ)
                 href: equipment/models/templates/pipeline_valves/general_industrial.md
-              - name: Общепромышленный, БС (РФ)
+              - name: Общепром. БС (РФ)
                 href: equipment/models/templates/pipeline_valves/general_industrial_bs.md
-              - name: Атомные станции (РФ)
+              - name: АС (РФ)
                 href: equipment/models/templates/pipeline_valves/nuclear_power_plants.md
-              - name: СТО 2.4.1-212-2008 Газпром (РФ)
+              - name: СТО Газпром (РФ)
                 href: equipment/models/templates/pipeline_valves/gazprom_sto.md
-              - name: Нефтяная и нефтехимическая промышленность (РФ)
+              - name: Нефтепром. (РФ)
                 href: equipment/models/templates/pipeline_valves/oil_and_petrochemical.md
           - name: Пневмоприводы
             href: equipment/models/templates/pneumatic_drives.md
