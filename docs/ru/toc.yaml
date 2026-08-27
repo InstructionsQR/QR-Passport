@@ -55,6 +55,8 @@ items:
                 href: equipment/models/templates/pipeline_valves/general_industrial_bs.md
               - name: Атомные станции (РФ)
                 href: equipment/models/templates/pipeline_valves/nuclear_power_plants.md
+              - name: СТО 2.4.1-212-2008 Газпром (РФ)
+                href: equipment/models/templates/pipeline_valves/gazprom_sto.md
           - name: Пневмоприводы
             href: equipment/models/templates/pneumatic_drives.md
 
