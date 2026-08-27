@@ -53,6 +53,8 @@ items:
                 href: equipment/models/templates/pipeline_valves/general_industrial.md
               - name: Общепромышленный, БС (РФ)
                 href: equipment/models/templates/pipeline_valves/general_industrial_bs.md
+              - name: Атомные станции (РФ)
+                href: equipment/models/templates/pipeline_valves/nuclear_power_plants.md
           - name: Пневмоприводы
             href: equipment/models/templates/pneumatic_drives.md
 
