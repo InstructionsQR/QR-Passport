@@ -17,11 +17,11 @@
 
 Доступные отраслевые шаблоны:
 
-- [Паспорт трубопроводной арматуры. Общепромышленный (РФ)](general_industrial.md);
-- [Паспорт трубопроводной арматуры. Общепромышленный, БС (РФ)](general_industrial_bs.md);
-- [Паспорт трубопроводной арматуры. Атомные станции (РФ)](nuclear_power_plants.md);
-- [Паспорт трубопроводной арматуры. СТО 2.4.1-212-2008 Газпром (РФ)](gazprom_sto.md);
-- [Паспорт трубопроводной арматуры. Нефтяная и нефтехимическая промышленность (РФ)](oil_and_petrochemical.md);
+- [Паспорт трубопроводной арматуры. Общепромышленный (РФ)](templates/pipeline_valves/general_industrial.md);
+- [Паспорт трубопроводной арматуры. Общепромышленный, БС (РФ)](templates/pipeline_valves/general_industrial_bs.md);
+- [Паспорт трубопроводной арматуры. Атомные станции (РФ)](templates/pipeline_valves/nuclear_power_plants.md);
+- [Паспорт трубопроводной арматуры. СТО 2.4.1-212-2008 Газпром (РФ)](templates/pipeline_valves/gazprom_sto.md);
+- [Паспорт трубопроводной арматуры. Нефтяная и нефтехимическая промышленность (РФ)](templates/pipeline_valves/oil_and_petrochemical.md);
 - [Паспорт пневмопривода (РФ)](templates/pneumatic_drives.md).
 
 {% note info "" %}
