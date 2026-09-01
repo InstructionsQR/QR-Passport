@@ -6,15 +6,22 @@
 
 Здесь рассказываем, что нового появляется в QR-Passport и что мы улучшили. Новые записи – сверху.
 
-### Август 2026
+### Сентябрь 2026
+
+{% cut "_Шаблон паспорта электропривода_" %}
+
+**Новое.** Добавлен отраслевой шаблон [«Паспорт электропривода (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/electric_drives.html) по ГОСТ 34610-2019 и ГОСТ Р 2.610-2016. Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
+
+![Шаблон электропривода](./_images/updates_3.png)
+
+{% endcut %}
+
 
 {% cut "_Шаблон паспорта пневмопривода_" %}
 
-**Новое.** Добавлен отраслевой шаблон [«Паспорт пневмопривода (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/pneumatic_drives.html) по СТ ЦКБА 031-2015. Теперь в каталоге доступны шаблоны не только на трубопроводную арматуру, но и на пневмоприводы.
+**Новое.** Добавлен отраслевой шаблон [«Паспорт пневмопривода (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/pneumatic_drives.html) по СТ ЦКБА 031-2015 и ГОСТ Р 2.610-2016. Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
 
-Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
-
-![Добавление шаблона пневмопривода](./_images/updates_2.png)
+![Шаблон пневмопривода](./_images/updates_2.png)
 
 {% endcut %}
 

@@ -61,7 +61,8 @@ items:
                 href: equipment/models/templates/pipeline_valves/oil_and_petrochemical.md
           - name: Пневмоприводы
             href: equipment/models/templates/pneumatic_drives.md
-
+          - name: Электроприводы
+            href: equipment/models/templates/electric_drives.md
       - name: Детали
         items:
           - name: О разделе
