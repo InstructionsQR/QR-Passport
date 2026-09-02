@@ -292,3 +292,98 @@ img[src*="products_qr_phone"] {
     display: none !important;
   }
 }
+
+
+/* ===== Поддержка: плавающая кнопка ===== */
+.support-widget__btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: #c9d6ff;
+  color: #5470e5;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+}
+
+.support-widget__btn:hover { background: #b8c8ff; }
+.support-widget__btn svg { width: 22px; height: 22px; }
+
+/* Подпись при наведении */
+.support-widget__btn::after {
+  content: "Техническая поддержка";
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #1e2025;
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s;
+}
+
+.support-widget__btn:hover::after { opacity: 1; }
+.support-widget.widget-open .support-widget__btn::after { opacity: 0; }
+
+/* Карточка с контактами */
+.support-widget__pop {
+  position: fixed;
+  right: 24px;
+  bottom: 84px;
+  z-index: 1000;
+  width: 300px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+  font-size: 13px;
+}
+
+.support-widget__title { font-weight: 700; margin-bottom: 8px; }
+.support-widget__text { margin: 0 0 10px; color: #555; }
+
+.support-widget__link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #c9d6ff;
+  color: #111;
+  text-decoration: none;
+}
+
+.support-widget__link:last-child { margin-bottom: 0; }
+.support-widget__link:hover { background: #b8c8ff; }
+
+.support-widget__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.support-widget__name { display: block; font-weight: 700; }
+.support-widget__sub { display: block; color: #555; font-size: 12px; }
+
+/* Тёмная тема */
+.g-root_theme_dark .support-widget__btn { background: #2b3350; color: #8fa8ff; }
+.g-root_theme_dark .support-widget__btn:hover { background: #33406b; }
+.g-root_theme_dark .support-widget__btn::after { background: #eee; color: #222; }
+.g-root_theme_dark .support-widget__pop { background: #22252b; color: #eee; }
+.g-root_theme_dark .support-widget__text { color: #aaa; }
+.g-root_theme_dark .support-widget__link { background: #2b3350; color: #eee; }
+.g-root_theme_dark .support-widget__link:hover { background: #33406b; }
+.g-root_theme_dark .support-widget__sub { color: #aab; }
