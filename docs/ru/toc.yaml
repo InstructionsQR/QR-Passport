@@ -63,6 +63,8 @@ items:
             href: equipment/models/templates/pneumatic_drives.md
           - name: Электроприводы
             href: equipment/models/templates/electric_drives.md
+          - name: Другое оборудование
+            href: equipment/models/templates/other_equipment.md
       - name: Детали
         items:
           - name: О разделе

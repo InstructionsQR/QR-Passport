@@ -8,6 +8,14 @@
 
 ### Сентябрь 2026
 
+{% cut "_Шаблон паспорта для другого оборудования_" %}
+
+**Новое.** Добавлен общий шаблон [«Паспорт изделия (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/other_equipment.html) по ГОСТ Р 2.610-2016. Разделы шаблона можно включать и отключать под ваше изделие. Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
+
+![Шаблон для другого оборудования](./_images/updates_4.png)
+
+{% endcut %}
+
 {% cut "_Шаблон паспорта электропривода_" %}
 
 **Новое.** Добавлен отраслевой шаблон [«Паспорт электропривода (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/electric_drives.html) по ГОСТ 34610-2019 и ГОСТ Р 2.610-2016. Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
