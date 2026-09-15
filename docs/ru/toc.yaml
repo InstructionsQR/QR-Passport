@@ -20,6 +20,8 @@ items:
         href: concepts.md
       - name: Практическое руководство
         href: quick_start.md
+      - name: Быстрый старт
+        href: quick_start_other.md
 
   - name: ОБОРУДОВАНИЕ
     expanded: true
