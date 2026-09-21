@@ -1,3 +1,10 @@
+<div class="breadcrumbs">
+  <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span>
+  <a href="/ru/equipment/models/about.html">Модели</a><span class="breadcrumbs__sep"> / </span>
+  <span class="breadcrumbs__current">Трубопроводная арматура</span>
+</div>
+
+
 # Трубопроводная арматура
 
 Для моделей с видом изделия **Трубопроводная арматура** доступны пять отраслевых шаблонов паспортов. Все они учитывают требования [ГОСТ 34612-2019](https://files.stroyinf.ru/Index/72/72322.htm) и [ГОСТ Р 2.610-2019](https://meganorm.ru/Data/708/70883.pdf), а также отраслевые требования отрасли поставки.

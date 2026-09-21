@@ -1,3 +1,9 @@
+<div class="breadcrumbs">
+  <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span>
+  <a href="/ru/equipment/models/about.html">Модели</a><span class="breadcrumbs__sep"> / </span>
+  <span class="breadcrumbs__current">Другое оборудование</span>
+</div>
+
 # Паспорт изделия (РФ)
 
 {% note tip %}

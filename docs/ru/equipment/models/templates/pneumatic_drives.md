@@ -1,3 +1,9 @@
+<div class="breadcrumbs">
+  <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span>
+  <a href="/ru/equipment/models/about.html">Модели</a><span class="breadcrumbs__sep"> / </span>
+  <span class="breadcrumbs__current">Пневмоприводы</span>
+</div>
+
 # Паспорт пневмопривода (РФ)
 
 {% note tip %}

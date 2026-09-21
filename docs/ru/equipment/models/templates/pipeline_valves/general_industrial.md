@@ -1,3 +1,10 @@
+<div class="breadcrumbs">
+  <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span>
+  <a href="/ru/equipment/models/about.html">Модели</a><span class="breadcrumbs__sep"> / </span>
+  <a href="/ru/equipment/models/templates/pipeline_valves/index.html">Трубопроводная арматура</a><span class="breadcrumbs__sep"> / </span>
+  <span class="breadcrumbs__current">Общепром. (РФ)</span>
+</div>
+
 # Общепромышленный (РФ)
 
 {% note tip %}
