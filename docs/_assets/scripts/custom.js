@@ -77,8 +77,8 @@
 
 
 
-  
-  // ===== Меню: сохраняем раскрытые разделы =====
+
+// ===== Меню: сохраняем раскрытые разделы (финальная версия) =====
 (function () {
   var KEY = 'menu-state';
 
@@ -93,42 +93,62 @@
   }
 
   function getLabel(btn) {
-    return btn.getAttribute('aria-label') || btn.textContent.trim();
+    var label = btn.getAttribute('aria-label');
+    if (label && label.indexOf('Выпадающий список') === 0) {
+      return label.replace('Выпадающий список ', '').trim();
+    }
+    return btn.textContent.trim();
   }
 
   function applyState() {
     var state = loadState();
-    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+    var buttons = document.querySelectorAll('.dc-toc button[aria-expanded]');
+    var changed = false;
+    
+    buttons.forEach(function (btn) {
       var label = getLabel(btn);
-      if (state[label] === true && btn.getAttribute('aria-expanded') === 'false') {
+      if (state[label] === true && btn.getAttribute('aria-expanded') !== 'true') {
         btn.click();
+        changed = true;
       }
     });
+    
+    return changed;
   }
 
   function bindClicks() {
-    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+    var buttons = document.querySelectorAll('.dc-toc button[aria-expanded]');
+    buttons.forEach(function (btn) {
       if (btn.dataset.bound) return;
       btn.dataset.bound = '1';
+      
       btn.addEventListener('click', function () {
         setTimeout(function () {
           var state = loadState();
           state[getLabel(btn)] = btn.getAttribute('aria-expanded') === 'true';
           saveState(state);
-        }, 100);
+        }, 50);
       });
     });
   }
 
-  // Следим за любыми изменениями атрибута aria-expanded в меню
-  var observer = new MutationObserver(function () {
+  function restoreIfCollapsed() {
     bindClicks();
-    applyState();
+    var didChange = applyState();
+    // Если что-то раскрыли — проверим ещё раз через кадр
+    if (didChange) {
+      requestAnimationFrame(function () {
+        applyState();
+      });
+    }
+  }
+
+  // Постоянно следим за меню
+  var observer = new MutationObserver(function () {
+    requestAnimationFrame(restoreIfCollapsed);
   });
 
-  function init() {
-    bindClicks();
-    applyState();
+  function startObserving() {
     var toc = document.querySelector('.dc-toc');
     if (toc) {
       observer.observe(toc, {
@@ -137,7 +157,21 @@
         attributes: true,
         attributeFilter: ['aria-expanded']
       });
+    } else {
+      setTimeout(startObserving, 100);
     }
+  }
+
+  function init() {
+    bindClicks();
+    applyState();
+    startObserving();
+    
+    // Гарантированные попытки восстановить состояние
+    setTimeout(restoreIfCollapsed, 50);
+    setTimeout(restoreIfCollapsed, 200);
+    setTimeout(restoreIfCollapsed, 500);
+    setTimeout(restoreIfCollapsed, 1000);
   }
 
   if (document.readyState === 'loading') {
@@ -145,4 +179,10 @@
   } else {
     init();
   }
+
+  // SPA-переходы
+  window.addEventListener('popstate', function () {
+    setTimeout(restoreIfCollapsed, 100);
+    setTimeout(restoreIfCollapsed, 300);
+  });
 })();
