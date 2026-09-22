@@ -400,6 +400,7 @@ img[src*="products_qr_phone"] {
 .doc-update-date {
   margin-bottom: 0;
   text-align: right;
+  line-height: 1;
 }
 
 .doc-update-date span {
@@ -408,9 +409,9 @@ img[src*="products_qr_phone"] {
   font-style: italic;
 }
 
-/* прижимаем хлебные крошки к дате */
 .doc-update-date + .breadcrumbs {
   margin-top: 0;
+  padding-top: 0;
 }
 
 /* в PDF дата есть на титульном листе – не дублируем */
