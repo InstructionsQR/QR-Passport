@@ -74,3 +74,75 @@
     init();
   }
   })();
+
+
+
+  
+  // ===== Меню: сохраняем раскрытые разделы =====
+(function () {
+  var KEY = 'menu-state';
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function saveState(s) {
+    try { localStorage.setItem(KEY, JSON.stringify(s)); }
+    catch (e) {}
+  }
+
+  function getLabel(btn) {
+    return btn.getAttribute('aria-label') || btn.textContent.trim();
+  }
+
+  function applyState() {
+    var state = loadState();
+    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+      var label = getLabel(btn);
+      if (state[label] === true && btn.getAttribute('aria-expanded') === 'false') {
+        btn.click();
+      }
+    });
+  }
+
+  function bindClicks() {
+    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = '1';
+      btn.addEventListener('click', function () {
+        setTimeout(function () {
+          var state = loadState();
+          state[getLabel(btn)] = btn.getAttribute('aria-expanded') === 'true';
+          saveState(state);
+        }, 100);
+      });
+    });
+  }
+
+  // Следим за любыми изменениями атрибута aria-expanded в меню
+  var observer = new MutationObserver(function () {
+    bindClicks();
+    applyState();
+  });
+
+  function init() {
+    bindClicks();
+    applyState();
+    var toc = document.querySelector('.dc-toc');
+    if (toc) {
+      observer.observe(toc, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['aria-expanded']
+      });
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
