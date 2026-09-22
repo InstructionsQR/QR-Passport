@@ -78,15 +78,18 @@
 
 
 
-  
 
-// ===== Меню: сохраняем раскрытые разделы (v6 — защита от пересоздания DOM) =====
+  // ===== Меню: сохраняем раскрытые разделы (v8 – кнопки И ссылки-разделы) =====
 (function () {
   var KEY = 'menu-state';
+  var DEBUG = true;
+  var TOGGLE_SEL = '.dc-toc button[aria-expanded], .dc-toc a[aria-expanded]';
   var state = loadState();
   var restoring = {};
   var lastPointer = { label: null, time: 0 };
   var innerObserver = null;
+
+  function log() { if (DEBUG) console.log.apply(console, ['[MENU-v8]'].concat(Array.prototype.slice.call(arguments))); }
 
   function loadState() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
@@ -98,20 +101,29 @@
     catch (e) {}
   }
 
-  function getLabel(btn) {
-    var label = btn.getAttribute('aria-label');
+  function getLabel(el) {
+    var label = el.getAttribute('aria-label');
     if (label && label.indexOf('Выпадающий список') === 0) {
       return label.replace('Выпадающий список ', '').trim();
     }
-    var t = btn.textContent.trim();
-    // убираем возможный текст из SVG-стрелок
-    return t.replace(/\s+/g, ' ').trim();
+    return el.textContent.trim().replace(/\s+/g, ' ');
+  }
+
+  // клик по переключателю: для ссылки-раздела кликаем по стрелке, чтобы не уйти со страницы
+  function clickToggle(el) {
+    if (el.tagName === 'A') {
+      var arrow = el.querySelector('.dc-toggle-arrow') || el.querySelector('svg');
+      (arrow || el).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    } else {
+      el.click();
+    }
   }
 
   document.addEventListener('pointerdown', function (e) {
-    var btn = e.target.closest ? e.target.closest('.dc-toc button[aria-expanded]') : null;
-    if (btn) {
-      lastPointer = { label: getLabel(btn), time: Date.now() };
+    var el = e.target.closest ? e.target.closest(TOGGLE_SEL) : null;
+    if (el) {
+      lastPointer = { label: getLabel(el), time: Date.now() };
+      log('pointerdown:', getLabel(el));
     }
   }, true);
 
@@ -123,10 +135,10 @@
     while (current && current !== document.body) {
       var li = current.closest('li');
       if (!li) break;
-      var btn = li.querySelector(':scope > button[aria-expanded]');
-      if (btn) {
-        if (ancestors.has(btn)) break;
-        ancestors.add(btn);
+      var el = li.querySelector(':scope > button[aria-expanded], :scope > a[aria-expanded]');
+      if (el) {
+        if (ancestors.has(el)) break;
+        ancestors.add(el);
       }
       current = li.parentElement;
     }
@@ -135,8 +147,14 @@
 
   function acceptAncestors() {
     var changed = false;
-    getActiveAncestors().forEach(function (btn) {
-      var label = getLabel(btn);
+    // активная страница-раздел (например, индекс «Трубопроводной арматуры»)
+    var activeToggle = document.querySelector('.dc-toc a[aria-current="true"][aria-expanded]');
+    if (activeToggle && activeToggle.getAttribute('aria-expanded') === 'true') {
+      state[getLabel(activeToggle)] = true;
+      changed = true;
+    }
+    getActiveAncestors().forEach(function (el) {
+      var label = getLabel(el);
       if (state[label] !== true) { state[label] = true; changed = true; }
     });
     if (changed) persistState();
@@ -144,12 +162,14 @@
 
   function restore() {
     var ancestors = getActiveAncestors();
-    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
-      if (ancestors.has(btn)) return;
-      var label = getLabel(btn);
-      if (state[label] === true && btn.getAttribute('aria-expanded') !== 'true') {
+    document.querySelectorAll(TOGGLE_SEL).forEach(function (el) {
+      if (ancestors.has(el)) return;
+      if (el.getAttribute('aria-current') === 'true') return;
+      var label = getLabel(el);
+      if (state[label] === true && el.getAttribute('aria-expanded') !== 'true') {
+        log('restore:', label);
         restoring[label] = true;
-        btn.click();
+        clickToggle(el);
         setTimeout(function () { delete restoring[label]; }, 200);
       }
     });
@@ -159,14 +179,23 @@
     var ancestors = getActiveAncestors();
     mutations.forEach(function (m) {
       if (m.type !== 'attributes' || m.attributeName !== 'aria-expanded') return;
-      var btn = m.target;
-      if (!btn.matches || !btn.matches('.dc-toc button[aria-expanded]')) return;
+      var el = m.target;
+      if (!el.matches || !el.matches(TOGGLE_SEL)) return;
 
-      var label = getLabel(btn);
+      var label = getLabel(el);
       if (restoring[label]) return;
 
-      var isNow = btn.getAttribute('aria-expanded') === 'true';
+      var isNow = el.getAttribute('aria-expanded') === 'true';
+
+      // текущая страница-раздел: принимаем состояние системы
+      if (el.getAttribute('aria-current') === 'true') {
+        state[label] = isNow;
+        persistState();
+        return;
+      }
+
       var isUser = lastPointer.label === label && (Date.now() - lastPointer.time) < 800;
+      log('mutation:', label, 'isNow:', isNow, 'isUser:', isUser, 'saved:', state[label] === true);
 
       if (isUser) {
         state[label] = isNow;
@@ -174,15 +203,16 @@
         return;
       }
 
-      if (ancestors.has(btn) && isNow) {
+      if (ancestors.has(el) && isNow) {
         state[label] = true;
         persistState();
         return;
       }
 
       if ((state[label] === true) !== isNow) {
+        log('restore via mutation:', label);
         restoring[label] = true;
-        btn.click();
+        clickToggle(el);
         setTimeout(function () { delete restoring[label]; }, 200);
       }
     });
@@ -194,11 +224,10 @@
     innerObserver.observe(toc, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] });
   }
 
-  // Следим за тем, чтобы .dc-toc существовал и был свежим
   var outer = new MutationObserver(function () {
     var toc = document.querySelector('.dc-toc');
-    if (toc && (!innerObserver || toc.dataset.menuBound !== 'v6')) {
-      toc.dataset.menuBound = 'v6';
+    if (toc && toc.dataset.menuBound !== 'v8') {
+      toc.dataset.menuBound = 'v8';
       attachInner(toc);
       acceptAncestors();
       restore();
@@ -208,12 +237,11 @@
   function init() {
     var toc = document.querySelector('.dc-toc');
     if (toc) {
-      toc.dataset.menuBound = 'v6';
+      toc.dataset.menuBound = 'v8';
       attachInner(toc);
       acceptAncestors();
       restore();
     }
-    // Наблюдаем за body, чтобы ловить пересоздание .dc-toc при SPA-переходах
     outer.observe(document.body, { childList: true, subtree: true });
   }
 
