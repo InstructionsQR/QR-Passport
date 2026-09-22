@@ -398,21 +398,19 @@ img[src*="products_qr_phone"] {
 
 /* ===== Дата обновления документации ===== */
 .doc-update-date {
-  margin-bottom: 16px;
+  margin-bottom: 4px;
   text-align: right;
 }
 
 .doc-update-date span {
-  display: inline-block;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #e6e7eb;
-  color: #6b7280;
+  color: #9ca3af;
   font-size: 12px;
+  font-style: italic;
 }
 
-.g-root_theme_dark .doc-update-date span {
-  color: #9ca3af;
-  border-color: #3f4046;
+/* прижимаем хлебные крошки к дате */
+.doc-update-date + .breadcrumbs {
+  margin-top: 0;
 }
 
 /* в PDF дата есть на титульном листе – не дублируем */
