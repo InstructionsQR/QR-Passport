@@ -33,7 +33,8 @@
   var observer = new MutationObserver(function () {
     ensureButton();
   });
-  observer.observe(document.body, { childList: true, subtree: true });
+  var panel = document.querySelector('.dc-controls') || document.body;
+  observer.observe(panel, { childList: true, subtree: true });
 })();
 
 // ===== Поддержка: плавающая кнопка =====
@@ -76,3 +77,131 @@
   })();
 
 
+// ===== Меню: сохраняем раскрытые разделы (v5) =====
+(function () {
+  var KEY = 'menu-state';
+  var state = loadState();
+  var restoring = {};
+  var lastPointer = { label: null, time: 0 };
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function persistState() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch (e) {}
+  }
+
+  function getLabel(btn) {
+    var label = btn.getAttribute('aria-label');
+    if (label && label.indexOf('Выпадающий список') === 0) {
+      return label.replace('Выпадающий список ', '').trim();
+    }
+    return btn.textContent.trim();
+  }
+
+  document.addEventListener('pointerdown', function (e) {
+    var btn = e.target.closest ? e.target.closest('.dc-toc button[aria-expanded]') : null;
+    if (btn) {
+      lastPointer = { label: getLabel(btn), time: Date.now() };
+    }
+  }, true);
+
+  function getActiveAncestors() {
+    var active = document.querySelector('.dc-toc a[aria-current="true"]');
+    var ancestors = new Set();
+    if (!active) return ancestors;
+    var current = active.parentElement;
+    while (current && current !== document.body) {
+      var li = current.closest('li');
+      if (!li) break;
+      var btn = li.querySelector(':scope > button[aria-expanded]');
+      if (btn) {
+        if (ancestors.has(btn)) break;
+        ancestors.add(btn);
+      }
+      current = li.parentElement;
+    }
+    return ancestors;
+  }
+
+  function acceptAncestors() {
+    var changed = false;
+    getActiveAncestors().forEach(function (btn) {
+      var label = getLabel(btn);
+      if (state[label] !== true) { state[label] = true; changed = true; }
+    });
+    if (changed) persistState();
+  }
+
+  function restore() {
+    var ancestors = getActiveAncestors();
+    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+      if (ancestors.has(btn)) return;
+      var label = getLabel(btn);
+      if (state[label] === true && btn.getAttribute('aria-expanded') !== 'true') {
+        restoring[label] = true;
+        btn.click();
+        setTimeout(function () { delete restoring[label]; }, 200);
+      }
+    });
+  }
+
+  function handleMutation(mutations) {
+    var ancestors = getActiveAncestors();
+    mutations.forEach(function (m) {
+      if (m.type !== 'attributes' || m.attributeName !== 'aria-expanded') return;
+      var btn = m.target;
+      if (!btn.matches || !btn.matches('.dc-toc button[aria-expanded]')) return;
+
+      var label = getLabel(btn);
+      if (restoring[label]) return;
+
+      var isNow = btn.getAttribute('aria-expanded') === 'true';
+      var isUser = lastPointer.label === label && (Date.now() - lastPointer.time) < 800;
+
+      if (isUser) {
+        state[label] = isNow;
+        persistState();
+        return;
+      }
+
+      if (ancestors.has(btn) && isNow) {
+        state[label] = true;
+        persistState();
+        return;
+      }
+
+      if ((state[label] === true) !== isNow) {
+        restoring[label] = true;
+        btn.click();
+        setTimeout(function () { delete restoring[label]; }, 200);
+      }
+    });
+  }
+
+  var observer = new MutationObserver(handleMutation);
+
+  function startObserving() {
+    var toc = document.querySelector('.dc-toc');
+    if (toc) {
+      observer.observe(toc, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] });
+    } else {
+      setTimeout(startObserving, 100);
+    }
+  }
+
+  function init() {
+    acceptAncestors();
+    restore();
+    startObserving();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
