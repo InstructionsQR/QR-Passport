@@ -235,14 +235,14 @@
     var div = document.createElement('div');
     div.className = 'doc-update-date';
     div.textContent = 'Дата обновления документации: ' + text;
-    host.appendChild(div);
+    host.insertBefore(div, host.firstChild);
 
     // если страница перерисовалась – добавляем снова
     var observer = new MutationObserver(function () {
       if (!document.querySelector('.doc-update-date')) {
         var clone = div.cloneNode(true);
         var h = document.querySelector(candidates.join(','));
-        if (h) h.appendChild(clone);
+        if (h) h.insertBefore(clone, h.firstChild);
       }
     });
     observer.observe(document.body, { childList: true, subtree: true });
