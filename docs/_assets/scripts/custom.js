@@ -194,5 +194,4 @@
       setTimeout(startObserving, 100);
     }
   }
-
- 
+})
