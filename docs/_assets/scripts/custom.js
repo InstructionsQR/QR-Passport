@@ -194,4 +194,18 @@
       setTimeout(startObserving, 100);
     }
   }
-})
+
+  function init() {
+    bindClicks();
+    restore();
+    startObserving();
+    setTimeout(bindClicks, 500);
+    setTimeout(restore, 1000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
