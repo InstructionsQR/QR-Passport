@@ -76,54 +76,84 @@
 })();
 
 
-
-
-// ===== Меню: запоминаем раскрытые разделы =====
+// ===== Меню: запоминаем раскрытые разделы (v2) =====
 (function () {
-  var KEY = 'menu-state';
+  var KEY = 'menu-expanded-state';
 
-  function loadState() {
+  function getState() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
     catch (e) { return {}; }
   }
 
-  function saveState(state) {
+  function setState(state) {
     try { localStorage.setItem(KEY, JSON.stringify(state)); }
     catch (e) {}
   }
 
-  function applyState() {
-    var state = loadState();
-    document.querySelectorAll('button[aria-label^="Выпадающий список"]').forEach(function (btn) {
-      var label = btn.getAttribute('aria-label');
-      if (!(label in state)) return;
-      var wanted = state[label];
-      var current = btn.getAttribute('aria-expanded') === 'true';
-      if (wanted !== current) btn.click();
+  function getSectionId(btn) {
+    return btn.getAttribute('aria-label') || btn.textContent.trim();
+  }
+
+  function applySavedState() {
+    var state = getState();
+    var buttons = document.querySelectorAll('button[aria-label^="Выпадающий список"]');
+    
+    buttons.forEach(function (btn) {
+      var id = getSectionId(btn);
+      if (!(id in state)) return;
+      
+      var shouldExpand = state[id];
+      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      
+      if (shouldExpand && !isExpanded) {
+        btn.click();
+      }
     });
   }
 
-  function trackClicks() {
-    document.querySelectorAll('button[aria-label^="Выпадающий список"]').forEach(function (btn) {
+  function trackExpansions() {
+    var buttons = document.querySelectorAll('button[aria-label^="Выпадающий список"]');
+    
+    buttons.forEach(function (btn) {
+      if (btn.dataset.tracked) return;
+      btn.dataset.tracked = 'true';
+      
       btn.addEventListener('click', function () {
         setTimeout(function () {
-          var state = loadState();
-          state[btn.getAttribute('aria-label')] = btn.getAttribute('aria-expanded') === 'true';
-          saveState(state);
-        }, 50);
+          var state = getState();
+          var id = getSectionId(btn);
+          var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+          state[id] = isExpanded;
+          setState(state);
+        }, 100);
       });
     });
   }
 
-  function run() {
-    trackClicks();
-    setTimeout(applyState, 150);
-    setTimeout(applyState, 500);
+  function init() {
+    trackExpansions();
+    applySavedState();
+    
+    // Наблюдатель за изменениями в меню
+    var observer = new MutationObserver(function () {
+      trackExpansions();
+      setTimeout(applySavedState, 50);
+    });
+    
+    var toc = document.querySelector('.dc-toc');
+    if (toc) {
+      observer.observe(toc, { childList: true, subtree: true });
+    }
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', run);
+    document.addEventListener('DOMContentLoaded', function () {
+      setTimeout(init, 200);
+      setTimeout(init, 800);
+    });
   } else {
-    run();
+    setTimeout(init, 200);
+    setTimeout(init, 800);
   }
 })();
+
