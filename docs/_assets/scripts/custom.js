@@ -252,7 +252,9 @@
     if (!host) return;
     var div = document.createElement('div');
     div.className = 'doc-update-date';
-    div.textContent = 'Дата обновления документации: ' + dateText;
+    var span = document.createElement('span');
+    span.textContent = 'Дата обновления документации: ' + dateText;
+    div.appendChild(span);
     host.insertBefore(div, host.firstChild);
   }
 
