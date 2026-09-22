@@ -448,14 +448,28 @@ img[src*="products_qr_phone"] {
   border-color: #5e6ad2;
 }
 
-/* руки – чёрно-белые */
+/* контурные руки – цвет из палитры сайта */
 .doc-feedback__icon {
-  display: inline-block;
-  filter: grayscale(1) brightness(0);
+  display: inline-flex;
+  color: #6b7280;
+}
+
+.doc-feedback__icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+.doc-feedback__btn:hover .doc-feedback__icon {
+  color: #5e6ad2;
 }
 
 .g-root_theme_dark .doc-feedback__icon {
-  filter: grayscale(1) brightness(0) invert(1);
+  color: #9ca3af;
+}
+
+.g-root_theme_dark .doc-feedback__btn:hover .doc-feedback__icon {
+  color: #8b93ff;
 }
 
 .doc-feedback__thanks { color: #1a1a1a; }
