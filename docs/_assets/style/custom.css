@@ -418,3 +418,43 @@ img[src*="products_qr_phone"] {
 @media print {
   .doc-update-date { display: none !important; }
 }
+
+
+/* ===== Обратная связь: была ли страница полезна ===== */
+.doc-feedback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #e6e7eb;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.doc-feedback__btn {
+  border: 1px solid #e6e7eb;
+  background: #ffffff;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+
+.doc-feedback__btn:hover {
+  background: #f2f4ff;
+  border-color: #5e6ad2;
+}
+
+.doc-feedback__thanks { color: #1a1a1a; }
+
+.g-root_theme_dark .doc-feedback { color: #9ca3af; border-color: #3f4046; }
+.g-root_theme_dark .doc-feedback__btn { background: #22252b; border-color: #3f4046; }
+.g-root_theme_dark .doc-feedback__btn:hover { background: #2b3145; border-color: #7b86ff; }
+.g-root_theme_dark .doc-feedback__thanks { color: #f4f5fd; }
+
+@media print {
+  .doc-feedback { display: none !important; }
+}

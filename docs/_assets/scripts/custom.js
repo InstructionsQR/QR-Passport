@@ -282,3 +282,94 @@
     init();
   }
 })();
+
+
+// ===== Обратная связь: была ли страница полезна (цели Метрики) =====
+(function () {
+  var COUNTER = 119232254;
+
+  function isHomePage() {
+    var p = window.location.pathname.replace(/index\.html$/, '');
+    return p === '/ru/' || p === '/ru' || p === '/en/' || p === '/en' || p === '/';
+  }
+
+  function storeKey() { return 'doc-feedback:' + window.location.pathname; }
+
+  function sendGoal(vote) {
+    if (typeof window.ym === 'function') {
+      window.ym(COUNTER, 'reachGoal', vote === 'yes' ? 'docs_feedback_yes' : 'docs_feedback_no', { page: window.location.pathname });
+    }
+  }
+
+  function renderThanks(container, vote) {
+    container.innerHTML = '';
+    var span = document.createElement('span');
+    span.className = 'doc-feedback__thanks';
+    span.textContent = vote === 'yes'
+      ? 'Спасибо! Рады, что страница оказалась полезной.'
+      : 'Спасибо! Мы учтём ваш отзыв и улучшим страницу.';
+    container.appendChild(span);
+  }
+
+  function build() {
+    var div = document.createElement('div');
+    div.className = 'doc-feedback';
+    div.dataset.path = window.location.pathname;
+
+    var saved = null;
+    try { saved = localStorage.getItem(storeKey()); } catch (e) {}
+    if (saved) { renderThanks(div, saved); return div; }
+
+    var q = document.createElement('span');
+    q.textContent = 'Была ли эта страница полезна?';
+    div.appendChild(q);
+
+    ['yes', 'no'].forEach(function (vote) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'doc-feedback__btn';
+      b.textContent = vote === 'yes' ? '👍' : '👎';
+      b.setAttribute('aria-label', vote === 'yes' ? 'Полезно' : 'Не полезно');
+      b.addEventListener('click', function () {
+        sendGoal(vote);
+        try { localStorage.setItem(storeKey(), vote); } catch (e) {}
+        renderThanks(div, vote);
+      });
+      div.appendChild(b);
+    });
+
+    return div;
+  }
+
+  function ensure() {
+    var existing = document.querySelector('.doc-feedback');
+    if (isHomePage()) {
+      if (existing) existing.remove();
+      return;
+    }
+    if (existing) {
+      if (existing.dataset.path === window.location.pathname) return;
+      existing.remove();
+    }
+    var candidates = ['.dc-doc-page__main', '.dc-doc-page', 'main', '.dc-layout__content', '.dc-layout'];
+    var host = null;
+    for (var i = 0; i < candidates.length; i++) {
+      host = document.querySelector(candidates[i]);
+      if (host) break;
+    }
+    if (!host) return;
+    host.appendChild(build());
+  }
+
+  function init() {
+    ensure();
+    var observer = new MutationObserver(function () { ensure(); });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
