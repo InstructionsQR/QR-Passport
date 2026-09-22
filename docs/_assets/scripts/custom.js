@@ -328,7 +328,10 @@
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'doc-feedback__btn';
-      b.textContent = vote === 'yes' ? '👍' : '👎';
+      var icon = document.createElement('span');
+      icon.className = 'doc-feedback__icon';
+      icon.textContent = vote === 'yes' ? '👍' : '👎';
+      b.appendChild(icon);
       b.setAttribute('aria-label', vote === 'yes' ? 'Полезно' : 'Не полезно');
       b.addEventListener('click', function () {
         sendGoal(vote);

@@ -448,6 +448,16 @@ img[src*="products_qr_phone"] {
   border-color: #5e6ad2;
 }
 
+/* руки – чёрно-белые */
+.doc-feedback__icon {
+  display: inline-block;
+  filter: grayscale(1) brightness(0);
+}
+
+.g-root_theme_dark .doc-feedback__icon {
+  filter: grayscale(1) brightness(0) invert(1);
+}
+
 .doc-feedback__thanks { color: #1a1a1a; }
 
 .g-root_theme_dark .doc-feedback { color: #9ca3af; border-color: #3f4046; }
