@@ -217,20 +217,56 @@
   }
 })();
 
-// ===== Дата обновления документации внизу страниц =====
-(function () {
-  var DATE = '22.09.2026'; // обновляйте при каждом релизе
 
-  function ensureDate() {
-    var main = document.querySelector('.dc-doc-page__main');
-    if (!main || main.querySelector('.doc-update-date')) return;
+
+// ===== Дата обновления документации в подвале страниц (авто) =====
+(function () {
+  var FALLBACK_DATE = '22.09.2026'; // используется, только если сервер не отдаст дату
+
+  function showDate(text) {
+    if (document.querySelector('.doc-update-date')) return;
+    var candidates = ['.dc-doc-page__main', '.dc-doc-page', 'main', '.dc-layout__content', '.dc-layout'];
+    var host = null;
+    for (var i = 0; i < candidates.length; i++) {
+      host = document.querySelector(candidates[i]);
+      if (host) break;
+    }
+    if (!host) return;
     var div = document.createElement('div');
     div.className = 'doc-update-date';
-    div.textContent = 'Дата обновления документации: ' + DATE;
-    main.appendChild(div);
+    div.textContent = 'Дата обновления документации: ' + text;
+    host.appendChild(div);
+
+    // если страница перерисовалась – добавляем снова
+    var observer = new MutationObserver(function () {
+      if (!document.querySelector('.doc-update-date')) {
+        var clone = div.cloneNode(true);
+        var h = document.querySelector(candidates.join(','));
+        if (h) h.appendChild(clone);
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
-  ensureDate();
-  var observer = new MutationObserver(ensureDate);
-  observer.observe(document.body, { childList: true, subtree: true });
+  function init() {
+    fetch(location.pathname, { method: 'HEAD' })
+      .then(function (r) {
+        var lm = r.headers.get('Last-Modified');
+        if (lm) {
+          var d = new Date(lm);
+          showDate(d.toLocaleDateString('ru-RU'));
+        } else {
+          showDate(FALLBACK_DATE);
+        }
+      })
+      .catch(function () {
+        showDate(FALLBACK_DATE);
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
