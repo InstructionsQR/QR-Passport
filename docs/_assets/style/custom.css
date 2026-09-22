@@ -398,7 +398,7 @@ img[src*="products_qr_phone"] {
 
 /* ===== Дата обновления документации ===== */
 .doc-update-date {
-  margin-bottom: 4px;
+  margin-bottom: 0;
   text-align: right;
 }
 
