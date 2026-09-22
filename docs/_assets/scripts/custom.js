@@ -216,3 +216,21 @@
     init();
   }
 })();
+
+// ===== Дата обновления документации внизу страниц =====
+(function () {
+  var DATE = '22.09.2026'; // обновляйте при каждом релизе
+
+  function ensureDate() {
+    var main = document.querySelector('.dc-doc-page__main');
+    if (!main || main.querySelector('.doc-update-date')) return;
+    var div = document.createElement('div');
+    div.className = 'doc-update-date';
+    div.textContent = 'Дата обновления документации: ' + DATE;
+    main.appendChild(div);
+  }
+
+  ensureDate();
+  var observer = new MutationObserver(ensureDate);
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
