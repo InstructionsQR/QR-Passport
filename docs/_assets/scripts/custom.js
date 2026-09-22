@@ -219,49 +219,59 @@
 
 
 
-// ===== Дата обновления документации в подвале страниц (авто) =====
+// ===== Дата обновления документации вверху страниц (авто, без главной) =====
 (function () {
-  var FALLBACK_DATE = '22.09.2026'; // используется, только если сервер не отдаст дату
+  var FALLBACK_DATE = '22.09.2026';
+  var dateText = null;
 
-  function showDate(text) {
-    if (document.querySelector('.doc-update-date')) return;
+  function isHomePage() {
+    var p = window.location.pathname.replace(/index\.html$/, '');
+    return p === '/ru/' || p === '/ru' || p === '/en/' || p === '/en' || p === '/';
+  }
+
+  function findHost() {
     var candidates = ['.dc-doc-page__main', '.dc-doc-page', 'main', '.dc-layout__content', '.dc-layout'];
-    var host = null;
     for (var i = 0; i < candidates.length; i++) {
-      host = document.querySelector(candidates[i]);
-      if (host) break;
+      var el = document.querySelector(candidates[i]);
+      if (el) return el;
     }
+    return null;
+  }
+
+  function ensureDate() {
+    var existing = document.querySelector('.doc-update-date');
+
+    // на главной даты быть не должно
+    if (isHomePage()) {
+      if (existing) existing.remove();
+      return;
+    }
+
+    if (existing || !dateText) return;
+    var host = findHost();
     if (!host) return;
     var div = document.createElement('div');
     div.className = 'doc-update-date';
-    div.textContent = 'Дата обновления документации: ' + text;
+    div.textContent = 'Дата обновления документации: ' + dateText;
     host.insertBefore(div, host.firstChild);
-
-    // если страница перерисовалась – добавляем снова
-    var observer = new MutationObserver(function () {
-      if (!document.querySelector('.doc-update-date')) {
-        var clone = div.cloneNode(true);
-        var h = document.querySelector(candidates.join(','));
-        if (h) h.insertBefore(clone, h.firstChild);
-      }
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   function init() {
     fetch(location.pathname, { method: 'HEAD' })
       .then(function (r) {
         var lm = r.headers.get('Last-Modified');
-        if (lm) {
-          var d = new Date(lm);
-          showDate(d.toLocaleDateString('ru-RU'));
-        } else {
-          showDate(FALLBACK_DATE);
-        }
+        dateText = lm ? new Date(lm).toLocaleDateString('ru-RU') : FALLBACK_DATE;
+        ensureDate();
       })
       .catch(function () {
-        showDate(FALLBACK_DATE);
+        dateText = FALLBACK_DATE;
+        ensureDate();
       });
+
+    var observer = new MutationObserver(function () {
+      ensureDate();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {

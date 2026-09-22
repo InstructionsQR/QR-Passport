@@ -399,12 +399,15 @@ img[src*="products_qr_phone"] {
 /* ===== Дата обновления документации ===== */
 .doc-update-date {
   margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e6e7eb;
   color: #6b7280;
   font-size: 12px;
 }
 
 .g-root_theme_dark .doc-update-date {
   color: #9ca3af;
+  border-color: #3f4046;
 }
 
 /* в PDF дата есть на титульном листе – не дублируем */
