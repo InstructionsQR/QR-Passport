@@ -81,14 +81,17 @@
 // ===== Меню: сохраняем раскрытые разделы (финальная версия) =====
 (function () {
   var KEY = 'menu-state';
+  var state = loadState();
+  var lastUserClick = { label: null, time: 0 };
+  var USER_CLICK_WINDOW = 400;
 
   function loadState() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
     catch (e) { return {}; }
   }
 
-  function saveState(s) {
-    try { localStorage.setItem(KEY, JSON.stringify(s)); }
+  function persistState() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
     catch (e) {}
   }
 
@@ -100,59 +103,89 @@
     return btn.textContent.trim();
   }
 
-  function applyState() {
-    var state = loadState();
-    var buttons = document.querySelectorAll('.dc-toc button[aria-expanded]');
-    var changed = false;
+  // Находим родительские кнопки активного пункта — их не трогаем
+  function getActiveAncestors() {
+    var active = document.querySelector('.dc-toc a[aria-current="true"]');
+    if (!active) return new Set();
     
-    buttons.forEach(function (btn) {
-      var label = getLabel(btn);
-      if (state[label] === true && btn.getAttribute('aria-expanded') !== 'true') {
-        btn.click();
-        changed = true;
+    var ancestors = new Set();
+    var current = active;
+    while (current && current !== document.body) {
+      current = current.parentElement;
+      if (!current) break;
+      var li = current.closest('li');
+      if (!li) continue;
+      var btn = li.querySelector(':scope > button[aria-expanded]');
+      if (btn && !ancestors.has(btn)) {
+        ancestors.add(btn);
+        current = li;
+      } else {
+        break;
       }
-    });
-    
-    return changed;
+    }
+    return ancestors;
   }
 
   function bindClicks() {
-    var buttons = document.querySelectorAll('.dc-toc button[aria-expanded]');
-    buttons.forEach(function (btn) {
+    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
       if (btn.dataset.bound) return;
       btn.dataset.bound = '1';
       
       btn.addEventListener('click', function () {
+        lastUserClick = { label: getLabel(btn), time: Date.now() };
         setTimeout(function () {
-          var state = loadState();
           state[getLabel(btn)] = btn.getAttribute('aria-expanded') === 'true';
-          saveState(state);
+          persistState();
         }, 50);
       });
     });
   }
 
-  function restoreIfCollapsed() {
-    bindClicks();
-    var didChange = applyState();
-    // Если что-то раскрыли — проверим ещё раз через кадр
-    if (didChange) {
-      requestAnimationFrame(function () {
-        applyState();
-      });
-    }
+  function restore() {
+    var ancestors = getActiveAncestors();
+    var buttons = document.querySelectorAll('.dc-toc button[aria-expanded]');
+    buttons.forEach(function (btn) {
+      if (ancestors.has(btn)) return; // активный путь не трогаем
+      
+      var label = getLabel(btn);
+      var shouldBeExpanded = state[label] === true;
+      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      
+      if (shouldBeExpanded && !isExpanded) {
+        btn.click();
+      }
+    });
   }
 
-  // Постоянно следим за меню
-  var observer = new MutationObserver(function () {
-    requestAnimationFrame(restoreIfCollapsed);
-  });
+  function handleMutation(mutations) {
+    var ancestors = getActiveAncestors();
+    mutations.forEach(function (m) {
+      if (m.type !== 'attributes' || m.attributeName !== 'aria-expanded') return;
+      var btn = m.target;
+      if (!btn.matches || !btn.matches('.dc-toc button[aria-expanded]')) return;
+      if (ancestors.has(btn)) return;
+      
+      var label = getLabel(btn);
+      var now = Date.now();
+      var wasUserClick = lastUserClick.label === label && (now - lastUserClick.time) < USER_CLICK_WINDOW;
+      
+      // Реагируем только на системные изменения, не на клики пользователя
+      if (!wasUserClick) {
+        var shouldBe = state[label] === true;
+        var isNow = btn.getAttribute('aria-expanded') === 'true';
+        if (shouldBe !== isNow) {
+          btn.click();
+        }
+      }
+    });
+  }
+
+  var observer = new MutationObserver(handleMutation);
 
   function startObserving() {
     var toc = document.querySelector('.dc-toc');
     if (toc) {
       observer.observe(toc, {
-        childList: true,
         subtree: true,
         attributes: true,
         attributeFilter: ['aria-expanded']
@@ -162,27 +195,4 @@
     }
   }
 
-  function init() {
-    bindClicks();
-    applyState();
-    startObserving();
-    
-    // Гарантированные попытки восстановить состояние
-    setTimeout(restoreIfCollapsed, 50);
-    setTimeout(restoreIfCollapsed, 200);
-    setTimeout(restoreIfCollapsed, 500);
-    setTimeout(restoreIfCollapsed, 1000);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
-
-  // SPA-переходы
-  window.addEventListener('popstate', function () {
-    setTimeout(restoreIfCollapsed, 100);
-    setTimeout(restoreIfCollapsed, 300);
-  });
-})();
+ 
