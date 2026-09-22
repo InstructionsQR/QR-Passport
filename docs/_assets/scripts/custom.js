@@ -74,3 +74,56 @@
     init();
   }
 })();
+
+
+
+
+// ===== Меню: запоминаем раскрытые разделы =====
+(function () {
+  var KEY = 'menu-state';
+
+  function loadState() {
+    try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
+    catch (e) { return {}; }
+  }
+
+  function saveState(state) {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch (e) {}
+  }
+
+  function applyState() {
+    var state = loadState();
+    document.querySelectorAll('button[aria-label^="Выпадающий список"]').forEach(function (btn) {
+      var label = btn.getAttribute('aria-label');
+      if (!(label in state)) return;
+      var wanted = state[label];
+      var current = btn.getAttribute('aria-expanded') === 'true';
+      if (wanted !== current) btn.click();
+    });
+  }
+
+  function trackClicks() {
+    document.querySelectorAll('button[aria-label^="Выпадающий список"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        setTimeout(function () {
+          var state = loadState();
+          state[btn.getAttribute('aria-label')] = btn.getAttribute('aria-expanded') === 'true';
+          saveState(state);
+        }, 50);
+      });
+    });
+  }
+
+  function run() {
+    trackClicks();
+    setTimeout(applyState, 150);
+    setTimeout(applyState, 500);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();

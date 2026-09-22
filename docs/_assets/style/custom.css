@@ -388,9 +388,9 @@ img[src*="products_qr_phone"] {
 .g-root_theme_dark .support-widget__link:hover { background: #33406b; }
 .g-root_theme_dark .support-widget__sub { color: #aab; }
 
-/* ===== Поддержка: не показывать в PDF и при печати ===== 
+/* ===== Поддержка: не показывать в PDF и при печати ===== */
 @media print {
   .support-widget {
     display: none !important;
   }
-}*/
+}
