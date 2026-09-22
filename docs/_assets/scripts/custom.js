@@ -77,19 +77,13 @@
   })();
 
 
-
-
-  // ===== Меню: сохраняем раскрытые разделы (v8 – кнопки И ссылки-разделы) =====
+// ===== Меню: сохраняем раскрытые разделы (v7) =====
 (function () {
   var KEY = 'menu-state';
-  var DEBUG = true;
-  var TOGGLE_SEL = '.dc-toc button[aria-expanded], .dc-toc a[aria-expanded]';
   var state = loadState();
   var restoring = {};
   var lastPointer = { label: null, time: 0 };
   var innerObserver = null;
-
-  function log() { if (DEBUG) console.log.apply(console, ['[MENU-v8]'].concat(Array.prototype.slice.call(arguments))); }
 
   function loadState() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
@@ -101,29 +95,18 @@
     catch (e) {}
   }
 
-  function getLabel(el) {
-    var label = el.getAttribute('aria-label');
+  function getLabel(btn) {
+    var label = btn.getAttribute('aria-label');
     if (label && label.indexOf('Выпадающий список') === 0) {
       return label.replace('Выпадающий список ', '').trim();
     }
-    return el.textContent.trim().replace(/\s+/g, ' ');
-  }
-
-  // клик по переключателю: для ссылки-раздела кликаем по стрелке, чтобы не уйти со страницы
-  function clickToggle(el) {
-    if (el.tagName === 'A') {
-      var arrow = el.querySelector('.dc-toggle-arrow') || el.querySelector('svg');
-      (arrow || el).dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
-    } else {
-      el.click();
-    }
+    return btn.textContent.trim().replace(/\s+/g, ' ');
   }
 
   document.addEventListener('pointerdown', function (e) {
-    var el = e.target.closest ? e.target.closest(TOGGLE_SEL) : null;
-    if (el) {
-      lastPointer = { label: getLabel(el), time: Date.now() };
-      log('pointerdown:', getLabel(el));
+    var btn = e.target.closest ? e.target.closest('.dc-toc button[aria-expanded]') : null;
+    if (btn) {
+      lastPointer = { label: getLabel(btn), time: Date.now() };
     }
   }, true);
 
@@ -135,10 +118,10 @@
     while (current && current !== document.body) {
       var li = current.closest('li');
       if (!li) break;
-      var el = li.querySelector(':scope > button[aria-expanded], :scope > a[aria-expanded]');
-      if (el) {
-        if (ancestors.has(el)) break;
-        ancestors.add(el);
+      var btn = li.querySelector(':scope > button[aria-expanded]');
+      if (btn) {
+        if (ancestors.has(btn)) break;
+        ancestors.add(btn);
       }
       current = li.parentElement;
     }
@@ -147,14 +130,8 @@
 
   function acceptAncestors() {
     var changed = false;
-    // активная страница-раздел (например, индекс «Трубопроводной арматуры»)
-    var activeToggle = document.querySelector('.dc-toc a[aria-current="true"][aria-expanded]');
-    if (activeToggle && activeToggle.getAttribute('aria-expanded') === 'true') {
-      state[getLabel(activeToggle)] = true;
-      changed = true;
-    }
-    getActiveAncestors().forEach(function (el) {
-      var label = getLabel(el);
+    getActiveAncestors().forEach(function (btn) {
+      var label = getLabel(btn);
       if (state[label] !== true) { state[label] = true; changed = true; }
     });
     if (changed) persistState();
@@ -162,14 +139,12 @@
 
   function restore() {
     var ancestors = getActiveAncestors();
-    document.querySelectorAll(TOGGLE_SEL).forEach(function (el) {
-      if (ancestors.has(el)) return;
-      if (el.getAttribute('aria-current') === 'true') return;
-      var label = getLabel(el);
-      if (state[label] === true && el.getAttribute('aria-expanded') !== 'true') {
-        log('restore:', label);
+    document.querySelectorAll('.dc-toc button[aria-expanded]').forEach(function (btn) {
+      if (ancestors.has(btn)) return;
+      var label = getLabel(btn);
+      if (state[label] === true && btn.getAttribute('aria-expanded') !== 'true') {
         restoring[label] = true;
-        clickToggle(el);
+        btn.click();
         setTimeout(function () { delete restoring[label]; }, 200);
       }
     });
@@ -179,23 +154,14 @@
     var ancestors = getActiveAncestors();
     mutations.forEach(function (m) {
       if (m.type !== 'attributes' || m.attributeName !== 'aria-expanded') return;
-      var el = m.target;
-      if (!el.matches || !el.matches(TOGGLE_SEL)) return;
+      var btn = m.target;
+      if (!btn.matches || !btn.matches('.dc-toc button[aria-expanded]')) return;
 
-      var label = getLabel(el);
+      var label = getLabel(btn);
       if (restoring[label]) return;
 
-      var isNow = el.getAttribute('aria-expanded') === 'true';
-
-      // текущая страница-раздел: принимаем состояние системы
-      if (el.getAttribute('aria-current') === 'true') {
-        state[label] = isNow;
-        persistState();
-        return;
-      }
-
+      var isNow = btn.getAttribute('aria-expanded') === 'true';
       var isUser = lastPointer.label === label && (Date.now() - lastPointer.time) < 800;
-      log('mutation:', label, 'isNow:', isNow, 'isUser:', isUser, 'saved:', state[label] === true);
 
       if (isUser) {
         state[label] = isNow;
@@ -203,16 +169,15 @@
         return;
       }
 
-      if (ancestors.has(el) && isNow) {
+      if (ancestors.has(btn) && isNow) {
         state[label] = true;
         persistState();
         return;
       }
 
       if ((state[label] === true) !== isNow) {
-        log('restore via mutation:', label);
         restoring[label] = true;
-        clickToggle(el);
+        btn.click();
         setTimeout(function () { delete restoring[label]; }, 200);
       }
     });
@@ -226,8 +191,8 @@
 
   var outer = new MutationObserver(function () {
     var toc = document.querySelector('.dc-toc');
-    if (toc && toc.dataset.menuBound !== 'v8') {
-      toc.dataset.menuBound = 'v8';
+    if (toc && toc.dataset.menuBound !== 'v7') {
+      toc.dataset.menuBound = 'v7';
       attachInner(toc);
       acceptAncestors();
       restore();
@@ -237,7 +202,7 @@
   function init() {
     var toc = document.querySelector('.dc-toc');
     if (toc) {
-      toc.dataset.menuBound = 'v8';
+      toc.dataset.menuBound = 'v7';
       attachInner(toc);
       acceptAncestors();
       restore();
