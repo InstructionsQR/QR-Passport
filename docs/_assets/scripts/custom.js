@@ -76,84 +76,185 @@
 })();
 
 
-// ===== Меню: запоминаем раскрытые разделы (v2) =====
+
+// ===== TOC: remember expanded nested sections =====
 (function () {
-  var KEY = 'menu-expanded-state';
+  var STORAGE_KEY = 'qrpassport.docs.toc.open.v1';
+  var TOC = 'nav.dc-toc';
+  var ITEM = 'li.dc-toc__list-item';
+  var OPEN = 'dc-toc__list-item_opened';
+  var applying = false;
+  var syncTimer = null;
+  var lastUrl = location.href;
 
-  function getState() {
-    try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
-    catch (e) { return {}; }
-  }
-
-  function setState(state) {
-    try { localStorage.setItem(KEY, JSON.stringify(state)); }
-    catch (e) {}
-  }
-
-  function getSectionId(btn) {
-    return btn.getAttribute('aria-label') || btn.textContent.trim();
-  }
-
-  function applySavedState() {
-    var state = getState();
-    var buttons = document.querySelectorAll('button[aria-label^="Выпадающий список"]');
-    
-    buttons.forEach(function (btn) {
-      var id = getSectionId(btn);
-      if (!(id in state)) return;
-      
-      var shouldExpand = state[id];
-      var isExpanded = btn.getAttribute('aria-expanded') === 'true';
-      
-      if (shouldExpand && !isExpanded) {
-        btn.click();
-      }
-    });
-  }
-
-  function trackExpansions() {
-    var buttons = document.querySelectorAll('button[aria-label^="Выпадающий список"]');
-    
-    buttons.forEach(function (btn) {
-      if (btn.dataset.tracked) return;
-      btn.dataset.tracked = 'true';
-      
-      btn.addEventListener('click', function () {
-        setTimeout(function () {
-          var state = getState();
-          var id = getSectionId(btn);
-          var isExpanded = btn.getAttribute('aria-expanded') === 'true';
-          state[id] = isExpanded;
-          setState(state);
-        }, 100);
-      });
-    });
-  }
-
-  function init() {
-    trackExpansions();
-    applySavedState();
-    
-    // Наблюдатель за изменениями в меню
-    var observer = new MutationObserver(function () {
-      trackExpansions();
-      setTimeout(applySavedState, 50);
-    });
-    
-    var toc = document.querySelector('.dc-toc');
-    if (toc) {
-      observer.observe(toc, { childList: true, subtree: true });
+  function ready(fn) {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', fn);
+    } else {
+      fn();
     }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () {
-      setTimeout(init, 200);
-      setTimeout(init, 800);
-    });
-  } else {
-    setTimeout(init, 200);
-    setTimeout(init, 800);
+  function norm(s) {
+    return (s || '').replace(/\s+/g, ' ').trim();
   }
-})();
 
+  function hasChildren(li) {
+    for (var i = 0; i < li.children.length; i++) {
+      if (li.children[i].tagName === 'UL') {
+        return li.children[i].children.length > 0;
+      }
+    }
+    return false;
+  }
+
+  function control(li) {
+    return (
+      li.querySelector(':scope > .dc-toc-item__link .dc-toc-item__arrow') ||
+      li.querySelector(':scope > .dc-toc-item__text-block[aria-expanded]') ||
+      li.querySelector(':scope > .dc-toc-item__text-block')
+    );
+  }
+
+  function isOpen(li) {
+    var c = control(li);
+    return (
+      li.classList.contains(OPEN) ||
+      (c && c.getAttribute('aria-expanded') === 'true')
+    );
+  }
+
+  function label(li) {
+    var el =
+      li.querySelector(':scope > .dc-toc-item__text-block') ||
+      li.querySelector(':scope > .dc-toc-item__link .dc-toc-item__wrapper .dc-toc-item__text') ||
+      li.querySelector(':scope > .dc-toc-item__link') ||
+      li.querySelector(':scope > *:first-child');
+    return norm(el && el.textContent);
+  }
+
+  function key(li) {
+    var parts = [];
+    var cur = li;
+    while (cur && cur.matches && cur.matches(ITEM)) {
+      var name = label(cur);
+      if (name) parts.unshift(name);
+      cur = cur.parentElement ? cur.parentElement.closest(ITEM) : null;
+    }
+    return parts.join(' / ');
+  }
+
+  function read() {
+    try {
+      var v = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return Array.isArray(v) ? v : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function write(keys) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(keys));
+    } catch (e) {}
+  }
+
+  function collect() {
+    var keys = [];
+    Array.prototype.forEach.call(
+      document.querySelectorAll(TOC + ' ' + ITEM),
+      function (li) {
+        if (hasChildren(li) && isOpen(li)) keys.push(key(li));
+      }
+    );
+    return keys;
+  }
+
+  function syncSoon() {
+    if (applying) return;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(function () {
+      write(collect());
+    }, 80);
+  }
+
+  function openIfNeeded(li) {
+    if (!li || isOpen(li)) return;
+    var c = control(li);
+    if (!c) return;
+    if (c.tagName === 'BUTTON' || c.classList.contains('dc-toc-item__arrow')) {
+      c.click();
+    }
+  }
+
+  function restore() {
+    var toc = document.querySelector(TOC);
+    if (!toc) return;
+
+    var saved = read();
+    if (!saved.length) {
+      syncSoon();
+      return;
+    }
+
+    var byKey = {};
+    Array.prototype.forEach.call(toc.querySelectorAll(ITEM), function (li) {
+      if (hasChildren(li)) byKey[key(li)] = li;
+    });
+
+    applying = true;
+    saved.forEach(function (k) {
+      openIfNeeded(byKey[k]);
+    });
+
+    setTimeout(function () {
+      applying = false;
+      write(collect());
+    }, 250);
+  }
+
+  function urlChanged() {
+    if (location.href === lastUrl) return;
+    lastUrl = location.href;
+    setTimeout(restore, 40);
+  }
+
+  function patchHistory() {
+    ['pushState', 'replaceState'].forEach(function (type) {
+      var orig = history[type];
+      history[type] = function () {
+        var ret = orig.apply(this, arguments);
+        setTimeout(urlChanged, 0);
+        return ret;
+      };
+    });
+  }
+
+  function start() {
+    restore();
+    patchHistory();
+    window.addEventListener('popstate', urlChanged);
+
+    document.addEventListener(
+      'click',
+      function (e) {
+        var el = e.target;
+        if (!el || !el.closest) return;
+
+        if (el.closest(TOC)) {
+          setTimeout(syncSoon, 80);
+        }
+        if (el.closest('a[href]')) {
+          setTimeout(urlChanged, 80);
+        }
+      },
+      true
+    );
+
+    window.addEventListener('beforeunload', function () {
+      if (!applying) write(collect());
+    });
+  }
+
+  ready(start);
+})();
