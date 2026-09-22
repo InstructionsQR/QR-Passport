@@ -77,12 +77,16 @@
   })();
 
 
-// ===== Меню: сохраняем раскрытые разделы (v5) =====
+
+  
+
+// ===== Меню: сохраняем раскрытые разделы (v6 — защита от пересоздания DOM) =====
 (function () {
   var KEY = 'menu-state';
   var state = loadState();
   var restoring = {};
   var lastPointer = { label: null, time: 0 };
+  var innerObserver = null;
 
   function loadState() {
     try { return JSON.parse(localStorage.getItem(KEY)) || {}; }
@@ -99,7 +103,9 @@
     if (label && label.indexOf('Выпадающий список') === 0) {
       return label.replace('Выпадающий список ', '').trim();
     }
-    return btn.textContent.trim();
+    var t = btn.textContent.trim();
+    // убираем возможный текст из SVG-стрелок
+    return t.replace(/\s+/g, ' ').trim();
   }
 
   document.addEventListener('pointerdown', function (e) {
@@ -149,7 +155,7 @@
     });
   }
 
-  function handleMutation(mutations) {
+  function handleInnerMutation(mutations) {
     var ancestors = getActiveAncestors();
     mutations.forEach(function (m) {
       if (m.type !== 'attributes' || m.attributeName !== 'aria-expanded') return;
@@ -182,21 +188,33 @@
     });
   }
 
-  var observer = new MutationObserver(handleMutation);
-
-  function startObserving() {
-    var toc = document.querySelector('.dc-toc');
-    if (toc) {
-      observer.observe(toc, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] });
-    } else {
-      setTimeout(startObserving, 100);
-    }
+  function attachInner(toc) {
+    if (innerObserver) innerObserver.disconnect();
+    innerObserver = new MutationObserver(handleInnerMutation);
+    innerObserver.observe(toc, { subtree: true, attributes: true, attributeFilter: ['aria-expanded'] });
   }
 
+  // Следим за тем, чтобы .dc-toc существовал и был свежим
+  var outer = new MutationObserver(function () {
+    var toc = document.querySelector('.dc-toc');
+    if (toc && (!innerObserver || toc.dataset.menuBound !== 'v6')) {
+      toc.dataset.menuBound = 'v6';
+      attachInner(toc);
+      acceptAncestors();
+      restore();
+    }
+  });
+
   function init() {
-    acceptAncestors();
-    restore();
-    startObserving();
+    var toc = document.querySelector('.dc-toc');
+    if (toc) {
+      toc.dataset.menuBound = 'v6';
+      attachInner(toc);
+      acceptAncestors();
+      restore();
+    }
+    // Наблюдаем за body, чтобы ловить пересоздание .dc-toc при SPA-переходах
+    outer.observe(document.body, { childList: true, subtree: true });
   }
 
   if (document.readyState === 'loading') {
