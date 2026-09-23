@@ -514,13 +514,13 @@ img[src*="products_qr_phone"] {
 
 
 /* ===== Ссылки в плашках – прозрачные кнопки в стиле «Задать вопрос» ===== */
-.pc-CardLayoutBlock__item a,
-.pc-card a {
+.pc-basic-card a,
+.pc-card-layout-block__item a {
   display: inline-flex;
   align-items: center;
   margin-top: 8px;
   padding: 10px 20px;
-  border: 1px solid #e6e7eb;
+  border: 1px solid rgba(26, 26, 26, 0.12);
   border-radius: 10px;
   background: transparent;
   color: #1a1a1a;
@@ -530,36 +530,42 @@ img[src*="products_qr_phone"] {
   transition: background .15s, border-color .15s, color .15s;
 }
 
-.pc-CardLayoutBlock__item a:hover,
-.pc-card a:hover {
+.pc-basic-card a:hover,
+.pc-card-layout-block__item a:hover {
   background: rgba(255, 255, 255, 0.45);
   border-color: #5460d4;
   color: #5460d4;
   text-decoration: none;
 }
 
-.g-root_theme_dark .pc-CardLayoutBlock__item a,
-.g-root_theme_dark .pc-card a {
+.g-root_theme_dark .pc-basic-card a,
+.g-root_theme_dark .pc-card-layout-block__item a {
   background: transparent;
   border-color: #3f4046;
   color: #f4f5fd;
 }
 
-.g-root_theme_dark .pc-CardLayoutBlock__item a:hover,
-.g-root_theme_dark .pc-card a:hover {
+.g-root_theme_dark .pc-basic-card a:hover,
+.g-root_theme_dark .pc-card-layout-block__item a:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: #7b86ff;
   color: #9aa4ff;
 }
 
 /* ===== Жирный заголовок плашки ===== */
-.pc-CardLayoutBlock__item p strong,
-.pc-card p strong {
+.pc-basic-card p strong,
+.pc-card-layout-block__item p strong {
   font-size: 18px;
   color: #1a1a1a;
 }
 
-.g-root_theme_dark .pc-CardLayoutBlock__item p strong,
-.g-root_theme_dark .pc-card p strong {
+.g-root_theme_dark .pc-basic-card p strong,
+.g-root_theme_dark .pc-card-layout-block__item p strong {
   color: #f4f5fd;
 }
+
+/* Если захотите свой градиент вместо родного цвета карточки – раскомментируйте:
+.pc-basic-card {
+  background: linear-gradient(180deg, #f5f5fe 0%, #cdcffd 100%) !important;
+}
+*/
