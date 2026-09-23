@@ -513,6 +513,9 @@ img[src*="products_qr_phone"] {
 }
 
 
+
+
+
 /* ===== Ссылки в плашках – прозрачные кнопки в стиле «Задать вопрос» ===== */
 .pc-basic-card a,
 .pc-card-layout-block__item a {
@@ -521,7 +524,7 @@ img[src*="products_qr_phone"] {
   margin-top: 8px;
   padding: 10px 20px;
   border: 1px solid rgba(26, 26, 26, 0.12);
-  border-radius: 10px;
+  border-radius: 12px;
   background: transparent;
   color: #1a1a1a;
   font-size: 15px;
@@ -532,9 +535,9 @@ img[src*="products_qr_phone"] {
 
 .pc-basic-card a:hover,
 .pc-card-layout-block__item a:hover {
-  background: rgba(255, 255, 255, 0.45);
-  border-color: #5460d4;
-  color: #5460d4;
+  background: rgba(84, 96, 212, 0.15);
+  border-color: rgba(84, 96, 212, 0.35);
+  color: #1a1a1a;
   text-decoration: none;
 }
 
@@ -547,25 +550,7 @@ img[src*="products_qr_phone"] {
 
 .g-root_theme_dark .pc-basic-card a:hover,
 .g-root_theme_dark .pc-card-layout-block__item a:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: #7b86ff;
-  color: #9aa4ff;
-}
-
-/* ===== Жирный заголовок плашки ===== */
-.pc-basic-card p strong,
-.pc-card-layout-block__item p strong {
-  font-size: 18px;
-  color: #1a1a1a;
-}
-
-.g-root_theme_dark .pc-basic-card p strong,
-.g-root_theme_dark .pc-card-layout-block__item p strong {
+  background: rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
   color: #f4f5fd;
 }
-
-/* Если захотите свой градиент вместо родного цвета карточки – раскомментируйте:
-.pc-basic-card {
-  background: linear-gradient(180deg, #f5f5fe 0%, #cdcffd 100%) !important;
-}
-*/
