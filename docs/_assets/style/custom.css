@@ -513,46 +513,37 @@ img[src*="products_qr_phone"] {
 }
 
 
-/* ===== Плашки «С чего начать» и «Частые вопросы»: градиент и размеры ===== */
-.pc-constructor-block_type_card-layout-block .pc-card,
-.pc-CardLayoutBlock__item,
-.pc-card {
-  background: linear-gradient(180deg, #f5f5fe 0%, #cdcffd 100%) !important;
-  border: none !important;
-  border-radius: 16px;
-  padding: 24px;
-  min-height: 220px;
-}
-
-.g-root_theme_dark .pc-constructor-block_type_card-layout-block .pc-card,
-.g-root_theme_dark .pc-CardLayoutBlock__item,
-.g-root_theme_dark .pc-card {
-  background: linear-gradient(180deg, #1b2036 0%, #262b45 100%) !important;
-}
-
-/* иконка внутри плашки */
-.pc-card img {
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
-/* жирный заголовок плашки */
-.pc-card p strong {
-  font-size: 18px;
-  color: #1a1a1a;
-}
-
-.g-root_theme_dark .pc-card p strong { color: #f4f5fd; }
-
-/* ссылка-кнопка внизу */
+/* ===== Ссылки в плашках – прозрачные кнопки в стиле «Задать вопрос» ===== */
 .pc-card a {
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 10px 20px;
+  border: 1px solid #e6e7eb;
+  border-radius: 10px;
+  background: transparent;
+  color: #1a1a1a;
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .15s, border-color .15s, color .15s;
+}
+
+.pc-card a:hover {
+  background: rgba(255, 255, 255, 0.45);
+  border-color: #5460d4;
   color: #5460d4;
   text-decoration: none;
 }
 
-.pc-card a:hover { text-decoration: underline; }
+.g-root_theme_dark .pc-card a {
+  background: transparent;
+  border-color: #3f4046;
+  color: #f4f5fd;
+}
 
-.g-root_theme_dark .pc-card a { color: #9aa4ff; }
+.g-root_theme_dark .pc-card a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: #7b86ff;
+  color: #9aa4ff;
+}
