@@ -554,3 +554,29 @@ img[src*="products_qr_phone"] {
   border-color: rgba(255, 255, 255, 0.25);
   color: #f4f5fd;
 }
+
+/* ===== Единый лавандовый для кнопки и плашек мессенджеров ===== */
+.support-widget a,
+.support-widget__link,
+.support-widget__popup a,
+.support-widget__menu a {
+  background: #cdcffd !important;
+}
+
+.support-widget a:hover,
+.support-widget__link:hover,
+.support-widget__popup a:hover,
+.support-widget__menu a:hover {
+  background: #bcc0fa !important;
+}
+
+/* тёмная тема – тот же тон, что у кнопки */
+.g-root_theme_dark .support-widget a,
+.g-root_theme_dark .support-widget__link {
+  background: #2a3054 !important;
+}
+
+.g-root_theme_dark .support-widget a:hover,
+.g-root_theme_dark .support-widget__link:hover {
+  background: #343b66 !important;
+}
