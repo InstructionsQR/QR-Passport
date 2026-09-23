@@ -513,13 +513,46 @@ img[src*="products_qr_phone"] {
 }
 
 
-/* ===== Градиент плашек «С чего начать» и «Частые вопросы» ===== */
-.pc-ExtendedFeaturesBlock__item {
-  background: linear-gradient(160deg, #e9ecfe 0%, #c7cdf5 100%) !important;
+/* ===== Плашки «С чего начать» и «Частые вопросы»: градиент и размеры ===== */
+.pc-constructor-block_type_card-layout-block .pc-card,
+.pc-CardLayoutBlock__item,
+.pc-card {
+  background: linear-gradient(180deg, #f5f5fe 0%, #cdcffd 100%) !important;
   border: none !important;
   border-radius: 16px;
+  padding: 24px;
+  min-height: 220px;
 }
 
-.g-root_theme_dark .pc-ExtendedFeaturesBlock__item {
-  background: linear-gradient(160deg, #262b45 0%, #1b2036 100%) !important;
+.g-root_theme_dark .pc-constructor-block_type_card-layout-block .pc-card,
+.g-root_theme_dark .pc-CardLayoutBlock__item,
+.g-root_theme_dark .pc-card {
+  background: linear-gradient(180deg, #1b2036 0%, #262b45 100%) !important;
 }
+
+/* иконка внутри плашки */
+.pc-card img {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* жирный заголовок плашки */
+.pc-card p strong {
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.g-root_theme_dark .pc-card p strong { color: #f4f5fd; }
+
+/* ссылка-кнопка внизу */
+.pc-card a {
+  font-weight: 600;
+  color: #5460d4;
+  text-decoration: none;
+}
+
+.pc-card a:hover { text-decoration: underline; }
+
+.g-root_theme_dark .pc-card a { color: #9aa4ff; }
