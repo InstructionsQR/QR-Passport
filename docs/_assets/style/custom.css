@@ -489,3 +489,25 @@ img[src*="products_qr_phone"] {
 @media print {
   .doc-feedback { display: none !important; }
 }
+
+
+/* ===== Мобильная версия: титульная карточка градиентом, без иллюстрации ===== */
+@media (max-width: 640px) {
+  /* скрываем подложку с ноутбуком и плавающими иконками */
+  header.pc-header-block .pc-header-block__background picture,
+  header.pc-header-block .pc-header-block__background img {
+    display: none !important;
+  }
+
+  /* заливаем блок чистым градиентом в фирменных тонах */
+  header.pc-header-block .pc-header-block__background {
+    background: linear-gradient(160deg, #f4f6ff 0%, #c7cdf5 100%) !important;
+  }
+}
+
+/* ===== Мобильная версия, тёмная тема ===== */
+@media (max-width: 640px) {
+  .g-root_theme_dark header.pc-header-block .pc-header-block__background {
+    background: linear-gradient(160deg, #2a3054 0%, #1c2136 100%) !important;
+  }
+}
