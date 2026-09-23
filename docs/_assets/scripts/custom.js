@@ -286,7 +286,7 @@
 
 // ===== Обратная связь: была ли страница полезна (цели Метрики) =====
 (function () {
-  var COUNTER = 119232254;
+  var COUNTER = 111923254;
 
   function isHomePage() {
     var p = window.location.pathname.replace(/index\.html$/, '');
