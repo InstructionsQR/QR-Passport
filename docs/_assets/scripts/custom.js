@@ -43,7 +43,7 @@
     var root = document.createElement('div');
     root.className = 'support-widget';
     root.innerHTML =
-      '<button class="support-widget__btn" type="button" aria-label="Техническая поддержка"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="4.93" x2="19.07" y2="9.17"/><line x1="4.93" y1="14.83" x2="9.17" y2="19.07"/></svg></button>' +
+      '<button class="support-widget__btn" type="button" aria-label="Техническая поддержка"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg></button>' +
       '<div class="support-widget__pop" hidden>' +
       '<div class="support-widget__title">Техническая поддержка</div>' +
       '<p class="support-widget__text">Если возникнут трудности – мы на связи. Выберите удобный способ:</p>' +

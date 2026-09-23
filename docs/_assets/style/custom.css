@@ -316,19 +316,22 @@ img[src*="products_qr_phone"] {
 .support-widget__btn:hover { background: #b8c8ff; }
 .support-widget__btn svg { width: 22px; height: 22px; }
 
-/* Подпись при наведении */
+/* Подпись при наведении – в стиле остальных кнопок сайта */
 .support-widget__btn::after {
   content: "Техническая поддержка";
   position: absolute;
   right: 60px;
   top: 50%;
   transform: translateY(-50%);
-  background: #1e2025;
-  color: #fff;
-  font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 6px;
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 6px 12px;
   white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   opacity: 0;
   pointer-events: none;
   transition: opacity .15s;
@@ -381,7 +384,11 @@ img[src*="products_qr_phone"] {
 /* Тёмная тема */
 .g-root_theme_dark .support-widget__btn { background: #2b3350; color: #8fa8ff; }
 .g-root_theme_dark .support-widget__btn:hover { background: #33406b; }
-.g-root_theme_dark .support-widget__btn::after { background: #eee; color: #222; }
+.g-root_theme_dark .support-widget__btn::after {
+  background: #2b3145;
+  color: #f4f5fd;
+  border-color: #4a5580;
+}
 .g-root_theme_dark .support-widget__pop { background: #22252b; color: #eee; }
 .g-root_theme_dark .support-widget__text { color: #aaa; }
 .g-root_theme_dark .support-widget__link { background: #2b3350; color: #eee; }
