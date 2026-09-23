@@ -514,6 +514,7 @@ img[src*="products_qr_phone"] {
 
 
 /* ===== Ссылки в плашках – прозрачные кнопки в стиле «Задать вопрос» ===== */
+.pc-CardLayoutBlock__item a,
 .pc-card a {
   display: inline-flex;
   align-items: center;
@@ -529,6 +530,7 @@ img[src*="products_qr_phone"] {
   transition: background .15s, border-color .15s, color .15s;
 }
 
+.pc-CardLayoutBlock__item a:hover,
 .pc-card a:hover {
   background: rgba(255, 255, 255, 0.45);
   border-color: #5460d4;
@@ -536,14 +538,28 @@ img[src*="products_qr_phone"] {
   text-decoration: none;
 }
 
+.g-root_theme_dark .pc-CardLayoutBlock__item a,
 .g-root_theme_dark .pc-card a {
   background: transparent;
   border-color: #3f4046;
   color: #f4f5fd;
 }
 
+.g-root_theme_dark .pc-CardLayoutBlock__item a:hover,
 .g-root_theme_dark .pc-card a:hover {
   background: rgba(255, 255, 255, 0.06);
   border-color: #7b86ff;
   color: #9aa4ff;
+}
+
+/* ===== Жирный заголовок плашки ===== */
+.pc-CardLayoutBlock__item p strong,
+.pc-card p strong {
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.g-root_theme_dark .pc-CardLayoutBlock__item p strong,
+.g-root_theme_dark .pc-card p strong {
+  color: #f4f5fd;
 }
