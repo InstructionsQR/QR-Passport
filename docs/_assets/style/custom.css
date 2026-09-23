@@ -514,14 +514,12 @@ img[src*="products_qr_phone"] {
 
 
 /* ===== Градиент плашек «С чего начать» и «Частые вопросы» ===== */
-.pc-extended-features__item,
-.pc-extended-features-item {
+.pc-ExtendedFeaturesBlock__item {
   background: linear-gradient(160deg, #e9ecfe 0%, #c7cdf5 100%) !important;
   border: none !important;
   border-radius: 16px;
 }
 
-.g-root_theme_dark .pc-extended-features__item,
-.g-root_theme_dark .pc-extended-features-item {
+.g-root_theme_dark .pc-ExtendedFeaturesBlock__item {
   background: linear-gradient(160deg, #262b45 0%, #1b2036 100%) !important;
 }
