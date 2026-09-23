@@ -29,64 +29,91 @@ blocks:
        
         fullWidth: false
 
-  - type: card-layout-block
+#  - type: card-layout-block
+#    colSizes:
+#      all: 12
+#      xl: 6
+#      sm: 6
+#      md: 6
+#    children:
+#      - type: basic-card
+#        title:
+#          text: О приложении
+#          textSize: s
+#        text: |
+#          [Начало работы](about.md)
+#
+#          [Основные понятия](concepts.md)
+#
+#          [Практическое руководство](quick_start.md)
+#
+#          [Быстрый старт](quick_start_other.md)
+#
+#          [История изменений](updates.md)
+#
+#          [Типовые ошибки и решения](troubleshooting.md)
+#
+#          [Часто задаваемые вопросы](FAQ.md)
+#
+#      - type: basic-card
+#        title:
+#          text: Оборудование
+#          textSize: s
+#        text: |
+#          [Марки материалов](equipment/material_grades/about.md)
+#
+#          [Сертификаты](equipment/certificates/about.md)
+#
+#          [Модели](equipment/models/about.md)
+#
+#          [Детали](equipment/details/about.md)
+#
+#          [Зарегистрированные изделия](equipment/registered_products/about.md)
+#
+#      - type: basic-card
+#        title:
+#          text: Организация
+#          textSize: s
+#        text: |
+#          [Управление доступом](organization/access_management.md)
+#
+#          [Компания](organization/company.md)
+#
+#          [Биллинг](organization/billing.md)
+#
+#      - type: basic-card
+#        title:
+#          text: Личный кабинет
+#          textSize: s
+#        text: |
+#          [О разделе](account/about.md)
+
+  - type: extended-features-block
     colSizes:
       all: 12
       xl: 6
-      sm: 6
       md: 6
-    children:
-      - type: basic-card
-        title:
-          text: О приложении
-          textSize: s
+    items:
+      - title: 'С чего начать знакомство'
         text: |
-          [Начало работы](about.md)
-
-          [Основные понятия](concepts.md)
-
-          [Практическое руководство](quick_start.md)
-
-          [Быстрый старт](quick_start_other.md)
-
-          [История изменений](updates.md)
-
-          [Типовые ошибки и решения](troubleshooting.md)
-
-          [Часто задаваемые вопросы](FAQ.md)
-
-      - type: basic-card
-        title:
-          text: Оборудование
-          textSize: s
+          Узнайте, как устроена документация QR-Passport: от основных понятий до выпуска готового паспорта изделия.
+        icon:
+          light: './_images/start-flag.svg'
+          dark: './_images/start-flag.svg'
+        buttons:
+          - text: 'Узнать'
+            theme: 'outlined'
+            url: 'about.md'
+      - title: 'Частые вопросы'
         text: |
-          [Марки материалов](equipment/material_grades/about.md)
-
-          [Сертификаты](equipment/certificates/about.md)
-
-          [Модели](equipment/models/about.md)
-
-          [Детали](equipment/details/about.md)
-
-          [Зарегистрированные изделия](equipment/registered_products/about.md)
-
-      - type: basic-card
-        title:
-          text: Организация
-          textSize: s
-        text: |
-          [Управление доступом](organization/access_management.md)
-
-          [Компания](organization/company.md)
-
-          [Биллинг](organization/billing.md)
-
-      - type: basic-card
-        title:
-          text: Личный кабинет
-          textSize: s
-        text: |
-          [О разделе](account/about.md)
+          Типовые ситуации при работе с QR-Passport: от настроек доступа до выпуска паспортов серий изделий.
+        icon:
+          light: './_images/faq-icon.svg'
+          dark: './_images/faq-icon.svg'
+        buttons:
+          - text: 'Открыть FAQ'
+            theme: 'outlined'
+            url: 'FAQ.md'
 
   - type: content-layout-block
     size: s
