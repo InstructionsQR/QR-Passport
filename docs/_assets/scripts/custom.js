@@ -37,7 +37,7 @@
   observer.observe(panel, { childList: true, subtree: true });
 })();
 
-// ===== Поддержка: плавающая кнопка =====
+// ===== Поддержка =====
 (function () {
   function init() {
     var root = document.createElement('div');
