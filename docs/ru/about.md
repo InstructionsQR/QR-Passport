@@ -12,7 +12,7 @@
 
 {% endnote %}
 
-{% note info "Трубопроводная арматура" %}
+## Трубопроводная арматура
 
 Чтобы выпустить паспорт на трубопроводную арматуру:
 
@@ -24,11 +24,15 @@
 6. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
 7. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
 
+{% note info "Примечания" %}
+
 Пошаговый пример – в **[Практическом руководстве](quick_start.md)**.
 
 {% endnote %}
 
-{% note info "Пневмоприводы, электроприводы и другое оборудование" %}
+---
+
+## Пневмоприводы, электроприводы и другое оборудование
 
 Для остального оборудования путь короче:
 
@@ -37,10 +41,11 @@
 3. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
 4. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
 
+{% note info "Примечания" %}
+
 Пошаговый пример – в разделе **[Быстрый старт](quick_start_other.md)**.
 
 {% endnote %}
-
 
 
 
