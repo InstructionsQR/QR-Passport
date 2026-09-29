@@ -10,22 +10,24 @@
 
 Чтобы выпустить паспорт **трубопроводной арматуры**:
 
-1. **Добавьте марку материала** – химический состав и механические свойства
-2. **Добавьте сертификат** – с партией/плавкой
-3. **Создайте деталь** – она свяжет модель с материалом
-4. **Создайте модель**
-5. **Настройте шаблон паспорта**
-6. **Зарегистрируйте изделие**
-7. **Скачайте паспорт и QR-код**
+1. [**Добавьте марку материала**](https://docs.qrpassport.tech/ru/equipment/material_grades/about.html#sozdanie-marki-materiala) – химический состав и механические свойства
+2. [**Добавьте сертификат**](https://docs.qrpassport.tech/ru/equipment/certificates/about.html#sozdanie-sertifikata) – с партией/плавкой
+3. [**Создайте деталь**](https://docs.qrpassport.tech/ru/equipment/details/about.html#sozdanie-detali) – она свяжет модель с материалом
+4. [**Создайте модель**](https://docs.qrpassport.tech/ru/equipment/models/create_model.html#forma-sozdaniya-modeli)
+5. [**Настройте шаблон паспорта**](https://docs.qrpassport.tech/ru/equipment/models/templates.html#dobavlenie-shablona)
+6. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
+7. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
 
 Пошаговый пример – в **[Практическом руководстве](quick_start.md)**.
 
+---
+
 Для **пневмоприводов**, **электроприводов** и **другого оборудования** путь короче:
 
-1. **Создайте модель**
-2. **Настройте шаблон паспорта**
-3. **Зарегистрируйте изделие**
-4. **Скачайте паспорт и QR-код**
+1. [**Создайте модель**](https://docs.qrpassport.tech/ru/equipment/models/create_model.html#forma-sozdaniya-modeli)
+2. [**Настройте шаблон паспорта**](https://docs.qrpassport.tech/ru/equipment/models/templates.html#dobavlenie-shablona)
+3. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
+4. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
 
 Пошаговый пример – в разделе **[Быстрый старт](quick_start_other.md)**.
 
