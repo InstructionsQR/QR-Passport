@@ -10,9 +10,30 @@ type Finding = {
 };
 
 function extractJson(text: string): Finding[] {
-  const cleaned = text.trim().replace(/^\`\`\`json\s*/i, "").replace(/\`\`\`$/i, "").trim();
+  const cleaned = text
+    .trim()
+    .replace(/^\`\`\`json\s*/i, "")
+    .replace(/\`\`\`$/i, "")
+    .trim();
+
   const parsed = JSON.parse(cleaned);
   return Array.isArray(parsed) ? parsed : parsed.findings ?? [];
+}
+
+function extractOutputText(data: any): string | null {
+  if (typeof data?.output_text === "string") {
+    return data.output_text;
+  }
+
+  const text = data?.output
+    ?.filter((item: any) => item?.type === "message")
+    ?.flatMap((item: any) => item?.content ?? [])
+    ?.filter((part: any) => part?.type === "output_text")
+    ?.map((part: any) => part?.text)
+    ?.filter((value: any) => typeof value === "string")
+    ?.join("");
+
+  return text || null;
 }
 
 export async function POST(request: NextRequest) {
@@ -86,8 +107,8 @@ ${content}
       );
     }
 
-    const output = data.output_text;
-    if (typeof output !== "string") {
+    const output = extractOutputText(data);
+    if (!output) {
       return NextResponse.json({ error: "OpenAI не вернул текст результата." }, { status: 502 });
     }
 
