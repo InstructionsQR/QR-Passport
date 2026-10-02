@@ -1,10 +1,25 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { AlertCircle, ArrowLeft, FileText, GitBranch, LoaderCircle, Search, Sparkles } from "lucide-react";
+import { AlertCircle, ArrowLeft, Check, FileText, GitBranch, LoaderCircle, Search, Sparkles, X } from "lucide-react";
 import Link from "next/link";
 
 type DocFile = { path: string; name: string; title: string };
+type Finding = {
+  category: "error" | "style" | "terminology" | "suggestion";
+  severity: "high" | "medium" | "low";
+  title: string;
+  original: string;
+  suggestion: string;
+  explanation: string;
+};
+
+const categoryLabels = {
+  error: "Ошибка",
+  style: "Стиль",
+  terminology: "Терминология",
+  suggestion: "Предложение",
+};
 
 export default function DocumentationPage() {
   const [files, setFiles] = useState<DocFile[]>([]);
@@ -12,8 +27,11 @@ export default function DocumentationPage() {
   const [content, setContent] = useState("");
   const [loadingTree, setLoadingTree] = useState(true);
   const [loadingFile, setLoadingFile] = useState(false);
+  const [checking, setChecking] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
+  const [findings, setFindings] = useState<Finding[]>([]);
+  const [decision, setDecision] = useState<Record<number, "accepted" | "rejected">>({});
 
   useEffect(() => {
     fetch("/api/docs/tree")
@@ -34,6 +52,8 @@ export default function DocumentationPage() {
     if (!selected) return;
     setLoadingFile(true);
     setError("");
+    setFindings([]);
+    setDecision({});
     fetch("/api/docs/file?path=" + encodeURIComponent(selected))
       .then(async (r) => {
         const data = await r.json();
@@ -44,6 +64,27 @@ export default function DocumentationPage() {
       .catch((e) => setError(e.message))
       .finally(() => setLoadingFile(false));
   }, [selected]);
+
+  const checkPage = async () => {
+    setChecking(true);
+    setError("");
+    setFindings([]);
+    setDecision({});
+    try {
+      const response = await fetch("/api/ai/review", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Не удалось проверить страницу");
+      setFindings(data.findings || []);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Не удалось проверить страницу");
+    } finally {
+      setChecking(false);
+    }
+  };
 
   const visible = useMemo(
     () => files.filter((f) => f.path.toLowerCase().includes(query.toLowerCase())),
@@ -63,7 +104,7 @@ export default function DocumentationPage() {
 
       {error && <div className="docs-error"><AlertCircle />{error}</div>}
 
-      <div className="docs-workspace">
+      <div className={findings.length ? "docs-workspace with-review" : "docs-workspace"}>
         <aside className="docs-tree">
           <div className="tree-title"><b>docs/ru</b><span>{files.length}</span></div>
           <div className="search"><Search /><input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Найти страницу" /></div>
@@ -87,7 +128,10 @@ export default function DocumentationPage() {
             <>
               <div className="doc-head">
                 <div><span className="doc-path">{selected}</span><h2>{files.find((f) => f.path === selected)?.title}</h2></div>
-                <button className="ai-button" disabled title="Подключим на следующем этапе"><Sparkles /> Проверить страницу</button>
+                <button className="ai-button" onClick={checkPage} disabled={checking}>
+                  {checking ? <LoaderCircle className="spin" /> : <Sparkles />}
+                  {checking ? "Проверяем…" : "Проверить страницу"}
+                </button>
               </div>
               <pre className="markdown">{content}</pre>
             </>
@@ -95,6 +139,48 @@ export default function DocumentationPage() {
             <div className="empty">Выберите страницу слева.</div>
           )}
         </section>
+
+        {findings.length > 0 && (
+          <aside className="review-panel">
+            <div className="review-head">
+              <div><b>Проверка AI</b><span>{findings.length} замеч.</span></div>
+              <button className="close-review" onClick={() => setFindings([])} aria-label="Закрыть"><X /></button>
+            </div>
+            <div className="review-list">
+              {findings.map((finding, index) => {
+                const state = decision[index];
+                return (
+                  <article className={`finding ${state || ""}`} key={index}>
+                    <div className="finding-meta">
+                      <span className={`finding-category ${finding.category}`}>{categoryLabels[finding.category]}</span>
+                      <span>{finding.severity}</span>
+                    </div>
+                    <h3>{finding.title}</h3>
+                    <div className="finding-original">{finding.original}</div>
+                    <div className="finding-suggestion"><span>→</span>{finding.suggestion}</div>
+                    <p>{finding.explanation}</p>
+                    {!state ? (
+                      <div className="finding-actions">
+                        <button onClick={() => setDecision((d) => ({ ...d, [index]: "accepted" }))}><Check /> Принять</button>
+                        <button onClick={() => setDecision((d) => ({ ...d, [index]: "rejected" }))}><X /> Отклонить</button>
+                      </div>
+                    ) : (
+                      <div className="decision">{state === "accepted" ? "Принято" : "Отклонено"}</div>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </aside>
+        )}
+
+        {!findings.length && !checking && selected && (
+          <aside className="review-placeholder">
+            <Sparkles />
+            <b>Проверка AI</b>
+            <p>Нажмите «Проверить страницу», чтобы найти ошибки, стилистические проблемы и спорные формулировки.</p>
+          </aside>
+        )}
       </div>
     </main>
   );
