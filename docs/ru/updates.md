@@ -28,7 +28,7 @@
 
 {% endcut %}
 
-{% cut "_Шаблон паспорта электропривода_" %}
+{% cut "_Шаблон паспорта электропривода_" %} 
 
 **Новое.** Добавлен отраслевой шаблон [«Паспорт электропривода (РФ)»](https://docs.qrpassport.tech/ru/equipment/models/templates/electric_drives.html) по ГОСТ 34610-2019 и ГОСТ Р 2.610-2019. Шаблон можно выбрать при [создании модели](equipment/models/create_model.md).
 
