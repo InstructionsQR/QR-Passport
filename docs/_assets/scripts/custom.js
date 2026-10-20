@@ -378,3 +378,16 @@
     init();
   }
 })();
+
+// ===== Цель Метрики: скачивание PDF =====
+(function () {
+  var PDF_SELECTOR = '.pdf-dl-btn, a[href$=".pdf"], a[href*="print"], [aria-label*="PDF"], [title*="PDF"], [class*="pdf"]';
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest(PDF_SELECTOR);
+    if (!btn) return;
+    if (typeof ym === 'function') {
+      ym(111923254, 'reachGoal', 'docs_pdf_download', { page: window.location.pathname });
+      console.log('Метрика: цель PDF отправлена');
+    }
+  }, true);
+})();
