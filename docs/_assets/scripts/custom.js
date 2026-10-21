@@ -401,3 +401,68 @@ document.addEventListener('click', function (e) {
     console.log('Метрика: цель support_open отправлена');
   }
 }, true);
+
+// ===== Цель: переход в приложение (docs_goto_app) =====
+document.addEventListener('click', function (e) {
+  var link = e.target.closest && e.target.closest('a[href*="app.qrpassport.tech"]');
+  if (!link) return;
+  if (typeof ym === 'function') {
+    ym(111923254, 'reachGoal', 'docs_goto_app', { page: location.pathname, href: link.getAttribute('href') });
+    console.log('Метрика: цель goto_app отправлена');
+  }
+}, true);
+
+// ===== Цель: пустой результат поиска (docs_search_noresult) =====
+(function () {
+  var lastQuery = '';
+  var timer = null;
+
+  function checkSearch() {
+    var input = document.querySelector('input[placeholder*="Поиск"], input[type="search"], [class*="search"] input');
+    if (!input) return;
+    var q = input.value.trim();
+    if (q.length < 3 || q === lastQuery) return;
+
+    var emptyMark = Array.prototype.some.call(
+      document.querySelectorAll('[class*="search"] *'),
+      function (n) {
+        return n.children.length === 0 && /ничего не найдено|не найдено|нет результатов|no results/i.test(n.textContent || '');
+      }
+    );
+    var results = document.querySelectorAll('[class*="search"] li a, [class*="search-result"] a');
+
+    if (emptyMark || results.length === 0) {
+      lastQuery = q;
+      if (typeof ym === 'function') {
+        ym(111923254, 'reachGoal', 'docs_search_noresult', { query: q, page: location.pathname });
+        console.log('Метрика: цель search_noresult отправлена, запрос: ' + q);
+      }
+    }
+  }
+
+  document.addEventListener('input', function (e) {
+    if (!e.target.closest || !e.target.closest('[class*="search"], header')) return;
+    clearTimeout(timer);
+    timer = setTimeout(checkSearch, 900);
+  }, true);
+})();
+
+// ===== Цель: дочитали страницу до конца (docs_scroll_bottom) =====
+(function () {
+  var sent = false;
+  function onScroll() {
+    if (sent) return;
+    var doc = document.documentElement;
+    // короткие страницы, которые и так видны целиком, не считаем
+    if (doc.scrollHeight <= window.innerHeight + 150) return;
+    if (window.scrollY + window.innerHeight >= doc.scrollHeight - 120) {
+      sent = true;
+      if (typeof ym === 'function') {
+        ym(111923254, 'reachGoal', 'docs_scroll_bottom', { page: location.pathname });
+        console.log('Метрика: цель scroll_bottom отправлена');
+      }
+      window.removeEventListener('scroll', onScroll);
+    }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+})();
