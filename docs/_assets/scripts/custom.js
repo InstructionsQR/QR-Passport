@@ -417,33 +417,38 @@ document.addEventListener('click', function (e) {
   var lastQuery = '';
   var timer = null;
 
-  function checkSearch() {
-    var input = document.querySelector('input[placeholder*="Поиск"], input[type="search"], [class*="search"] input');
-    if (!input) return;
-    var q = input.value.trim();
-    if (q.length < 3 || q === lastQuery) return;
+  function trySend() {
+    // фраза пустой выдачи видна на экране: в дропдауне или на странице результатов
+    if (!/ничего не найдено/i.test(document.body.innerText)) return;
 
-    var emptyMark = Array.prototype.some.call(
-      document.querySelectorAll('[class*="search"] *'),
-      function (n) {
-        return n.children.length === 0 && /ничего не найдено|не найдено|нет результатов|no results/i.test(n.textContent || '');
-      }
-    );
-    var results = document.querySelectorAll('[class*="search"] li a, [class*="search-result"] a');
+    // запрос берём из заполненного поля поиска или из адресной строки
+    var q = '';
+    var inputs = document.querySelectorAll('input');
+    for (var i = 0; i < inputs.length; i++) {
+      if (inputs[i].value && inputs[i].value.trim()) { q = inputs[i].value.trim(); break; }
+    }
+    if (!q) {
+      var m = location.search.match(/[?&](?:query|q|text)=([^&]+)/);
+      if (m) q = decodeURIComponent(m[1].replace(/\+/g, ' '));
+    }
+    if (!q || q === lastQuery) return;
+    lastQuery = q;
 
-    if (emptyMark || results.length === 0) {
-      lastQuery = q;
-      if (typeof ym === 'function') {
-        ym(111923254, 'reachGoal', 'docs_search_noresult', { query: q, page: location.pathname });
-        console.log('Метрика: цель search_noresult отправлена, запрос: ' + q);
-      }
+    if (typeof ym === 'function') {
+      ym(111923254, 'reachGoal', 'docs_search_noresult', { query: q, page: location.pathname });
+      console.log('Метрика: цель search_noresult отправлена, запрос: ' + q);
     }
   }
 
+  // случай 1: страница загрузилась уже с пустой выдачей (поиск через «Найти»)
+  if (document.readyState === 'complete') trySend();
+  else window.addEventListener('load', trySend);
+
+  // случай 2: живой выпадающий список – проверяем после паузы в наборе
   document.addEventListener('input', function (e) {
-    if (!e.target.closest || !e.target.closest('[class*="search"], header')) return;
+    if (!e.target || e.target.tagName !== 'INPUT') return;
     clearTimeout(timer);
-    timer = setTimeout(checkSearch, 900);
+    timer = setTimeout(trySend, 900);
   }, true);
 })();
 
