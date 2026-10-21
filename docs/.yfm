@@ -3,6 +3,7 @@ allowHtml: true
 analytics:
   metrika:
     - id: 111923254
+      webvisor: true
 
 langs: ['ru', 'en']
 
