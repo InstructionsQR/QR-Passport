@@ -391,3 +391,13 @@
     }
   }, true);
 })();
+
+// ===== Цель Метрики: клик по кнопке технической поддержки =====
+document.addEventListener('click', function (e) {
+  var btn = e.target.closest && e.target.closest('.support-widget__btn');
+  if (!btn) return;
+  if (typeof ym === 'function') {
+    ym(111923254, 'reachGoal', 'docs_support_open', { page: window.location.pathname });
+    console.log('Метрика: цель support_open отправлена');
+  }
+}, true);
