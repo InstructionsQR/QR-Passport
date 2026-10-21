@@ -414,25 +414,32 @@ document.addEventListener('click', function (e) {
 
 // ===== Цель: пустой результат поиска (docs_search_noresult) =====
 (function () {
-  var lastQuery = '';
-  var timer = null;
+  var sent = {};
 
-  function trySend() {
-    // фраза пустой выдачи видна на экране: в дропдауне или на странице результатов
-    if (!/ничего не найдено/i.test(document.body.innerText)) return;
-
-    // запрос берём из заполненного поля поиска или из адресной строки
-    var q = '';
+  function extractQuery(markerText) {
+    var m = markerText.match(/«([^»]+)»/);
+    if (m) return m[1].trim();
     var inputs = document.querySelectorAll('input');
     for (var i = 0; i < inputs.length; i++) {
-      if (inputs[i].value && inputs[i].value.trim()) { q = inputs[i].value.trim(); break; }
+      if (inputs[i].value && inputs[i].value.trim()) return inputs[i].value.trim();
     }
-    if (!q) {
-      var m = location.search.match(/[?&](?:query|q|text)=([^&]+)/);
-      if (m) q = decodeURIComponent(m[1].replace(/\+/g, ' '));
+    var u = location.search.match(/[?&](?:query|q|text)=([^&]+)/);
+    return u ? decodeURIComponent(u[1].replace(/\+/g, ' ')) : '';
+  }
+
+  function trySend() {
+    // ищем самый вложенный узел с текстом «ничего не найдено»
+    var nodes = document.querySelectorAll('body *');
+    var marker = null;
+    for (var i = 0; i < nodes.length; i++) {
+      var t = nodes[i].textContent || '';
+      if (t.length < 200 && /ничего не найдено/i.test(t)) marker = nodes[i];
     }
-    if (!q || q === lastQuery) return;
-    lastQuery = q;
+    if (!marker) return;
+
+    var q = extractQuery(marker.textContent || '');
+    if (!q || sent[q]) return;
+    sent[q] = true;
 
     if (typeof ym === 'function') {
       ym(111923254, 'reachGoal', 'docs_search_noresult', { query: q, page: location.pathname });
@@ -440,16 +447,18 @@ document.addEventListener('click', function (e) {
     }
   }
 
-  // случай 1: страница загрузилась уже с пустой выдачей (поиск через «Найти»)
-  if (document.readyState === 'complete') trySend();
-  else window.addEventListener('load', trySend);
+  // выпадающая подсказка появляется без перезагрузки – наблюдаем за DOM
+  if (typeof MutationObserver !== 'undefined') {
+    var t = null;
+    new MutationObserver(function () {
+      clearTimeout(t);
+      t = setTimeout(trySend, 300);
+    }).observe(document.body, { childList: true, subtree: true });
+  }
 
-  // случай 2: живой выпадающий список – проверяем после паузы в наборе
-  document.addEventListener('input', function (e) {
-    if (!e.target || e.target.tagName !== 'INPUT') return;
-    clearTimeout(timer);
-    timer = setTimeout(trySend, 900);
-  }, true);
+  // отдельная страница результатов – проверяем после загрузки
+  if (document.readyState === 'complete') setTimeout(trySend, 300);
+  else window.addEventListener('load', function () { setTimeout(trySend, 300); });
 })();
 
 // ===== Цель: дочитали страницу до конца (docs_scroll_bottom) =====
