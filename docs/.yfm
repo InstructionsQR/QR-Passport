@@ -31,3 +31,7 @@ resources:
 
 pdf:
   enabled: true
+
+meta:
+  - name: yandex-verification
+    content: f2298383a0d60797
