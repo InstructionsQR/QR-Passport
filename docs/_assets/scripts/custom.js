@@ -480,3 +480,25 @@ document.addEventListener('click', function (e) {
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 })();
+
+// ===== Цель Метрики: клик по мессенджеру в меню поддержки =====
+document.addEventListener('click', function (e) {
+  // ищем клик по плашке мессенджера внутри меню поддержки
+  var link = e.target.closest && e.target.closest('.support-widget a, .support-widget__popup a, .support-widget__menu a');
+  if (!link) return;
+  
+  // определяем, какой мессенджер выбран
+  var messenger = 'unknown';
+  var text = link.textContent.toLowerCase();
+  if (text.includes('email') || text.includes('почта')) messenger = 'email';
+  else if (text.includes('max') || text.includes('макс')) messenger = 'max';
+  else if (text.includes('telegram') || text.includes('телеграм')) messenger = 'telegram';
+  
+  if (typeof ym === 'function') {
+    ym(111923254, 'reachGoal', 'docs_messenger_click', { 
+      messenger: messenger, 
+      page: location.pathname 
+    });
+    console.log('Метрика: цель messenger_click отправлена, мессенджер: ' + messenger);
+  }
+}, true);
