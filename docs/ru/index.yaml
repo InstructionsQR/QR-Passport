@@ -1,3 +1,7 @@
+meta:
+  - name: yandex-verification
+    content: f2298383a0d60797
+
 blocks:
   - type: header-block
     title: Инструкция пользователя QR-Passport
