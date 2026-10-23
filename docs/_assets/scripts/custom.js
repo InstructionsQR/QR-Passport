@@ -503,9 +503,22 @@ document.addEventListener('click', function (e) {
   }
 }, true);
 
+
 // ===== Умный локальный поиск по документации =====
 (function () {
-  var sentQueries = {}; // чтобы не слать цель на каждое нажатие клавиши
+  var COUNTER_ID = 111923254;
+  var sentQueries = {}; // чтобы не слать одну цель на каждое нажатие клавиши
+
+  // Отправка цели в Метрику + лог в консоль для проверки
+  function sendGoal(name, params) {
+    console.log('Метрика: цель ' + name + ' отправлена' +
+      (params && params.query ? ', запрос: ' + params.query : '') +
+      (params && params.results ? ', результатов: ' + params.results : '') +
+      (params && params.section ? ', раздел: ' + params.section : ''));
+    if (typeof ym === 'function') {
+      ym(COUNTER_ID, 'reachGoal', name, params);
+    }
+  }
 
   var INDEX = [
     { title: 'Начало работы', keywords: ['начало', 'старт', 'знакомство', 'структура', 'новичок', 'введение', 'первый раз', 'с чего начать'], desc: 'Как устроена документация QR-Passport, с чего начать знакомство с системой.', url: '/ru/about.html' },
@@ -618,10 +631,9 @@ document.addEventListener('click', function (e) {
         if (top.length === 0) {
           status.textContent = 'Ничего не найдено. Попробуйте другие слова.';
           results.innerHTML = '';
-          // Метрика: запрос без результата (один раз на уникальный запрос)
-          if (typeof ym === 'function' && !sentQueries['no:' + q]) {
+          if (!sentQueries['no:' + q]) {
             sentQueries['no:' + q] = true;
-            ym(111923254, 'reachGoal', 'smart_search_noresult', { query: q });
+            sendGoal('smart_search_noresult', { query: q });
           }
           return;
         }
@@ -633,24 +645,22 @@ document.addEventListener('click', function (e) {
             '<div class="ai-search-score">релевантность ' + r.score + '</div>' +
             '</a>';
         }).join('');
-        // Метрика: запрос с результатом (один раз на уникальный запрос)
-        if (typeof ym === 'function' && !sentQueries['ok:' + q]) {
+        if (!sentQueries['ok:' + q]) {
           sentQueries['ok:' + q] = true;
-          ym(111923254, 'reachGoal', 'smart_search_query', { query: q, results: top.length });
+          sendGoal('smart_search_query', { query: q, results: top.length });
         }
       }, 300);
     });
 
-    // Метрика: клик по результату (делегирование — работает для всех динамически созданных ссылок)
+    // Метрика: клик по результату (делегирование – ссылки создаются динамически)
     results.addEventListener('click', function (e) {
       var link = e.target.closest ? e.target.closest('.ai-search-item') : null;
-      if (link && typeof ym === 'function') {
-        var titleEl = link.querySelector('.ai-search-title');
-        ym(111923254, 'reachGoal', 'smart_search_click', {
-          query: input.value.trim(),
-          section: titleEl ? titleEl.textContent : ''
-        });
-      }
+      if (!link) return;
+      var titleEl = link.querySelector('.ai-search-title');
+      sendGoal('smart_search_click', {
+        query: input.value.trim(),
+        section: titleEl ? titleEl.textContent : ''
+      });
     });
 
     window._aiSearchOverlay = overlay;
@@ -662,10 +672,7 @@ document.addEventListener('click', function (e) {
     setTimeout(function () {
       window._aiSearchOverlay.querySelector('input').focus();
     }, 50);
-    // Метрика: открытие умного поиска
-    if (typeof ym === 'function') {
-      ym(111923254, 'reachGoal', 'smart_search_open');
-    }
+    sendGoal('smart_search_open');
   }
 
   // === Кнопка в панели управления ===
