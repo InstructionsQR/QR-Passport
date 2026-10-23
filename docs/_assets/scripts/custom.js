@@ -766,3 +766,44 @@ document.addEventListener('click', function (e) {
   // Страховка: раз в секунду проверяем, что кнопка на месте
   setInterval(attachObserver, 1000);
 })();
+
+
+// ===== Название вкладки = название раздела =====
+(function () {
+  function clean(s) {
+    return (s || '').replace(/\s+/g, ' ').trim();
+  }
+
+  function sectionName() {
+    // 1. Последний пункт хлебных крошек (например, «Начало работы»)
+    var bc = document.querySelector('.dc-breadcrumbs, [class*="breadcrumbs"]');
+    if (bc) {
+      var nodes = bc.querySelectorAll('a, span, li');
+      for (var i = nodes.length - 1; i >= 0; i--) {
+        var t = clean(nodes[i].textContent);
+        if (t && t !== '/' && t.length < 100) return t;
+      }
+    }
+    // 2. Если крошек нет – берём заголовок страницы
+    var h1 = document.querySelector('h1');
+    if (h1) {
+      var t2 = clean(h1.textContent);
+      if (t2) return t2;
+    }
+    return null;
+  }
+
+  function apply() {
+    var name = sectionName();
+    if (!name) return;
+    // Если хотите в вкладке ещё и продукт, раскомментируйте строку ниже:
+    // document.title = name + ' – QR-Passport';
+    document.title = name;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', apply);
+  } else {
+    apply();
+  }
+})();
