@@ -587,3 +587,203 @@ img[src*="products_qr_phone"] {
   background: rgba(255, 255, 255, 0.06) !important;
   border-color: #7b86ff;
 }
+
+/* ===== Кнопка «Умный поиск» в панели управления ===== */
+.ai-search-btn {
+  text-decoration: none !important;
+  margin-left: -6px;
+  position: relative;
+}
+
+.ai-search-btn.ai-search-vertical {
+  margin-left: 0;
+}
+
+/* горизонтальная панель: подпись внизу кнопки */
+.ai-search-btn::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: calc(100% + 6px) !important;
+  right: 0 !important;
+  left: auto !important;
+  bottom: auto !important;
+  transform: none !important;
+  width: max-content;
+  min-width: 90px;
+  padding: 6px 12px;
+  background: #ffffff;
+  color: #1a1a1a;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1001;
+  pointer-events: none;
+  text-align: center;
+}
+
+/* вертикальная панель: подпись слева от кнопки */
+.ai-search-btn.ai-search-vertical::after {
+  top: 50% !important;
+  right: calc(100% + 8px) !important;
+  transform: translateY(-50%) !important;
+}
+
+.ai-search-btn:hover::after {
+  opacity: 1;
+  visibility: visible;
+}
+
+.g-root_theme_dark .ai-search-btn::after {
+  background: #2b3145;
+  color: #f4f5fd;
+  border-color: #4a5580;
+}
+
+@media (max-width: 900px) {
+  .ai-search-btn {
+    display: none !important;
+  }
+}
+
+@media print {
+  .ai-search-btn {
+    display: none !important;
+  }
+}
+
+/* Страховка: кнопка всегда видима в панели */
+.dc-controls .ai-search-btn {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Принудительно показываем кнопку умного поиска в панели */
+.dc-controls .ai-search-btn.ai-search-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== Модальное окно умного поиска ===== */
+.ai-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  z-index: 10000;
+}
+.ai-search-overlay.open {
+  display: flex;
+}
+.ai-search-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 640px;
+  max-width: 92vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+.ai-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.ai-search-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+.ai-search-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+.ai-search-hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.ai-search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e6e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+.ai-search-input:focus {
+  outline: none;
+  border-color: #5460d4;
+}
+.ai-search-status {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 8px 0;
+  min-height: 16px;
+}
+.ai-search-item {
+  display: block;
+  padding: 12px;
+  border: 1px solid #e6e7eb;
+  border-radius: 10px;
+  margin-bottom: 8px;
+  text-decoration: none;
+  color: inherit;
+}
+.ai-search-item:hover {
+  border-color: #5460d4;
+  background: rgba(84, 96, 212, 0.04);
+}
+.ai-search-title {
+  font-weight: 600;
+  color: #5460d4;
+  margin-bottom: 4px;
+}
+.ai-search-desc {
+  font-size: 13px;
+  color: #374151;
+}
+.ai-search-score {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* тёмная тема */
+.g-root_theme_dark .ai-search-modal {
+  background: #2b3145;
+}
+.g-root_theme_dark .ai-search-header h3 {
+  color: #f4f5fd;
+}
+.g-root_theme_dark .ai-search-close {
+  color: #cbd2e8;
+}
+.g-root_theme_dark .ai-search-hint,
+.g-root_theme_dark .ai-search-status {
+  color: #9aa5c4;
+}
+.g-root_theme_dark .ai-search-input {
+  background: #1f2436;
+  border-color: #4a5580;
+  color: #f4f5fd;
+}
+.g-root_theme_dark .ai-search-item {
+  border-color: #4a5580;
+}
+.g-root_theme_dark .ai-search-desc {
+  color: #cbd2e8;
+}

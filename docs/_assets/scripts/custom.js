@@ -502,3 +502,200 @@ document.addEventListener('click', function (e) {
     console.log('Метрика: цель messenger_click отправлена, мессенджер: ' + messenger);
   }
 }, true);
+
+// ===== Умный локальный поиск по документации =====
+(function () {
+  var INDEX = [
+    { title: 'Начало работы', keywords: ['начало', 'старт', 'знакомство', 'структура', 'новичок', 'введение', 'первый раз', 'с чего начать'], desc: 'Как устроена документация QR-Passport, с чего начать знакомство с системой.', url: '/ru/about.html' },
+    { title: 'Основные понятия', keywords: ['понятия', 'термины', 'определения', 'марка', 'сертификат', 'деталь', 'модель', 'шаблон', 'изделие', 'что такое'], desc: 'Марка материала, сертификат, деталь, модель, шаблон паспорта, изделие – ключевые термины системы.', url: '/ru/concepts.html' },
+    { title: 'Практическое руководство', keywords: ['практика', 'руководство', 'инструкция', 'пошагово', 'арматура', 'трубопровод', 'выпуск', 'passport', 'qr-код', 'как сделать', 'как создать'], desc: 'Пошаговая инструкция по выпуску паспорта трубопроводной арматуры.', url: '/ru/quick_start.html' },
+    { title: 'Быстрый старт (другое оборудование)', keywords: ['быстрый', 'пневмопривод', 'электропривод', 'другое', 'упрощенный', 'без сертификатов'], desc: 'Выпуск паспорта пневмопривода, электропривода и другого оборудования.', url: '/ru/quick_start_other.html' },
+    { title: 'Марки материалов', keywords: ['марка', 'материал', 'химический', 'состав', 'механический', 'свойства', 'сталь', 'сплав'], desc: 'Создание марки материала с химическим составом и механическими свойствами.', url: '/ru/equipment/material_grades/about.html' },
+    { title: 'Сертификаты', keywords: ['сертификат', 'партия', 'плавка', 'качество', 'подтверждение', 'измерения', 'свойства'], desc: 'Добавление сертификата с партией или плавкой материала.', url: '/ru/equipment/certificates/about.html' },
+    { title: 'Детали', keywords: ['деталь', 'составная', 'часть', 'изделие', 'связь', 'марка'], desc: 'Создание детали – составной части изделия.', url: '/ru/equipment/details/about.html' },
+    { title: 'Создание модели', keywords: ['модель', 'группа', 'однотипные', 'изделия', 'создать', 'форму', 'шаблон'], desc: 'Описание группы однотипных изделий, форма создания модели.', url: '/ru/equipment/models/create_model.html' },
+    { title: 'Шаблоны паспорта', keywords: ['шаблон', 'настройка', 'поля', 'разделы', 'блоки', 'структура', 'passport'], desc: 'Настройка шаблона: обязательные поля, разделы, включение и отключение блоков.', url: '/ru/equipment/models/templates.html' },
+    { title: 'AI-помощник', keywords: ['ai', 'ии', 'помощник', 'распознавание', 'автоматическое', 'заполнение', 'умный', 'ocr'], desc: 'Распознавание данных из готового технического паспорта и автоматическое заполнение.', url: '/ru/equipment/models/templates.html#ai' },
+    { title: 'Регистрация изделия', keywords: ['регистрация', 'изделие', 'выпуск', 'qr-код', 'код', 'продукция', 'цифровой'], desc: 'Выпуск паспорта изделия и генерация QR-кода.', url: '/ru/equipment/registered_products/about.html' },
+    { title: 'Биллинг', keywords: ['биллинг', 'тариф', 'баланс', 'оплата', 'пополнение', 'счет', 'акт', 'деньги', 'цена'], desc: 'Тарифные планы, баланс, пополнение счёта, закрывающие документы.', url: '/ru/billing.html' },
+    { title: 'Часто задаваемые вопросы', keywords: ['faq', 'вопросы', 'ответы', 'помощь', 'справка', 'часто'], desc: 'Ответы на типовые вопросы.', url: '/ru/FAQ.html' },
+    { title: 'Типовые ошибки', keywords: ['ошибки', 'troubleshooting', 'проблемы', 'не работает', 'решение', 'исправление'], desc: 'Решения частых проблем при работе с системой.', url: '/ru/troubleshooting.html' }
+  ];
+
+  var SYNONYMS = {
+    'паспорт': ['паспорт', 'документ', 'certificate'],
+    'создать': ['создать', 'сделать', 'добавить', 'завести', 'выпустить', 'оформить'],
+    'модель': ['модель', 'группа', 'тип'],
+    'материал': ['материал', 'сырье', 'сплав', 'сталь'],
+    'качество': ['качество', 'сертификат', 'подтверждение', 'партия'],
+    'qr': ['qr', 'код', 'qr-код', 'qrкод'],
+    'ошибка': ['ошибка', 'проблема', 'не работает', 'сбой', 'troubleshooting'],
+    'цена': ['цена', 'стоимость', 'тариф', 'оплата', 'биллинг', 'деньги']
+  };
+
+  function normalize(text) {
+    return text.toLowerCase().replace(/ё/g, 'е').replace(/[^\wа-яё\s]/gi, ' ').trim();
+  }
+
+  function expandQuery(query) {
+    var words = normalize(query).split(/\s+/).filter(function (w) { return w.length >= 2; });
+    var expanded = [];
+    words.forEach(function (w) {
+      expanded.push(w);
+      Object.keys(SYNONYMS).forEach(function (key) {
+        if (SYNONYMS[key].indexOf(w) !== -1) {
+          SYNONYMS[key].forEach(function (s) {
+            if (expanded.indexOf(s) === -1) expanded.push(s);
+          });
+        }
+      });
+    });
+    return expanded;
+  }
+
+  function search(query) {
+    var terms = expandQuery(query);
+    var scored = INDEX.map(function (item) {
+      var score = 0;
+      var text = normalize(item.title + ' ' + item.keywords.join(' ') + ' ' + item.desc);
+      terms.forEach(function (term) {
+        if (normalize(item.title).indexOf(term) !== -1) score += 10;
+        if (item.keywords.indexOf(term) !== -1) score += 5;
+        if (text.indexOf(term) !== -1) score += 2;
+        if (term.length >= 3 && text.indexOf(term.slice(0, 3)) !== -1) score += 1;
+      });
+      return { item: item, score: score };
+    });
+    scored.sort(function (a, b) { return b.score - a.score; });
+    return scored.filter(function (r) { return r.score > 0; }).slice(0, 5);
+  }
+
+  // === Модальное окно поиска ===
+  var overlayBuilt = false;
+  function ensureOverlay() {
+    if (overlayBuilt) return;
+    overlayBuilt = true;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'ai-search-overlay';
+    overlay.innerHTML =
+      '<div class="ai-search-modal">' +
+      '  <div class="ai-search-header"><h3>Поиск по документации</h3><button class="ai-search-close" type="button">✕</button></div>' +
+      '  <div class="ai-search-hint">Введите вопрос – поиск найдёт разделы по смыслу и синонимам.</div>' +
+      '  <input type="text" class="ai-search-input" placeholder="Например: как создать паспорт?">' +
+      '  <div class="ai-search-status">Готов к работе</div>' +
+      '  <div class="ai-search-results"></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    var input = overlay.querySelector('input');
+    var status = overlay.querySelector('.ai-search-status');
+    var results = overlay.querySelector('.ai-search-results');
+    var timer = null;
+
+    overlay.querySelector('.ai-search-close').addEventListener('click', function () {
+      overlay.classList.remove('open');
+    });
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') overlay.classList.remove('open');
+    });
+
+    input.addEventListener('input', function () {
+      var q = input.value.trim();
+      if (q.length < 2) {
+        results.innerHTML = '';
+        status.textContent = 'Готов к работе';
+        return;
+      }
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        var top = search(q);
+        if (top.length === 0) {
+          status.textContent = 'Ничего не найдено. Попробуйте другие слова.';
+          results.innerHTML = '';
+          return;
+        }
+        status.textContent = 'Найдено ' + top.length + ' разделов:';
+        results.innerHTML = top.map(function (r) {
+          return '<a class="ai-search-item" href="' + r.item.url + '">' +
+            '<div class="ai-search-title">' + r.item.title + '</div>' +
+            '<div class="ai-search-desc">' + r.item.desc + '</div>' +
+            '<div class="ai-search-score">релевантность ' + r.score + '</div>' +
+            '</a>';
+        }).join('');
+      }, 300);
+    });
+
+    window._aiSearchOverlay = overlay;
+  }
+
+  function openSearch() {
+    ensureOverlay();
+    window._aiSearchOverlay.classList.add('open');
+    setTimeout(function () {
+      window._aiSearchOverlay.querySelector('input').focus();
+    }, 50);
+  }
+
+  // === Кнопка в панели управления ===
+  function makeButton() {
+    var isEn = window.location.pathname.indexOf('/en/') !== -1;
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'g-button g-button_view_flat-secondary g-button_size_m g-button_pin_round-round dc-control dc-controls__control ai-search-btn';
+    b.setAttribute('data-tooltip', isEn ? 'Smart search' : 'Умный поиск');
+    b.setAttribute('aria-label', isEn ? 'Smart search' : 'Умный поиск');
+    b.innerHTML =
+      '<span class="g-button__icon"><span class="g-button__icon-inner">' +
+      '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '<circle cx="11" cy="11" r="7"></circle>' +
+      '<path d="m21 21-4.3-4.3"></path>' +
+      '</svg></span></span>';
+    b.addEventListener('click', openSearch);
+    return b;
+  }
+
+  function ensureButton() {
+    var host = document.querySelector('.dc-controls');
+    if (!host) return;
+    var btn = host.querySelector('.ai-search-btn');
+    if (!btn) {
+      btn = makeButton();
+      host.appendChild(btn);
+    }
+    var vertical = window.getComputedStyle(host).flexDirection === 'column';
+    btn.classList.toggle('ai-search-vertical', vertical);
+  }
+
+  // Наблюдатель за панелью; переподключается, если панель пересоздаётся
+  var currentPanel = null;
+  var observer = null;
+
+  function attachObserver() {
+    var panel = document.querySelector('.dc-controls');
+    if (panel && panel !== currentPanel) {
+      currentPanel = panel;
+      if (observer) observer.disconnect();
+      observer = new MutationObserver(function () {
+        ensureButton();
+      });
+      observer.observe(panel, { childList: true, subtree: true });
+    }
+    ensureButton();
+  }
+
+  attachObserver();
+  window.addEventListener('resize', ensureButton);
+
+  // Ловим момент появления панели в DOM – вставляем кнопку мгновенно
+  var bootObserver = new MutationObserver(function () {
+    attachObserver();
+  });
+  bootObserver.observe(document.documentElement, { childList: true, subtree: true });
+
+  // Страховка: раз в секунду проверяем, что кнопка на месте
+  setInterval(attachObserver, 1000);
+})();
