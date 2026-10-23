@@ -768,25 +768,23 @@ document.addEventListener('click', function (e) {
 })();
 
 
-// ===== Название вкладки = название раздела (усиленная версия) =====
+// ===== Название вкладки = название раздела (ранняя установка) =====
 (function () {
   function clean(s) {
     return (s || '').replace(/\s+/g, ' ').trim();
   }
 
-  function pickName() {
+  function nameFromDOM() {
     try {
-      // Хлебные крошки: берём последний листовой элемент (любой тег)
       var bc = document.querySelector('[class*="breadcrumbs"]');
       if (bc) {
         var nodes = bc.querySelectorAll('*');
         for (var i = nodes.length - 1; i >= 0; i--) {
-          if (nodes[i].children.length) continue; // только листовые
+          if (nodes[i].children.length) continue; // только листовые элементы
           var t = clean(nodes[i].textContent);
           if (t && t !== '/' && t.length < 100) return t;
         }
       }
-      // Запасной вариант – заголовок страницы
       var h1 = document.querySelector('h1');
       return h1 ? clean(h1.textContent) : null;
     } catch (e) {
@@ -795,27 +793,29 @@ document.addEventListener('click', function (e) {
   }
 
   var wanted = null;
+  var domObs = null;
 
-  function apply() {
-    try {
-      var name = pickName();
-      if (!name) return;
-      wanted = name;
-      if (document.title !== name) document.title = name;
-    } catch (e) { /* молча, чтобы не ломать остальной код */ }
+  function trySet() {
+    var name = nameFromDOM();
+    if (!name) return;
+    wanted = name;
+    if (document.title !== name) document.title = name;
+    if (domObs) { domObs.disconnect(); domObs = null; } // имя получено, за DOM больше не следим
   }
 
-  // Запуск сразу и несколько раз после загрузки – вдруг DOM достраивается поздно
-  apply();
-  document.addEventListener('DOMContentLoaded', apply);
-  window.addEventListener('load', function () {
-    apply();
-    setTimeout(apply, 300);
-    setTimeout(apply, 1000);
-    setTimeout(apply, 2500);
-  });
+  // Следим за DOM с момента исполнения скрипта: ставим title в ту же миллисекунду,
+  // когда в разметке появляются крошки или h1
+  try {
+    if (typeof MutationObserver !== 'undefined') {
+      domObs = new MutationObserver(trySet);
+      domObs.observe(document.documentElement, { childList: true, subtree: true });
+    }
+  } catch (e) { /* молча */ }
+  trySet();
+  document.addEventListener('DOMContentLoaded', trySet);
+  window.addEventListener('load', trySet);
 
-  // Защита: если какой-то скрипт перезапишет title – возвращаем наш
+  // Защита: если чужой скрипт перезапишет title – возвращаем наш
   function watchTitle() {
     try {
       var tag = document.querySelector('title');
