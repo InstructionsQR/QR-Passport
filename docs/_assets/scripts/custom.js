@@ -768,42 +768,66 @@ document.addEventListener('click', function (e) {
 })();
 
 
-// ===== Название вкладки = название раздела =====
+// ===== Название вкладки = название раздела (усиленная версия) =====
 (function () {
   function clean(s) {
     return (s || '').replace(/\s+/g, ' ').trim();
   }
 
-  function sectionName() {
-    // 1. Последний пункт хлебных крошек (например, «Начало работы»)
-    var bc = document.querySelector('.dc-breadcrumbs, [class*="breadcrumbs"]');
-    if (bc) {
-      var nodes = bc.querySelectorAll('a, span, li');
-      for (var i = nodes.length - 1; i >= 0; i--) {
-        var t = clean(nodes[i].textContent);
-        if (t && t !== '/' && t.length < 100) return t;
+  function pickName() {
+    try {
+      // Хлебные крошки: берём последний листовой элемент (любой тег)
+      var bc = document.querySelector('[class*="breadcrumbs"]');
+      if (bc) {
+        var nodes = bc.querySelectorAll('*');
+        for (var i = nodes.length - 1; i >= 0; i--) {
+          if (nodes[i].children.length) continue; // только листовые
+          var t = clean(nodes[i].textContent);
+          if (t && t !== '/' && t.length < 100) return t;
+        }
       }
+      // Запасной вариант – заголовок страницы
+      var h1 = document.querySelector('h1');
+      return h1 ? clean(h1.textContent) : null;
+    } catch (e) {
+      return null;
     }
-    // 2. Если крошек нет – берём заголовок страницы
-    var h1 = document.querySelector('h1');
-    if (h1) {
-      var t2 = clean(h1.textContent);
-      if (t2) return t2;
-    }
-    return null;
   }
+
+  var wanted = null;
 
   function apply() {
-    var name = sectionName();
-    if (!name) return;
-    // Если хотите в вкладке ещё и продукт, раскомментируйте строку ниже:
-    // document.title = name + ' – QR-Passport';
-    document.title = name;
+    try {
+      var name = pickName();
+      if (!name) return;
+      wanted = name;
+      if (document.title !== name) document.title = name;
+    } catch (e) { /* молча, чтобы не ломать остальной код */ }
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', apply);
-  } else {
+  // Запуск сразу и несколько раз после загрузки – вдруг DOM достраивается поздно
+  apply();
+  document.addEventListener('DOMContentLoaded', apply);
+  window.addEventListener('load', function () {
     apply();
+    setTimeout(apply, 300);
+    setTimeout(apply, 1000);
+    setTimeout(apply, 2500);
+  });
+
+  // Защита: если какой-то скрипт перезапишет title – возвращаем наш
+  function watchTitle() {
+    try {
+      var tag = document.querySelector('title');
+      if (!tag || typeof MutationObserver === 'undefined') return;
+      new MutationObserver(function () {
+        if (wanted && document.title !== wanted) document.title = wanted;
+      }).observe(tag, { childList: true, characterData: true, subtree: true });
+    } catch (e) { /* молча */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchTitle);
+  } else {
+    watchTitle();
   }
 })();
