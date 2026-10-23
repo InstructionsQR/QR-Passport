@@ -505,6 +505,8 @@ document.addEventListener('click', function (e) {
 
 // ===== Умный локальный поиск по документации =====
 (function () {
+  var sentQueries = {}; // чтобы не слать цель на каждое нажатие клавиши
+
   var INDEX = [
     { title: 'Начало работы', keywords: ['начало', 'старт', 'знакомство', 'структура', 'новичок', 'введение', 'первый раз', 'с чего начать'], desc: 'Как устроена документация QR-Passport, с чего начать знакомство с системой.', url: '/ru/about.html' },
     { title: 'Основные понятия', keywords: ['понятия', 'термины', 'определения', 'марка', 'сертификат', 'деталь', 'модель', 'шаблон', 'изделие', 'что такое'], desc: 'Марка материала, сертификат, деталь, модель, шаблон паспорта, изделие – ключевые термины системы.', url: '/ru/concepts.html' },
@@ -616,6 +618,11 @@ document.addEventListener('click', function (e) {
         if (top.length === 0) {
           status.textContent = 'Ничего не найдено. Попробуйте другие слова.';
           results.innerHTML = '';
+          // Метрика: запрос без результата (один раз на уникальный запрос)
+          if (typeof ym === 'function' && !sentQueries['no:' + q]) {
+            sentQueries['no:' + q] = true;
+            ym(111923254, 'reachGoal', 'smart_search_noresult', { query: q });
+          }
           return;
         }
         status.textContent = 'Найдено ' + top.length + ' разделов:';
@@ -626,7 +633,24 @@ document.addEventListener('click', function (e) {
             '<div class="ai-search-score">релевантность ' + r.score + '</div>' +
             '</a>';
         }).join('');
+        // Метрика: запрос с результатом (один раз на уникальный запрос)
+        if (typeof ym === 'function' && !sentQueries['ok:' + q]) {
+          sentQueries['ok:' + q] = true;
+          ym(111923254, 'reachGoal', 'smart_search_query', { query: q, results: top.length });
+        }
       }, 300);
+    });
+
+    // Метрика: клик по результату (делегирование — работает для всех динамически созданных ссылок)
+    results.addEventListener('click', function (e) {
+      var link = e.target.closest ? e.target.closest('.ai-search-item') : null;
+      if (link && typeof ym === 'function') {
+        var titleEl = link.querySelector('.ai-search-title');
+        ym(111923254, 'reachGoal', 'smart_search_click', {
+          query: input.value.trim(),
+          section: titleEl ? titleEl.textContent : ''
+        });
+      }
     });
 
     window._aiSearchOverlay = overlay;
@@ -638,6 +662,10 @@ document.addEventListener('click', function (e) {
     setTimeout(function () {
       window._aiSearchOverlay.querySelector('input').focus();
     }, 50);
+    // Метрика: открытие умного поиска
+    if (typeof ym === 'function') {
+      ym(111923254, 'reachGoal', 'smart_search_open');
+    }
   }
 
   // === Кнопка в панели управления ===
