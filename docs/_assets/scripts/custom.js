@@ -432,8 +432,11 @@ document.addEventListener('click', function (e) {
     var nodes = document.querySelectorAll('body *');
     var marker = null;
     for (var i = 0; i < nodes.length; i++) {
-      var t = nodes[i].textContent || '';
-      if (t.length < 200 && /ничего не найдено/i.test(t)) marker = nodes[i];
+      var el = nodes[i];
+      // Пропускаем окно умного поиска – у него свои цели в Метрике
+      if (el.closest && el.closest('.ai-search-overlay')) continue;
+      var t = el.textContent || '';
+      if (t.length < 200 && /ничего не найдено/i.test(t)) marker = el;
     }
     if (!marker) return;
 
@@ -618,23 +621,54 @@ document.addEventListener('click', function (e) {
       if (e.key === 'Escape') overlay.classList.remove('open');
     });
 
+    // --- Цель уходит только после окончания ввода ---
+    var pendingGoal = null;
+    var goalTimer = null;
+
+    function flushGoal() {
+      clearTimeout(goalTimer);
+      if (!pendingGoal) return;
+      var p = pendingGoal;
+      pendingGoal = null;
+      if (p.count === 0) {
+        if (!sentQueries['no:' + p.q]) {
+          sentQueries['no:' + p.q] = true;
+          sendGoal('smart_search_noresult', { query: p.q });
+        }
+      } else {
+        if (!sentQueries['ok:' + p.q]) {
+          sentQueries['ok:' + p.q] = true;
+          sendGoal('smart_search_query', { query: p.q, results: p.count });
+        }
+      }
+    }
+
+    function queueGoal(q, count) {
+      pendingGoal = { q: q, count: count };
+      clearTimeout(goalTimer);
+      goalTimer = setTimeout(flushGoal, 2000); // 2 секунды без клавиш – фраза готова
+    }
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') flushGoal(); // Enter – отправить сразу, не ждать 2 секунды
+    });
+
     input.addEventListener('input', function () {
       var q = input.value.trim();
       if (q.length < 2) {
         results.innerHTML = '';
         status.textContent = 'Готов к работе';
+        pendingGoal = null;
+        clearTimeout(goalTimer);
         return;
       }
       clearTimeout(timer);
       timer = setTimeout(function () {
         var top = search(q);
         if (top.length === 0) {
-          status.textContent = 'Ничего не найдено. Попробуйте другие слова.';
+          status.textContent = 'Не нашлось разделов по запросу. Попробуйте другие слова.';
           results.innerHTML = '';
-          if (!sentQueries['no:' + q]) {
-            sentQueries['no:' + q] = true;
-            sendGoal('smart_search_noresult', { query: q });
-          }
+          queueGoal(q, 0);
           return;
         }
         status.textContent = 'Найдено ' + top.length + ' разделов:';
@@ -645,10 +679,7 @@ document.addEventListener('click', function (e) {
             '<div class="ai-search-score">релевантность ' + r.score + '</div>' +
             '</a>';
         }).join('');
-        if (!sentQueries['ok:' + q]) {
-          sentQueries['ok:' + q] = true;
-          sendGoal('smart_search_query', { query: q, results: top.length });
-        }
+        queueGoal(q, top.length);
       }, 300);
     });
 
