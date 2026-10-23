@@ -514,8 +514,9 @@ document.addEventListener('click', function (e) {
 
   // Отправка цели в Метрику + лог в консоль для проверки
   function sendGoal(name, params) {
+    var q = params && (params.query || params.empty_query || params.found_query || params.click_query);
     console.log('Метрика: цель ' + name + ' отправлена' +
-      (params && params.query ? ', запрос: ' + params.query : '') +
+      (q ? ', запрос: ' + q : '') +
       (params && params.results ? ', результатов: ' + params.results : '') +
       (params && params.section ? ', раздел: ' + params.section : ''));
     if (typeof ym === 'function') {
@@ -633,12 +634,12 @@ document.addEventListener('click', function (e) {
       if (p.count === 0) {
         if (!sentQueries['no:' + p.q]) {
           sentQueries['no:' + p.q] = true;
-          sendGoal('smart_search_noresult', { query: p.q });
+          sendGoal('smart_search_noresult', { empty_query: p.q });
         }
       } else {
         if (!sentQueries['ok:' + p.q]) {
           sentQueries['ok:' + p.q] = true;
-          sendGoal('smart_search_query', { query: p.q, results: p.count });
+          sendGoal('smart_search_query', { found_query: p.q, results: p.count });
         }
       }
     }
@@ -689,7 +690,7 @@ document.addEventListener('click', function (e) {
       if (!link) return;
       var titleEl = link.querySelector('.ai-search-title');
       sendGoal('smart_search_click', {
-        query: input.value.trim(),
+        click_query: input.value.trim(),
         section: titleEl ? titleEl.textContent : ''
       });
     });
