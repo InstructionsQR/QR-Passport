@@ -1,3 +1,7 @@
+---
+title: Часто задаваемые вопросы
+---
+
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Часто задаваемые вопросы</span>
 </div>

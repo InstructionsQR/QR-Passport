@@ -787,3 +787,11 @@ img[src*="products_qr_phone"] {
 .g-root_theme_dark .ai-search-desc {
   color: #cbd2e8;
 }
+
+/* Скрываем главный заголовок страницы (он остаётся во вкладке и в хлебных крошках) */
+.dc-doc-page__main h1:first-of-type,
+main h1:first-of-type,
+article h1:first-of-type,
+h1:first-of-type {
+  display: none;
+}
