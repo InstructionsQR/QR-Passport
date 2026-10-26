@@ -768,3 +768,77 @@ document.addEventListener('click', function (e) {
 })();
 
 
+
+// ===== Название вкладки = название раздела (с учётом главной страницы) =====
+(function () {
+  function clean(s) {
+    return (s || '').replace(/\s+/g, ' ').trim();
+  }
+
+  // Главная ли это страница?
+  function isHomePage() {
+    var p = window.location.pathname.replace(/\/+$/, '');
+    return p === '' || p === '/ru' || p === '/en' || /\/index\.html?$/.test(p);
+  }
+
+  function nameFromDOM() {
+    try {
+      // 1. Главная страница – фиксированное название
+      if (isHomePage()) return 'Инструкция пользователя QR-Passport';
+
+      // 2. Внутренние страницы – последний пункт хлебных крошек
+      var bc = document.querySelector('[class*="breadcrumbs"]');
+      if (bc) {
+        var nodes = bc.querySelectorAll('*');
+        for (var i = nodes.length - 1; i >= 0; i--) {
+          if (nodes[i].children.length) continue; // только листовые элементы
+          var t = clean(nodes[i].textContent);
+          if (t && t !== '/' && t.length < 100) return t;
+        }
+      }
+
+      // 3. Запасной вариант – заголовок страницы
+      var h1 = document.querySelector('h1');
+      return h1 ? clean(h1.textContent) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  var wanted = null;
+  var domObs = null;
+
+  function trySet() {
+    var name = nameFromDOM();
+    if (!name) return;
+    wanted = name;
+    if (document.title !== name) document.title = name;
+    if (domObs) { domObs.disconnect(); domObs = null; }
+  }
+
+  try {
+    if (typeof MutationObserver !== 'undefined') {
+      domObs = new MutationObserver(trySet);
+      domObs.observe(document.documentElement, { childList: true, subtree: true });
+    }
+  } catch (e) { /* молча */ }
+  trySet();
+  document.addEventListener('DOMContentLoaded', trySet);
+  window.addEventListener('load', trySet);
+
+  // Защита: если чужой скрипт перезапишет title – возвращаем наш
+  function watchTitle() {
+    try {
+      var tag = document.querySelector('title');
+      if (!tag || typeof MutationObserver === 'undefined') return;
+      new MutationObserver(function () {
+        if (wanted && document.title !== wanted) document.title = wanted;
+      }).observe(tag, { childList: true, characterData: true, subtree: true });
+    } catch (e) { /* молча */ }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchTitle);
+  } else {
+    watchTitle();
+  }
+})();
