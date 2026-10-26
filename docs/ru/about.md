@@ -1,7 +1,3 @@
----
-title: Начало работы
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">	
 Начало работы</span>
