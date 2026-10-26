@@ -788,10 +788,11 @@ img[src*="products_qr_phone"] {
   color: #cbd2e8;
 }
 
-/* Скрываем главный заголовок страницы (он остаётся во вкладке и в хлебных крошках) */
-.dc-doc-page__main h1:first-of-type,
-main h1:first-of-type,
-article h1:first-of-type,
-h1:first-of-type {
+/* Скрываем заголовок, сгенерированный из frontmatter title (оставляем # H1 из контента) */
+.dc-doc-page__title,
+.dc-page__title,
+.g-doc-page__title,
+.dc-doc__header h1,
+.dc-header-block h1 {
   display: none;
 }
