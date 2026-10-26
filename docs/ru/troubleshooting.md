@@ -1,7 +1,3 @@
----
-title: Типовые ошибки и решения
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Типовые ошибки и решения</span>
 </div>

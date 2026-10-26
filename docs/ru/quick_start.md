@@ -1,7 +1,3 @@
----
-title: Практическое руководство
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Практическое руководство</span>
 </div>

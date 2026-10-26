@@ -1,7 +1,3 @@
----
-title: Компания
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Компания</span>
 </div>

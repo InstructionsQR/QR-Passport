@@ -1,7 +1,3 @@
----
-title: Механические свойства
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Механические свойства</span>
 </div>

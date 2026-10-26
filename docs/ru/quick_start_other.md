@@ -1,7 +1,3 @@
----
-title: Быстрый старт
----
-
 <div class="breadcrumbs">
   <a href="/ru/">Главная</a><span class="breadcrumbs__sep"> / </span><span class="breadcrumbs__current">Быстрый старт</span>
 </div>
