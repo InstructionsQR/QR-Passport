@@ -708,29 +708,37 @@ document.addEventListener('click', function (e) {
   function openRegularSearchModal() {
     console.log('Функция openRegularSearchModal вызвана');
     
-    // Ищем кнопку поиска в хедере (верхняя панель, не боковое меню)
+    // Ищем стандартную кнопку поиска в хедере
     var searchButton = null;
     
-    // Вариант 1: кнопка в верхнем хедере с иконкой лупы
-    var headerButtons = document.querySelectorAll('.dc-header button, header button, .Layout__header button');
-    for (var i = 0; i < headerButtons.length; i++) {
-      var btn = headerButtons[i];
-      // Пропускаем нашу кастомную кнопку
-      if (btn.classList.contains('ai-search-btn-custom')) continue;
-      // Проверяем, есть ли внутри SVG
+    // Получаем все кнопки в документе
+    var allButtons = document.querySelectorAll('button');
+    
+    for (var i = 0; i < allButtons.length; i++) {
+      var btn = allButtons[i];
+      
+      // Пропускаем наши кастомные кнопки
+      if (btn.classList.contains('ai-search-btn-custom') || 
+          btn.classList.contains('ai-search-close') ||
+          btn.closest('.ai-search-overlay') ||
+          btn.closest('.ai-search-wrapper-custom')) {
+        continue;
+      }
+      
+      // Проверяем, есть ли внутри SVG с иконкой лупы (circle + path)
       var svg = btn.querySelector('svg');
       if (svg) {
-        searchButton = btn;
-        console.log('Нашёл кнопку в хедере:', btn);
-        break;
-      }
-    }
-    
-    // Вариант 2: ищем кнопку с классом dc-search или похожим
-    if (!searchButton) {
-      searchButton = document.querySelector('.dc-search button, [class*="search"] button:not(.ai-search-btn-custom)');
-      if (searchButton) {
-        console.log('Нашёл кнопку через селектор поиска:', searchButton);
+        var circle = svg.querySelector('circle');
+        var path = svg.querySelector('path');
+        if (circle && path) {
+          // Проверяем, что кнопка находится в хедере (верхняя часть страницы)
+          var rect = btn.getBoundingClientRect();
+          if (rect.top < 100) { // кнопка в верхней части экрана
+            searchButton = btn;
+            console.log('Нашёл стандартную кнопку поиска в хедере:', btn);
+            break;
+          }
+        }
       }
     }
     
@@ -788,7 +796,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '160px';
+      wrapper.style.right = '20px';
       wrapper.style.zIndex = '9999';
     }
 
