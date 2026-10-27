@@ -708,30 +708,37 @@ document.addEventListener('click', function (e) {
   function openRegularSearchModal() {
     console.log('Функция openRegularSearchModal вызвана');
     
-    // Ищем стандартное поле поиска в хедере (оно скрыто CSS, но есть в DOM)
-    var searchInput = document.querySelector('input.g-text-input__control, input#dc-1-input, input#dc-2-input');
-    var searchContainer = document.querySelector('.dc-search-suggest__wrapper, .Suggest, .dc-header__search');
+    // Ищем кнопку поиска в хедере (верхняя панель, не боковое меню)
+    var searchButton = null;
     
-    if (searchContainer && searchInput) {
-      console.log('Нашёл стандартный поиск:', searchContainer);
-      
-      // Показываем контейнер и input
-      searchContainer.style.display = 'block';
-      searchContainer.style.visibility = 'visible';
-      searchContainer.style.opacity = '1';
-      
-      searchInput.style.display = 'block';
-      searchInput.style.visibility = 'visible';
-      searchInput.style.opacity = '1';
-      
-      // Фокусируемся
-      searchInput.focus();
-      searchInput.click();
-      
-      console.log('✅ Стандартный поиск активирован');
+    // Вариант 1: кнопка в верхнем хедере с иконкой лупы
+    var headerButtons = document.querySelectorAll('.dc-header button, header button, .Layout__header button');
+    for (var i = 0; i < headerButtons.length; i++) {
+      var btn = headerButtons[i];
+      // Пропускаем нашу кастомную кнопку
+      if (btn.classList.contains('ai-search-btn-custom')) continue;
+      // Проверяем, есть ли внутри SVG
+      var svg = btn.querySelector('svg');
+      if (svg) {
+        searchButton = btn;
+        console.log('Нашёл кнопку в хедере:', btn);
+        break;
+      }
+    }
+    
+    // Вариант 2: ищем кнопку с классом dc-search или похожим
+    if (!searchButton) {
+      searchButton = document.querySelector('.dc-search button, [class*="search"] button:not(.ai-search-btn-custom)');
+      if (searchButton) {
+        console.log('Нашёл кнопку через селектор поиска:', searchButton);
+      }
+    }
+    
+    if (searchButton) {
+      console.log('Кликаю по стандартной кнопке поиска');
+      searchButton.click();
     } else {
-      console.log('Стандартный поиск не найден, пробую Ctrl+K');
-      
+      console.log('Кнопка поиска не найдена, пробую Ctrl+K');
       // Пробуем горячую клавишу Ctrl+K
       var event = new KeyboardEvent('keydown', {
         key: 'k',
