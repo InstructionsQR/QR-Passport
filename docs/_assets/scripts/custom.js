@@ -704,67 +704,37 @@ document.addEventListener('click', function (e) {
     sendGoal('smart_search_open');
   }
 
-  // === Модальное окно обычного поиска ===
+  // === Открытие стандартного поиска Diplodoc ===
   function openRegularSearchModal() {
-    // Если модалка уже создана - просто открываем
-    if (document.querySelector('.regular-search-overlay')) {
-      document.querySelector('.regular-search-overlay').classList.add('open');
-      setTimeout(function() {
-        var input = document.querySelector('.regular-search-input');
-        if (input) input.focus();
-      }, 50);
-      return;
-    }
-
-    // Создаём модальное окно
-    var overlay = document.createElement('div');
-    overlay.className = 'regular-search-overlay';
-    overlay.innerHTML =
-      '<div class="regular-search-modal">' +
-      '  <div class="regular-search-header"><h3>Поиск по документации</h3><button class="regular-search-close" type="button">✕</button></div>' +
-      '  <div class="regular-search-hint">Введите запрос для поиска по документации</div>' +
-      '  <form class="regular-search-form">' +
-      '    <input type="text" class="regular-search-input" placeholder="Введите поисковый запрос...">' +
-      '    <button type="submit" class="regular-search-submit">Найти</button>' +
-      '  </form>' +
-      '  <div class="regular-search-results"></div>' +
-      '</div>';
-    document.body.appendChild(overlay);
-
-    // Обработчики
-    overlay.querySelector('.regular-search-close').addEventListener('click', function() {
-      overlay.classList.remove('open');
-    });
-    overlay.addEventListener('click', function(e) {
-      if (e.target === overlay) overlay.classList.remove('open');
-    });
-
-    // Отправка формы
-    var form = overlay.querySelector('.regular-search-form');
-    var input = overlay.querySelector('.regular-search-input');
-    var results = overlay.querySelector('.regular-search-results');
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      var query = input.value.trim();
-      if (!query) return;
-
-      console.log('Поиск:', query);
-      results.innerHTML = '<div class="regular-search-loading">Поиск...</div>';
-
-      // Используем стандартный поиск Diplodoc
-      // Перенаправляем на страницу поиска
-      var searchUrl = '/ru/search.html?q=' + encodeURIComponent(query);
+    console.log('Открываю стандартный поиск Diplodoc...');
+    
+    // Ищем стандартную кнопку поиска в хедере
+    var searchButton = document.querySelector('.dc-header__search button, [class*="search"] button, header button[aria-label*="search"], header button[aria-label*="оиск"]');
+    
+    if (searchButton) {
+      // Кликаем по ней - откроется стандартное модальное окно поиска
+      searchButton.click();
+      console.log('✅ Стандартный поиск активирован');
+    } else {
+      // Fallback: если кнопка не найдена, пробуем горячую клавишу Ctrl+K
+      console.log('Кнопка не найдена, пробую Ctrl+K...');
       
-      // Пробуем открыть в той же вкладке
-      window.location.href = searchUrl;
-    });
-
-    // Открываем модалку
-    overlay.classList.add('open');
-    setTimeout(function() {
-      input.focus();
-    }, 50);
+      // Создаём событие клавиатуры
+      var event = new KeyboardEvent('keydown', {
+        key: 'k',
+        code: 'KeyK',
+        ctrlKey: true,
+        bubbles: true
+      });
+      document.dispatchEvent(event);
+      
+      // Если не сработало - показываем подсказку
+      setTimeout(function() {
+        if (!document.querySelector('[class*="search-modal"], [class*="search-overlay"]')) {
+          alert('Используйте Ctrl+K для открытия поиска по документации');
+        }
+      }, 500);
+    }
   }
 
   // === Кастомная кнопка поиска в хедере с меню выбора ===
