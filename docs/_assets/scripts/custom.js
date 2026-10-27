@@ -704,57 +704,44 @@ document.addEventListener('click', function (e) {
     sendGoal('smart_search_open');
   }
 
-  // === Открытие стандартного поиска Diplodoc ===
+  // === Показ стандартного поля поиска ===
   function openRegularSearchModal() {
     console.log('Функция openRegularSearchModal вызвана');
     
-    // Ищем стандартную кнопку поиска в хедере
-    var searchButton = null;
+    // Ищем контейнер стандартного поиска
+    var searchContainer = document.querySelector('.dc-search-suggest__wrapper, .Suggest, [class*="search-input"]');
     
-    // Получаем все кнопки в документе
-    var allButtons = document.querySelectorAll('button');
-    
-    for (var i = 0; i < allButtons.length; i++) {
-      var btn = allButtons[i];
+    if (searchContainer) {
+      console.log('Нашёл контейнер поиска:', searchContainer);
       
-      // Пропускаем наши кастомные кнопки
-      if (btn.classList.contains('ai-search-btn-custom') || 
-          btn.classList.contains('ai-search-close') ||
-          btn.closest('.ai-search-overlay') ||
-          btn.closest('.ai-search-wrapper-custom')) {
-        continue;
+      // Добавляем класс для показа
+      searchContainer.classList.add('show-regular');
+      
+      // Находим input и фокусируемся
+      var input = searchContainer.querySelector('input');
+      if (input) {
+        input.style.display = 'block';
+        input.style.visibility = 'visible';
+        input.style.opacity = '1';
+        input.focus();
+        console.log('✅ Стандартное поле поиска показано');
       }
+    } else {
+      console.log('Контейнер поиска не найден');
       
-      // Проверяем, есть ли внутри SVG с иконкой лупы (circle + path)
-      var svg = btn.querySelector('svg');
-      if (svg) {
-        var circle = svg.querySelector('circle');
-        var path = svg.querySelector('path');
-        if (circle && path) {
-          // Проверяем, что кнопка находится в хедере (верхняя часть страницы)
-          var rect = btn.getBoundingClientRect();
-          if (rect.top < 100) { // кнопка в верхней части экрана
-            searchButton = btn;
-            console.log('Нашёл стандартную кнопку поиска в хедере:', btn);
-            break;
-          }
+      // Fallback: ищем любой input с placeholder "Поиск"
+      var allInputs = document.querySelectorAll('input');
+      for (var i = 0; i < allInputs.length; i++) {
+        var placeholder = allInputs[i].getAttribute('placeholder');
+        if (placeholder && placeholder.toLowerCase().indexOf('поиск') !== -1) {
+          allInputs[i].style.display = 'block';
+          allInputs[i].style.visibility = 'visible';
+          allInputs[i].style.opacity = '1';
+          allInputs[i].focus();
+          console.log('✅ Найден input по placeholder');
+          break;
         }
       }
-    }
-    
-    if (searchButton) {
-      console.log('Кликаю по стандартной кнопке поиска');
-      searchButton.click();
-    } else {
-      console.log('Кнопка поиска не найдена, пробую Ctrl+K');
-      // Пробуем горячую клавишу Ctrl+K
-      var event = new KeyboardEvent('keydown', {
-        key: 'k',
-        code: 'KeyK',
-        ctrlKey: true,
-        bubbles: true
-      });
-      document.dispatchEvent(event);
     }
   }
 
@@ -796,7 +783,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '20px';
+      wrapper.style.right = '40px';
       wrapper.style.zIndex = '9999';
     }
 
