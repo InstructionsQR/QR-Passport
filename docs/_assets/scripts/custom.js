@@ -741,6 +741,8 @@ document.addEventListener('click', function (e) {
   function ai_createSearchButton() {
     if (document.querySelector('.ai-search-btn-custom')) return;
 
+    console.log('✅ Создаю кнопку поиска...');
+
     var btn = document.createElement('button');
     btn.className = 'ai-search-btn-custom';
     btn.type = 'button';
@@ -754,11 +756,11 @@ document.addEventListener('click', function (e) {
     var menu = document.createElement('div');
     menu.className = 'ai-search-choice-menu';
     menu.innerHTML =
-      '<div class="ai-search-choice-item" data-type="smart">' +
+      '<div class="ai-search-choice-item" data-type="smart" style="cursor: pointer;">' +
       '  <span class="ai-search-choice-icon">✨</span>' +
       '  <span>Умный поиск</span>' +
       '</div>' +
-      '<div class="ai-search-choice-item" data-type="regular">' +
+      '<div class="ai-search-choice-item" data-type="regular" style="cursor: pointer;">' +
       '  <span class="ai-search-choice-icon">🔍</span>' +
       '  <span>Обычный поиск</span>' +
       '</div>';
@@ -773,7 +775,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '120px';
+      wrapper.style.right = '160px';
       wrapper.style.zIndex = '9999';
     }
 
@@ -786,40 +788,42 @@ document.addEventListener('click', function (e) {
       menu.style.minWidth = Math.max(rect.width, 180) + 'px';
     }
 
-    // ДЕЛЕГИРОВАНИЕ: один обработчик на document
-    document.addEventListener('click', function (e) {
-      // 1. Клик по кнопке или её потомкам
-      if (btn.contains(e.target)) {
-        e.stopPropagation();
-        e.preventDefault();
-        var isOpen = menu.classList.toggle('open');
-        if (isOpen) positionMenu();
-        return;
-      }
+    // Клик по кнопке - открываем/закрываем меню
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var isOpen = menu.classList.toggle('open');
+      console.log('Меню открыто:', isOpen);
+      if (isOpen) positionMenu();
+    });
 
-      // 2. Клик по пункту меню
-      var item = e.target.closest('.ai-search-choice-item');
-      if (item && menu.contains(item)) {
-        var type = item.dataset.type;
-        menu.classList.remove('open');
+    // Обработчики для каждого пункта меню
+    var smartItem = menu.querySelector('[data-type="smart"]');
+    var regularItem = menu.querySelector('[data-type="regular"]');
 
-        if (type === 'smart') {
-          openSearch();
-        } else if (type === 'regular') {
-          console.log('Открываю обычный поиск в модальном окне...');
-          openRegularSearchModal();
-        }
-        return;
-      }
+    smartItem.addEventListener('click', function(e) {
+      e.stopPropagation();
+      console.log('Клик по Умному поиску');
+      menu.classList.remove('open');
+      openSearch();
+    });
 
-      // 3. Клик вне меню — закрываем
-      if (menu.classList.contains('open') && !wrapper.contains(e.target)) {
+    regularItem.addEventListener('click', function(e) {
+      e.stopPropagation();
+      console.log('Клик по Обычному поиску');
+      menu.classList.remove('open');
+      openRegularSearchModal();
+    });
+
+    // Закрытие меню по клику вне
+    document.addEventListener('click', function(e) {
+      if (!wrapper.contains(e.target)) {
         menu.classList.remove('open');
       }
     });
 
     // Закрытие по Escape
-    document.addEventListener('keydown', function (e) {
+    document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape') {
         menu.classList.remove('open');
         if (window._aiSearchOverlay) {
