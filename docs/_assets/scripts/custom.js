@@ -704,45 +704,93 @@ document.addEventListener('click', function (e) {
     sendGoal('smart_search_open');
   }
 
-  // === Показ стандартного поля поиска ===
+  // === Модальное окно обычного поиска ===
   function openRegularSearchModal() {
-    console.log('Функция openRegularSearchModal вызвана');
+    console.log('Открываю модальное окно обычного поиска...');
     
-    // Ищем контейнер стандартного поиска
-    var searchContainer = document.querySelector('.dc-search-suggest__wrapper, .Suggest, [class*="search-input"]');
-    
-    if (searchContainer) {
-      console.log('Нашёл контейнер поиска:', searchContainer);
-      
-      // Добавляем класс для показа
-      searchContainer.classList.add('show-regular');
-      
-      // Находим input и фокусируемся
-      var input = searchContainer.querySelector('input');
-      if (input) {
-        input.style.display = 'block';
-        input.style.visibility = 'visible';
-        input.style.opacity = '1';
-        input.focus();
-        console.log('✅ Стандартное поле поиска показано');
-      }
-    } else {
-      console.log('Контейнер поиска не найден');
-      
-      // Fallback: ищем любой input с placeholder "Поиск"
-      var allInputs = document.querySelectorAll('input');
-      for (var i = 0; i < allInputs.length; i++) {
-        var placeholder = allInputs[i].getAttribute('placeholder');
-        if (placeholder && placeholder.toLowerCase().indexOf('поиск') !== -1) {
-          allInputs[i].style.display = 'block';
-          allInputs[i].style.visibility = 'visible';
-          allInputs[i].style.opacity = '1';
-          allInputs[i].focus();
-          console.log('✅ Найден input по placeholder');
-          break;
-        }
-      }
+    // Если модалка уже создана - просто открываем
+    if (document.querySelector('.regular-search-overlay')) {
+      var overlay = document.querySelector('.regular-search-overlay');
+      overlay.classList.add('open');
+      setTimeout(function() {
+        var input = document.querySelector('.regular-search-input');
+        if (input) input.focus();
+      }, 50);
+      return;
     }
+
+    // Создаём модальное окно
+    var overlay = document.createElement('div');
+    overlay.className = 'regular-search-overlay';
+    overlay.innerHTML =
+      '<div class="regular-search-modal">' +
+      '  <div class="regular-search-header"><h3>Поиск по документации</h3><button class="regular-search-close" type="button"></button></div>' +
+      '  <div class="regular-search-hint">Введите запрос для поиска по всей документации</div>' +
+      '  <form class="regular-search-form">' +
+      '    <input type="text" class="regular-search-input" placeholder="Введите поисковый запрос...">' +
+      '    <button type="submit" class="regular-search-submit">Найти</button>' +
+      '  </form>' +
+      '  <div class="regular-search-results"></div>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    // Обработчики закрытия
+    overlay.querySelector('.regular-search-close').addEventListener('click', function() {
+      overlay.classList.remove('open');
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+
+    // Отправка формы
+    var form = overlay.querySelector('.regular-search-form');
+    var input = overlay.querySelector('.regular-search-input');
+    var results = overlay.querySelector('.regular-search-results');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var query = input.value.trim();
+      if (!query) return;
+
+      console.log('Обычный поиск:', query);
+      results.innerHTML = '<div class="regular-search-loading">Поиск...</div>';
+
+      // Используем умный поиск для поиска по всей документации
+      var terms = query.toLowerCase().split(/\s+/);
+      var found = [];
+      
+      // Ищем по индексу умного поиска
+      if (typeof INDEX !== 'undefined') {
+        INDEX.forEach(function(item) {
+          var text = (item.title + ' ' + item.keywords.join(' ') + ' ' + item.desc).toLowerCase();
+          var match = false;
+          terms.forEach(function(term) {
+            if (text.indexOf(term) !== -1) match = true;
+          });
+          if (match) {
+            found.push(item);
+          }
+        });
+      }
+
+      if (found.length > 0) {
+        results.innerHTML = '<div class="regular-search-count">Найдено: ' + found.length + '</div>' +
+          found.map(function(item) {
+            return '<a class="regular-search-item" href="' + item.url + '">' +
+              '<div class="regular-search-title">' + item.title + '</div>' +
+              '<div class="regular-search-desc">' + item.desc + '</div>' +
+              '</a>';
+          }).join('');
+      } else {
+        results.innerHTML = '<div class="regular-search-not-found">Ничего не найдено. Попробуйте изменить запрос или используйте умный поиск.</div>';
+      }
+    });
+
+    // Открываем модалку
+    overlay.classList.add('open');
+    setTimeout(function() {
+      input.focus();
+    }, 50);
   }
 
   // === Кастомная кнопка поиска в хедере с меню выбора ===
@@ -783,7 +831,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '60px';
+      wrapper.style.right = '90px';
       wrapper.style.zIndex = '9999';
     }
 
