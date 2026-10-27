@@ -708,15 +708,40 @@ document.addEventListener('click', function (e) {
   function openRegularSearchModal() {
     console.log('Функция openRegularSearchModal вызвана');
     
-    // Ищем стандартную кнопку поиска в хедере
-    var searchButton = document.querySelector('.dc-header__search button, [class*="search"] button, header button');
+    // Ищем стандартную кнопку поиска Diplodoc (исключая нашу кастомную)
+    var searchButton = null;
+    
+    // Вариант 1: кнопка в хедере с иконкой лупы (не наша)
+    var allButtons = document.querySelectorAll('header button, .dc-header button, [class*="header"] button');
+    for (var i = 0; i < allButtons.length; i++) {
+      var btn = allButtons[i];
+      // Пропускаем нашу кастомную кнопку
+      if (btn.classList.contains('ai-search-btn-custom')) continue;
+      // Проверяем, есть ли внутри SVG с иконкой лупы
+      var svg = btn.querySelector('svg');
+      if (svg) {
+        searchButton = btn;
+        break;
+      }
+    }
+    
+    // Вариант 2: кнопка с aria-label содержащим "search" или "поиск"
+    if (!searchButton) {
+      var labeledButtons = document.querySelectorAll('button[aria-label*="earch"], button[aria-label*="оиск"], button[title*="earch"], button[title*="оиск"]');
+      for (var i = 0; i < labeledButtons.length; i++) {
+        if (!labeledButtons[i].classList.contains('ai-search-btn-custom')) {
+          searchButton = labeledButtons[i];
+          break;
+        }
+      }
+    }
     
     if (searchButton) {
-      console.log('Нашёл кнопку поиска:', searchButton);
+      console.log('Нашёл стандартную кнопку поиска:', searchButton);
       searchButton.click();
     } else {
-      console.log('Кнопка поиска не найдена');
-      // Пробуем Ctrl+K
+      console.log('Стандартная кнопка поиска не найдена, пробую Ctrl+K');
+      // Пробуем горячую клавишу Ctrl+K
       var event = new KeyboardEvent('keydown', {
         key: 'k',
         code: 'KeyK',
@@ -765,7 +790,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '240px';
+      wrapper.style.right = '320px';
       wrapper.style.zIndex = '9999';
     }
 
