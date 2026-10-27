@@ -1139,3 +1139,42 @@ input#dc-1-input {
   border-color: #4a5580 !important;
   color: #f4f5fd !important;
 }
+
+/* ===== Принудительный показ стандартного поля поиска ===== */
+.dc-search-suggest__wrapper.show-regular,
+.Suggest.show-regular {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 60px !important;
+  right: 240px !important;
+  z-index: 9998 !important;
+  background: #fff !important;
+  border: 1px solid #e6e7eb !important;
+  border-radius: 8px !important;
+  padding: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  width: 300px !important;
+  max-width: 90vw !important;
+}
+
+.dc-search-suggest__wrapper.show-regular input,
+.Suggest.show-regular input {
+  display: block !important;
+  width: 100% !important;
+  padding: 8px 12px !important;
+  border: 1px solid #e6e7eb !important;
+  border-radius: 6px !important;
+  font-size: 14px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  background: #fff !important;
+  color: #333 !important;
+}
+
+/* Скрываем выпадающие подсказки, если они мешают */
+.dc-search-suggest__wrapper.show-regular .dc-popup,
+.Suggest.show-regular .dc-popup {
+  display: none !important;
+}

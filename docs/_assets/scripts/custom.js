@@ -783,7 +783,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '40px';
+      wrapper.style.right = '60px';
       wrapper.style.zIndex = '9999';
     }
 
