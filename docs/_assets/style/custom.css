@@ -1363,3 +1363,24 @@ input#dc-1-input {
 .g-root_theme_dark .regular-search-not-found {
   color: #9aa5c4 !important;
 }
+
+/* Подсветка найденного слова на странице */
+.highlight-search {
+  background: #fef08a !important;
+  color: #000 !important;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+  box-shadow: 0 0 0 2px #fbbf24 !important;
+}
+
+.regular-search-count-item {
+  font-size: 12px !important;
+  color: #6b7280 !important;
+  margin-top: 4px !important;
+}
+
+/* Тёмная тема для подсветки */
+.g-root_theme_dark .highlight-search {
+  background: #854d0e !important;
+  color: #fef08a !important;
+}

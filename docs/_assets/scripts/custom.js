@@ -704,9 +704,9 @@ document.addEventListener('click', function (e) {
     sendGoal('smart_search_open');
   }
 
-  // === Модальное окно обычного поиска ===
+  // === Поиск по всей документации с подсветкой ===
   function openRegularSearchModal() {
-    console.log('Открываю модальное окно обычного поиска...');
+    console.log('Открываю поиск по документации...');
     
     // Если модалка уже создана - просто открываем
     if (document.querySelector('.regular-search-overlay')) {
@@ -724,10 +724,10 @@ document.addEventListener('click', function (e) {
     overlay.className = 'regular-search-overlay';
     overlay.innerHTML =
       '<div class="regular-search-modal">' +
-      '  <div class="regular-search-header"><h3>Поиск по документации</h3><button class="regular-search-close" type="button"></button></div>' +
-      '  <div class="regular-search-hint">Введите запрос для поиска по всей документации</div>' +
+      '  <div class="regular-search-header"><h3>Поиск по документации</h3><button class="regular-search-close" type="button">✕</button></div>' +
+      '  <div class="regular-search-hint">Введите слово для поиска по всей документации</div>' +
       '  <form class="regular-search-form">' +
-      '    <input type="text" class="regular-search-input" placeholder="Введите поисковый запрос...">' +
+      '    <input type="text" class="regular-search-input" placeholder="Введите слово...">' +
       '    <button type="submit" class="regular-search-submit">Найти</button>' +
       '  </form>' +
       '  <div class="regular-search-results"></div>' +
@@ -752,37 +752,55 @@ document.addEventListener('click', function (e) {
       var query = input.value.trim();
       if (!query) return;
 
-      console.log('Обычный поиск:', query);
-      results.innerHTML = '<div class="regular-search-loading">Поиск...</div>';
+      console.log('Поиск по документации:', query);
+      results.innerHTML = '<div class="regular-search-loading">Ищу...</div>';
 
-      // Используем умный поиск для поиска по всей документации
+      // Ищем по индексу умного поиска
       var terms = query.toLowerCase().split(/\s+/);
       var found = [];
       
-      // Ищем по индексу умного поиска
       if (typeof INDEX !== 'undefined') {
         INDEX.forEach(function(item) {
           var text = (item.title + ' ' + item.keywords.join(' ') + ' ' + item.desc).toLowerCase();
           var match = false;
+          var matchCount = 0;
+          
           terms.forEach(function(term) {
-            if (text.indexOf(term) !== -1) match = true;
+            var count = 0;
+            var pos = text.indexOf(term);
+            while (pos !== -1) {
+              count++;
+              pos = text.indexOf(term, pos + 1);
+            }
+            if (count > 0) {
+              match = true;
+              matchCount += count;
+            }
           });
+          
           if (match) {
-            found.push(item);
+            found.push({
+              item: item,
+              count: matchCount
+            });
           }
         });
       }
 
+      // Сортируем по количеству вхождений
+      found.sort(function(a, b) { return b.count - a.count; });
+
       if (found.length > 0) {
-        results.innerHTML = '<div class="regular-search-count">Найдено: ' + found.length + '</div>' +
-          found.map(function(item) {
-            return '<a class="regular-search-item" href="' + item.url + '">' +
-              '<div class="regular-search-title">' + item.title + '</div>' +
-              '<div class="regular-search-desc">' + item.desc + '</div>' +
+        results.innerHTML = '<div class="regular-search-count">Найдено в ' + found.length + ' разделах:</div>' +
+          found.map(function(r) {
+            return '<a class="regular-search-item" href="' + r.item.url + '?highlight=' + encodeURIComponent(query) + '">' +
+              '<div class="regular-search-title">' + r.item.title + '</div>' +
+              '<div class="regular-search-desc">' + r.item.desc + '</div>' +
+              '<div class="regular-search-count-item">Вхождений: ' + r.count + '</div>' +
               '</a>';
           }).join('');
       } else {
-        results.innerHTML = '<div class="regular-search-not-found">Ничего не найдено. Попробуйте изменить запрос или используйте умный поиск.</div>';
+        results.innerHTML = '<div class="regular-search-not-found">Слово "' + query + '" не найдено в документации.<br><br>Попробуйте:<br>• Проверить правильность написания<br>• Использовать синонимы</div>';
       }
     });
 
@@ -921,6 +939,68 @@ document.addEventListener('click', function (e) {
     ensureOverlay: ensureOverlay,
     sendGoal: sendGoal
   };
+  // === Подсветка найденного слова при переходе на страницу ===
+  function highlightSearchTerm() {
+    var params = new URLSearchParams(window.location.search);
+    var term = params.get('highlight');
+    
+    if (!term) return;
+    
+    console.log('Подсвечиваю слово:', term);
+    
+    // Ждём загрузки контента
+    setTimeout(function() {
+      var body = document.body;
+      var textNodes = [];
+      
+      // Находим все текстовые узлы
+      var walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT, null, false);
+      var node;
+      while (node = walker.nextNode()) {
+        if (node.nodeValue.toLowerCase().indexOf(term.toLowerCase()) !== -1) {
+          textNodes.push(node);
+        }
+      }
+      
+      // Подсвечиваем первые 50 вхождений
+      var count = 0;
+      textNodes.forEach(function(textNode) {
+        if (count >= 50) return;
+        
+        var text = textNode.nodeValue;
+        var regex = new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+        
+        if (regex.test(text)) {
+          var span = document.createElement('span');
+          span.innerHTML = text.replace(regex, '<mark class="highlight-search">$1</mark>');
+          textNode.parentNode.replaceChild(span, textNode);
+          count++;
+        }
+      });
+      
+      console.log('Подсвечено вхождений:', count);
+      
+      // Прокручиваем к первому вхождению
+      var firstHighlight = document.querySelector('.highlight-search');
+      if (firstHighlight) {
+        firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      
+      // Удаляем параметр из URL через 3 секунды
+      setTimeout(function() {
+        var newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      }, 3000);
+    }, 500);
+  }
+  
+  // Запускаем подсветку при загрузке страницы
+  if (document.readyState === 'complete') {
+    highlightSearchTerm();
+  } else {
+    window.addEventListener('load', highlightSearchTerm);
+  }
+
 })();
 
 
