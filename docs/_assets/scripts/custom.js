@@ -708,39 +708,30 @@ document.addEventListener('click', function (e) {
   function openRegularSearchModal() {
     console.log('Функция openRegularSearchModal вызвана');
     
-    // Ищем стандартную кнопку поиска Diplodoc (исключая нашу кастомную)
-    var searchButton = null;
+    // Ищем стандартное поле поиска в хедере (оно скрыто CSS, но есть в DOM)
+    var searchInput = document.querySelector('input.g-text-input__control, input#dc-1-input, input#dc-2-input');
+    var searchContainer = document.querySelector('.dc-search-suggest__wrapper, .Suggest, .dc-header__search');
     
-    // Вариант 1: кнопка в хедере с иконкой лупы (не наша)
-    var allButtons = document.querySelectorAll('header button, .dc-header button, [class*="header"] button');
-    for (var i = 0; i < allButtons.length; i++) {
-      var btn = allButtons[i];
-      // Пропускаем нашу кастомную кнопку
-      if (btn.classList.contains('ai-search-btn-custom')) continue;
-      // Проверяем, есть ли внутри SVG с иконкой лупы
-      var svg = btn.querySelector('svg');
-      if (svg) {
-        searchButton = btn;
-        break;
-      }
-    }
-    
-    // Вариант 2: кнопка с aria-label содержащим "search" или "поиск"
-    if (!searchButton) {
-      var labeledButtons = document.querySelectorAll('button[aria-label*="earch"], button[aria-label*="оиск"], button[title*="earch"], button[title*="оиск"]');
-      for (var i = 0; i < labeledButtons.length; i++) {
-        if (!labeledButtons[i].classList.contains('ai-search-btn-custom')) {
-          searchButton = labeledButtons[i];
-          break;
-        }
-      }
-    }
-    
-    if (searchButton) {
-      console.log('Нашёл стандартную кнопку поиска:', searchButton);
-      searchButton.click();
+    if (searchContainer && searchInput) {
+      console.log('Нашёл стандартный поиск:', searchContainer);
+      
+      // Показываем контейнер и input
+      searchContainer.style.display = 'block';
+      searchContainer.style.visibility = 'visible';
+      searchContainer.style.opacity = '1';
+      
+      searchInput.style.display = 'block';
+      searchInput.style.visibility = 'visible';
+      searchInput.style.opacity = '1';
+      
+      // Фокусируемся
+      searchInput.focus();
+      searchInput.click();
+      
+      console.log('✅ Стандартный поиск активирован');
     } else {
-      console.log('Стандартная кнопка поиска не найдена, пробую Ctrl+K');
+      console.log('Стандартный поиск не найден, пробую Ctrl+K');
+      
       // Пробуем горячую клавишу Ctrl+K
       var event = new KeyboardEvent('keydown', {
         key: 'k',
@@ -790,7 +781,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '320px';
+      wrapper.style.right = '160px';
       wrapper.style.zIndex = '9999';
     }
 
