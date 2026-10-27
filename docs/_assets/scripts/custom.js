@@ -706,20 +706,17 @@ document.addEventListener('click', function (e) {
 
   // === Открытие стандартного поиска Diplodoc ===
   function openRegularSearchModal() {
-    console.log('Открываю стандартный поиск Diplodoc...');
+    console.log('Функция openRegularSearchModal вызвана');
     
     // Ищем стандартную кнопку поиска в хедере
-    var searchButton = document.querySelector('.dc-header__search button, [class*="search"] button, header button[aria-label*="search"], header button[aria-label*="оиск"]');
+    var searchButton = document.querySelector('.dc-header__search button, [class*="search"] button, header button');
     
     if (searchButton) {
-      // Кликаем по ней - откроется стандартное модальное окно поиска
+      console.log('Нашёл кнопку поиска:', searchButton);
       searchButton.click();
-      console.log('✅ Стандартный поиск активирован');
     } else {
-      // Fallback: если кнопка не найдена, пробуем горячую клавишу Ctrl+K
-      console.log('Кнопка не найдена, пробую Ctrl+K...');
-      
-      // Создаём событие клавиатуры
+      console.log('Кнопка поиска не найдена');
+      // Пробуем Ctrl+K
       var event = new KeyboardEvent('keydown', {
         key: 'k',
         code: 'KeyK',
@@ -727,13 +724,6 @@ document.addEventListener('click', function (e) {
         bubbles: true
       });
       document.dispatchEvent(event);
-      
-      // Если не сработало - показываем подсказку
-      setTimeout(function() {
-        if (!document.querySelector('[class*="search-modal"], [class*="search-overlay"]')) {
-          alert('Используйте Ctrl+K для открытия поиска по документации');
-        }
-      }, 500);
     }
   }
 
@@ -756,11 +746,11 @@ document.addEventListener('click', function (e) {
     var menu = document.createElement('div');
     menu.className = 'ai-search-choice-menu';
     menu.innerHTML =
-      '<div class="ai-search-choice-item" data-type="smart" style="cursor: pointer;">' +
+      '<div class="ai-search-choice-item" data-type="smart">' +
       '  <span class="ai-search-choice-icon">✨</span>' +
       '  <span>Умный поиск</span>' +
       '</div>' +
-      '<div class="ai-search-choice-item" data-type="regular" style="cursor: pointer;">' +
+      '<div class="ai-search-choice-item" data-type="regular">' +
       '  <span class="ai-search-choice-icon">🔍</span>' +
       '  <span>Обычный поиск</span>' +
       '</div>';
@@ -775,7 +765,7 @@ document.addEventListener('click', function (e) {
     function positionButton() {
       wrapper.style.position = 'fixed';
       wrapper.style.top = '12px';
-      wrapper.style.right = '160px';
+      wrapper.style.right = '240px';
       wrapper.style.zIndex = '9999';
     }
 
@@ -788,7 +778,7 @@ document.addEventListener('click', function (e) {
       menu.style.minWidth = Math.max(rect.width, 180) + 'px';
     }
 
-    // Клик по кнопке - открываем/закрываем меню
+    // Клик по кнопке
     btn.addEventListener('click', function(e) {
       e.stopPropagation();
       e.preventDefault();
@@ -797,25 +787,39 @@ document.addEventListener('click', function (e) {
       if (isOpen) positionMenu();
     });
 
-    // Обработчики для каждого пункта меню
-    var smartItem = menu.querySelector('[data-type="smart"]');
-    var regularItem = menu.querySelector('[data-type="regular"]');
-
-    smartItem.addEventListener('click', function(e) {
+    // Делегирование кликов для пунктов меню
+    menu.addEventListener('click', function(e) {
+      var item = e.target.closest('.ai-search-choice-item');
+      if (!item) return;
+      
       e.stopPropagation();
-      console.log('Клик по Умному поиску');
+      var type = item.dataset.type;
+      console.log('Клик по пункту:', type);
+      
       menu.classList.remove('open');
-      openSearch();
+
+      if (type === 'smart') {
+        console.log('Открываю умный поиск...');
+        if (typeof openSearch === 'function') {
+          openSearch();
+        } else {
+          console.error('openSearch не найдена!');
+        }
+      } else if (type === 'regular') {
+        console.log('Открываю обычный поиск...');
+        if (typeof openRegularSearchModal === 'function') {
+          openRegularSearchModal();
+        } else {
+          console.error('openRegularSearchModal не найдена!');
+          // Экстренный вариант - открываем умный поиск
+          if (typeof openSearch === 'function') {
+            openSearch();
+          }
+        }
+      }
     });
 
-    regularItem.addEventListener('click', function(e) {
-      e.stopPropagation();
-      console.log('Клик по Обычному поиску');
-      menu.classList.remove('open');
-      openRegularSearchModal();
-    });
-
-    // Закрытие меню по клику вне
+    // Закрытие по клику вне
     document.addEventListener('click', function(e) {
       if (!wrapper.contains(e.target)) {
         menu.classList.remove('open');
