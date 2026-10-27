@@ -796,3 +796,346 @@ img[src*="products_qr_phone"] {
 .dc-header-block h1 {
   display: none;
 }
+
+/* Скрываем стандартное поле поиска в хедере */
+.dc-search-input__input,
+.Suggest__input,
+[class*="search-input"],
+input.g-text-input__control,
+input#dc-1-input {
+  display: none !important;
+}
+
+
+
+/* ===== Кнопка поиска с фиксированной позицией ===== */
+.ai-search-wrapper-custom {
+  display: inline-flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
+
+.ai-search-btn-custom {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #374151;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+  visibility: visible !important;
+  opacity: 1 !important;
+  white-space: nowrap;
+}
+
+.ai-search-btn-custom:hover {
+  border-color: #5460d4;
+  background: rgba(84, 96, 212, 0.04);
+  box-shadow: 0 2px 8px rgba(84, 96, 212, 0.15);
+}
+
+/* На мобильных – только иконка */
+@media (max-width: 768px) {
+  .ai-search-btn-text {
+    display: none;
+  }
+  
+  .ai-search-btn-custom {
+    padding: 8px;
+  }
+  
+  .ai-search-wrapper-custom {
+    right: 280px !important;
+  }
+}
+
+/* Меню */
+.ai-search-choice-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e6e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  z-index: 10001;
+  display: none;
+  min-width: 200px;
+  font-family: inherit;
+}
+
+.ai-search-choice-menu.open {
+  display: block;
+}
+
+.ai-search-choice-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #374151;
+  transition: background 0.15s;
+}
+
+.ai-search-choice-item:hover {
+  background: rgba(84, 96, 212, 0.08);
+}
+
+.ai-search-choice-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark .ai-search-btn-custom {
+  background: #2b3145;
+  border-color: #4a5580;
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .ai-search-btn-custom:hover {
+  background: rgba(165, 184, 255, 0.08);
+}
+
+.g-root_theme_dark .ai-search-choice-menu {
+  background: #2b3145;
+  border-color: #4a5580;
+}
+
+.g-root_theme_dark .ai-search-choice-item {
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .ai-search-choice-item:hover {
+  background: rgba(165, 184, 255, 0.12);
+}
+
+/* Скрываем стандартную лупу в панели управления (справа вверху) */
+.dc-controls .g-button[aria-label*="оиск"],
+.dc-controls .g-button[aria-label*="earch"],
+.dc-controls .ai-search-btn {
+  display: none !important;
+}
+
+/* Принудительный показ стандартного поля поиска */
+.dc-search-suggest__wrapper.show-regular,
+.Suggest.show-regular,
+[class*="search"].show-regular {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  position: fixed !important;
+  top: 60px !important;
+  right: 280px !important;
+  z-index: 9998 !important;
+  background: #fff;
+  border: 1px solid #e6e7eb;
+  border-radius: 8px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dc-search-suggest__wrapper.show-regular input,
+.Suggest.show-regular input,
+[class*="search"].show-regular input {
+  display: block !important;
+  width: 100% !important;
+  padding: 8px 12px;
+  border: 1px solid #e6e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+/* ===== ИСПРАВЛЕНИЕ: принудительно показываем поле умного поиска ===== */
+/* Этот блок должен быть в самом конце файла, чтобы перебить [class*="search-input"] */
+.ai-search-input {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  margin: 12px 0 !important;
+  padding: 12px 14px !important;
+  border: 1px solid #e6e7eb !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  color: #333 !important;
+}
+
+/* Тёмная тема для поля ввода */
+.g-root_theme_dark .ai-search-input {
+  background: #1f2436 !important;
+  border-color: #4a5580 !important;
+  color: #f4f5fd !important;
+}
+
+/* ===== Модальное окно обычного поиска ===== */
+.regular-search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  z-index: 10000;
+}
+
+.regular-search-overlay.open {
+  display: flex;
+}
+
+.regular-search-modal {
+  background: #fff;
+  border-radius: 16px;
+  width: 640px;
+  max-width: 92vw;
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.regular-search-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.regular-search-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.regular-search-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+}
+
+.regular-search-hint {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.regular-search-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.regular-search-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid #e6e7eb;
+  border-radius: 12px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.regular-search-input:focus {
+  outline: none;
+  border-color: #5460d4;
+}
+
+.regular-search-submit {
+  padding: 12px 24px;
+  background: #5460d4;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.regular-search-submit:hover {
+  background: #4a54c0;
+}
+
+.regular-search-results {
+  min-height: 100px;
+}
+
+.regular-search-loading {
+  text-align: center;
+  color: #6b7280;
+  padding: 20px;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark .regular-search-modal {
+  background: #2b3145;
+}
+
+.g-root_theme_dark .regular-search-header h3 {
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .regular-search-close {
+  color: #cbd2e8;
+}
+
+.g-root_theme_dark .regular-search-hint {
+  color: #9aa5c4;
+}
+
+.g-root_theme_dark .regular-search-input {
+  background: #1f2436;
+  border-color: #4a5580;
+  color: #f4f5fd;
+}
+
+.g-root_theme_dark .regular-search-submit {
+  background: #5460d4;
+}
+
+.g-root_theme_dark .regular-search-submit:hover {
+  background: #4a54c0;
+}
+
+/* ===== ИСПРАВЛЕНИЕ: показываем поле обычного поиска ===== */
+.regular-search-input {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 1 !important;
+  padding: 12px 14px !important;
+  border: 1px solid #e6e7eb !important;
+  border-radius: 12px !important;
+  font-size: 15px !important;
+  box-sizing: border-box !important;
+  background: #fff !important;
+  color: #333 !important;
+  width: auto !important;
+}
+
+.regular-search-input:focus {
+  outline: none !important;
+  border-color: #5460d4 !important;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark .regular-search-input {
+  background: #1f2436 !important;
+  border-color: #4a5580 !important;
+  color: #f4f5fd !important;
+}
