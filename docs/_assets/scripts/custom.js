@@ -535,7 +535,7 @@ document.addEventListener('click', function (e) {
     { title: 'Шаблоны паспорта', keywords: ['шаблон', 'настройка', 'поля', 'разделы', 'блоки', 'структура', 'passport'], desc: 'Настройка шаблона: обязательные поля, разделы, включение и отключение блоков.', url: '/ru/equipment/models/templates.html' },
     { title: 'AI-помощник', keywords: ['ai', 'ии', 'помощник', 'распознавание', 'автоматическое', 'заполнение', 'умный', 'ocr'], desc: 'Распознавание данных из готового технического паспорта и автоматическое заполнение.', url: '/ru/equipment/models/templates.html#ai' },
     { title: 'Регистрация изделия', keywords: ['регистрация', 'изделие', 'выпуск', 'qr-код', 'код', 'продукция', 'цифровой'], desc: 'Выпуск паспорта изделия и генерация QR-кода.', url: '/ru/equipment/registered_products/about.html' },
-    { title: 'Биллинг', keywords: ['биллинг', 'тариф', 'баланс', 'оплата', 'пополнение', 'счет', 'акт', 'деньги', 'цена'], desc: 'Тарифные планы, баланс, пополнение счёта, закрывающие документы.', url: '/ru/billing.html' },
+    { title: 'Биллинг', keywords: ['биллинг', 'тариф', 'баланс', 'оплата', 'пополнение', 'счет', 'акт', 'деньги', 'цена'], desc: 'Тарифные планы, баланс, пополнение счёта, закрывающие документы.', url: '/ru/organization/billing.html' },
     { title: 'Часто задаваемые вопросы', keywords: ['faq', 'вопросы', 'ответы', 'помощь', 'справка', 'часто'], desc: 'Ответы на типовые вопросы.', url: '/ru/FAQ.html' },
     { title: 'Типовые ошибки', keywords: ['ошибки', 'troubleshooting', 'проблемы', 'не работает', 'решение', 'исправление'], desc: 'Решения частых проблем при работе с системой.', url: '/ru/troubleshooting.html' }
   ];
@@ -831,11 +831,21 @@ document.addEventListener('click', function (e) {
     menu.className = 'ai-search-choice-menu';
     menu.innerHTML =
       '<div class="ai-search-choice-item" data-type="smart">' +
-      '  <span class="ai-search-choice-icon">✨</span>' +
+      '  <span class="ai-search-choice-icon">' +
+      '    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '      <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>' +
+      '      <circle cx="12" cy="9" r="2.5"/>' +
+      '    </svg>' +
+      '  </span>' +
       '  <span>Умный поиск</span>' +
       '</div>' +
       '<div class="ai-search-choice-item" data-type="regular">' +
-      '  <span class="ai-search-choice-icon">🔍</span>' +
+      '  <span class="ai-search-choice-icon">' +
+      '    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+      '      <circle cx="11" cy="11" r="7"/>' +
+      '      <path d="m21 21-4.3-4.3"/>' +
+      '    </svg>' +
+      '  </span>' +
       '  <span>Обычный поиск</span>' +
       '</div>';
 

@@ -893,9 +893,17 @@ input#dc-1-input {
 }
 
 .ai-search-choice-icon {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
-  text-align: center;
+  height: 20px;
+  color: #6b7280;
+}
+
+.ai-search-choice-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 /* Тёмная тема */
@@ -1383,4 +1391,15 @@ input#dc-1-input {
 .g-root_theme_dark .highlight-search {
   background: #854d0e !important;
   color: #fef08a !important;
+}
+
+/* ===== Скрываем кнопку поиска в PDF ===== */
+@media print {
+  .ai-search-btn-custom,
+  .ai-search-wrapper-custom,
+  .ai-search-choice-menu,
+  .ai-search-overlay,
+  .regular-search-overlay {
+    display: none !important;
+  }
 }
