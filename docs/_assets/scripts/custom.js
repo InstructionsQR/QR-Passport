@@ -833,9 +833,9 @@ document.addEventListener('click', function (e) {
       '<div class="ai-search-choice-item" data-type="smart">' +
       '  <span class="ai-search-choice-icon">' +
       '    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-      '      <circle cx="10" cy="10" r="6"/>' +
-      '      <path d="m21 21-4.3-4.3"/>' +
-      '      <path d="M15 2l.5 2.5L18 5l-2.5.5L15 8l-.5-2.5L12 5l2.5-.5z"/>' +
+      '      <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>' +
+      '      <circle cx="12" cy="9" r="2.5"/>' +
+      '      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>' +
       '    </svg>' +
       '  </span>' +
       '  <span>Умный поиск</span>' +
