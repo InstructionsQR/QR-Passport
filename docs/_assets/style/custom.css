@@ -1408,7 +1408,7 @@ input#dc-1-input {
 @media (max-width: 768px) {
   .ai-search-wrapper-custom {
     position: fixed !important;
-    top: 10px !important;
+    top: 12px !important;
     right: 60px !important; /* Слева от гамбургера (гамбургер обычно в 10-20px от края) */
     left: auto !important;
     transform: none !important;
@@ -1435,6 +1435,6 @@ input#dc-1-input {
 @media (max-width: 480px) {
   .ai-search-wrapper-custom {
     right: 50px !important;
-    top: 8px !important;
+    top: 10px !important;
   }
 }
