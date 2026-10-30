@@ -1403,3 +1403,38 @@ input#dc-1-input {
     display: none !important;
   }
 }
+
+/* ===== Мобильная версия: кнопка поиска слева от гамбургера ===== */
+@media (max-width: 768px) {
+  .ai-search-wrapper-custom {
+    position: fixed !important;
+    top: 10px !important;
+    right: 60px !important; /* Слева от гамбургера (гамбургер обычно в 10-20px от края) */
+    left: auto !important;
+    transform: none !important;
+    z-index: 9999 !important;
+  }
+
+  .ai-search-btn-custom {
+    padding: 6px 10px !important;
+    font-size: 13px !important;
+  }
+
+  .ai-search-btn-text {
+    display: none !important;
+  }
+
+  .ai-search-choice-menu {
+    right: 0 !important;
+    left: auto !important;
+    transform: none !important;
+  }
+}
+
+/* Совсем маленькие экраны */
+@media (max-width: 480px) {
+  .ai-search-wrapper-custom {
+    right: 50px !important;
+    top: 8px !important;
+  }
+}
