@@ -1438,3 +1438,31 @@ input#dc-1-input {
     top: 14px !important; /* Тоже увеличили */
   }
 }
+
+/* ===== Выравнивание кнопок на титульном листе ===== */
+.pc-header-block__actions,
+[class*="header"] [class*="actions"],
+.dc-doc-page__main .pc-basic-card__actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+}
+
+/* Принудительно выравниваем кнопку "Войти" и "Задать вопрос" */
+.pc-header-block a[href="https://app.qrpassport.tech/login"],
+[class*="header-block"] a[href="https://app.qrpassport.tech/login"] {
+  vertical-align: middle !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  align-self: center !important;
+}
+
+/* Убедимся, что обе кнопки одинаковой высоты */
+.pc-header-block a[href="https://app.qrpassport.tech/login"],
+.pc-header-block a[href*="Задать вопрос"],
+[class*="header-block"] a[href*="Задать вопрос"] {
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}

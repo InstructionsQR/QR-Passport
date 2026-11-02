@@ -7,6 +7,14 @@ navigation:
       icon: "https://docs.qrpassport.tech/ru/_files/logo.svg"
     light:
       icon: "https://docs.qrpassport.tech/ru/_files/logo.svg"
+  header:
+    leftItems:
+      - text: "Войти в QR-Passport"
+        type: "link"
+        url: "https://app.qrpassport.tech/login"
+      - text: "Сайт"
+        type: "link"
+        url: "https://qrpassport.tech/"   
 pdf:
   startPages:
     - _pdf/cover.md
