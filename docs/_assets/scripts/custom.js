@@ -1152,11 +1152,11 @@ document.addEventListener('click', function (e) {
 
       console.log('Дизлайк:', reason, 'Страница:', page);
 
-      // Отправка в Метрику
+      // Отправка в Метрику с явным указанием url
       if (typeof ym === 'function') {
         ym(COUNTER_ID, 'reachGoal', 'docs_feedback_no_detail', {
-          page: page,
-          reason: reason
+          url: pageUrl,           // <-- ЭТО ключевое изменение! Метрика свяжет это со страницей
+          reason: reason          // Причина остается в параметрах
         });
       }
 
