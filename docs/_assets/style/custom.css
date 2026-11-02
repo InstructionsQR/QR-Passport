@@ -1474,3 +1474,173 @@ input#dc-1-input {
   align-items: center !important;
   justify-content: center !important;
 }
+
+/* ===== Модальное окно обратной связи (дизлайк) ===== */
+.feedback-modal-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0, 0, 0, 0.4) !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 10000 !important;
+  padding: 20px !important;
+}
+
+.feedback-modal-overlay.open {
+  display: flex !important;
+}
+
+.feedback-modal {
+  background: #fff !important;
+  border-radius: 16px !important;
+  width: 480px !important;
+  max-width: 90vw !important;
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+  padding: 24px !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+}
+
+.feedback-modal-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 20px !important;
+}
+
+.feedback-modal-header h3 {
+  margin: 0 !important;
+  font-size: 18px !important;
+  color: #333 !important;
+}
+
+.feedback-modal-close {
+  background: none !important;
+  border: none !important;
+  font-size: 20px !important;
+  cursor: pointer !important;
+  color: #666 !important;
+  padding: 4px !important;
+}
+
+.feedback-modal-form {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.feedback-modal-option {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 12px 16px !important;
+  border: 1px solid #e6e7eb !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+}
+
+.feedback-modal-option:hover {
+  border-color: #5460d4 !important;
+  background: rgba(84, 96, 212, 0.04) !important;
+}
+
+.feedback-modal-option input[type="radio"] {
+  width: 18px !important;
+  height: 18px !important;
+  accent-color: #5460d4 !important;
+  cursor: pointer !important;
+}
+
+.feedback-modal-option span {
+  font-size: 14px !important;
+  color: #374151 !important;
+}
+
+.feedback-modal-submit {
+  margin-top: 8px !important;
+  padding: 12px 24px !important;
+  background: #5460d4 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+  align-self: flex-end !important;
+}
+
+.feedback-modal-submit:hover {
+  background: #4a54c0 !important;
+}
+
+/* Экран благодарности */
+.feedback-modal-thanks {
+  text-align: center !important;
+  padding: 40px 24px !important;
+}
+
+.feedback-modal-thanks-icon {
+  width: 60px !important;
+  height: 60px !important;
+  background: #10b981 !important;
+  color: #fff !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 30px !important;
+  margin: 0 auto 20px !important;
+}
+
+.feedback-modal-thanks h3 {
+  margin: 0 0 12px !important;
+  font-size: 20px !important;
+  color: #333 !important;
+}
+
+.feedback-modal-thanks p {
+  margin: 0 !important;
+  color: #6b7280 !important;
+  font-size: 14px !important;
+}
+
+/* Тёмная тема */
+.g-root_theme_dark .feedback-modal {
+  background: #2b3145 !important;
+}
+
+.g-root_theme_dark .feedback-modal-header h3 {
+  color: #f4f5fd !important;
+}
+
+.g-root_theme_dark .feedback-modal-close {
+  color: #cbd2e8 !important;
+}
+
+.g-root_theme_dark .feedback-modal-option {
+  border-color: #4a5580 !important;
+}
+
+.g-root_theme_dark .feedback-modal-option:hover {
+  border-color: #7b86ff !important;
+  background: rgba(123, 134, 255, 0.08) !important;
+}
+
+.g-root_theme_dark .feedback-modal-option span {
+  color: #cbd2e8 !important;
+}
+
+.g-root_theme_dark .feedback-modal-submit {
+  background: #5460d4 !important;
+}
+
+.g-root_theme_dark .feedback-modal-thanks h3 {
+  color: #f4f5fd !important;
+}
+
+.g-root_theme_dark .feedback-modal-thanks p {
+  color: #9aa5c4 !important;
+}

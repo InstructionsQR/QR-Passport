@@ -1087,4 +1087,128 @@ document.addEventListener('click', function (e) {
   } else {
     watchTitle();
   }
+
+// ===== Модальное окно обратной связи при дизлайке =====
+(function () {
+  var COUNTER_ID = 111923254;
+
+  function createFeedbackModal() {
+    if (document.querySelector('.feedback-modal-overlay')) return;
+
+    var overlay = document.createElement('div');
+    overlay.className = 'feedback-modal-overlay';
+    overlay.innerHTML =
+      '<div class="feedback-modal">' +
+      '  <div class="feedback-modal-header"><h3>Что было непонятно?</h3><button class="feedback-modal-close" type="button">✕</button></div>' +
+      '  <form class="feedback-modal-form">' +
+      '    <label class="feedback-modal-option">' +
+      '      <input type="radio" name="feedback-reason" value="not_found">' +
+      '      <span>Не нашёл нужную информацию</span>' +
+      '    </label>' +
+      '    <label class="feedback-modal-option">' +
+      '      <input type="radio" name="feedback-reason" value="interface_mismatch">' +
+      '      <span>Инструкция не соответствует интерфейсу</span>' +
+      '    </label>' +
+      '    <label class="feedback-modal-option">' +
+      '      <input type="radio" name="feedback-reason" value="method_not_working">' +
+      '      <span>Не работает описанный способ</span>' +
+      '    </label>' +
+      '    <label class="feedback-modal-option">' +
+      '      <input type="radio" name="feedback-reason" value="need_more_info">' +
+      '      <span>Нужна дополнительная информация</span>' +
+      '    </label>' +
+      '    <label class="feedback-modal-option">' +
+      '      <input type="radio" name="feedback-reason" value="other">' +
+      '      <span>Другое</span>' +
+      '    </label>' +
+      '    <button type="submit" class="feedback-modal-submit">Отправить</button>' +
+      '  </form>' +
+      '</div>';
+    document.body.appendChild(overlay);
+
+    // Закрытие
+    overlay.querySelector('.feedback-modal-close').addEventListener('click', function() {
+      overlay.classList.remove('open');
+    });
+    overlay.addEventListener('click', function(e) {
+      if (e.target === overlay) overlay.classList.remove('open');
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') overlay.classList.remove('open');
+    });
+
+    // Отправка формы
+    var form = overlay.querySelector('.feedback-modal-form');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var selected = form.querySelector('input[name="feedback-reason"]:checked');
+      if (!selected) {
+        alert('Пожалуйста, выберите причину');
+        return;
+      }
+
+      var reason = selected.value;
+      var page = window.location.pathname;
+
+      console.log('Дизлайк:', reason, 'Страница:', page);
+
+      // Отправка в Метрику
+      if (typeof ym === 'function') {
+        ym(COUNTER_ID, 'reachGoal', 'docs_feedback_no_detail', {
+          page: page,
+          reason: reason
+        });
+      }
+
+      // Показываем благодарность
+      overlay.innerHTML =
+        '<div class="feedback-modal feedback-modal-thanks">' +
+        '  <div class="feedback-modal-thanks-icon">✓</div>' +
+        '  <h3>Спасибо за отзыв!</h3>' +
+        '  <p>Мы учтём ваше замечание и улучшим документацию.</p>' +
+        '</div>';
+      overlay.classList.add('open');
+
+      // Автоматически закрываем через 3 секунды
+      setTimeout(function() {
+        overlay.classList.remove('open');
+        // Восстанавливаем форму для следующего использования
+        setTimeout(function() {
+          overlay.remove();
+        }, 500);
+      }, 3000);
+    });
+  }
+
+  function openFeedbackModal() {
+    createFeedbackModal();
+    var overlay = document.querySelector('.feedback-modal-overlay');
+    overlay.classList.add('open');
+  }
+
+  // Перехватываем клик по кнопке дизлайка
+  document.addEventListener('click', function(e) {
+    var dislikeBtn = e.target.closest('.doc-feedback__btn[data-vote="no"], .doc-feedback button:last-child');
+    if (!dislikeBtn) return;
+
+    // Проверяем, что это действительно кнопка дизлайка
+    var feedbackContainer = dislikeBtn.closest('.doc-feedback');
+    if (!feedbackContainer) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Отправляем базовую цель дизлайка
+    if (typeof ym === 'function') {
+      ym(111923254, 'reachGoal', 'docs_feedback_no', { page: window.location.pathname });
+    }
+
+    // Открываем модальное окно с причинами
+    openFeedbackModal();
+  }, true);
+
+  // Экспортируем функцию для отладки
+  window.openFeedbackModal = openFeedbackModal;
+})();
+
 })();
