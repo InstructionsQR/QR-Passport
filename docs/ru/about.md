@@ -22,8 +22,8 @@
 4. [**Создайте модель**](https://docs.qrpassport.tech/ru/equipment/models/create_model.html#forma-sozdaniya-modeli)
 5. [**Настройте шаблон паспорта**](https://docs.qrpassport.tech/ru/equipment/models/templates.html#dobavlenie-shablona)
 6. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
-7. **Подпишите паспорт**
-8. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
+7. [**Подпишите паспорт**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#stranica-pasporta-izdeliya-v-statuse-ozhidaet-podpisi)
+8. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#massovye-dejstviya-s-izdeliyami-v-spiske)
 
 {% note info "Примечания" %}
 
@@ -38,8 +38,8 @@
 1. [**Создайте модель**](https://docs.qrpassport.tech/ru/equipment/models/create_model.html#forma-sozdaniya-modeli)
 2. [**Настройте шаблон паспорта**](https://docs.qrpassport.tech/ru/equipment/models/templates.html#dobavlenie-shablona)
 3. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
-4. **Подпишите паспорт**
-5. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#dejstviya-s-izdeliyami-v-spiske)
+4. [**Подпишите паспорт**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#stranica-pasporta-izdeliya-v-statuse-ozhidaet-podpisi)
+5. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#massovye-dejstviya-s-izdeliyami-v-spiske)
 
 {% note info "Примечания" %}
 
