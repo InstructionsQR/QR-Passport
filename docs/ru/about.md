@@ -59,7 +59,7 @@
 
 {% note info %}
 
-Пошаговое описание заполнения каждого поля шаблона – в подразделе [Паспорт качества](../equipment/models/templates/quality_passport.md).
+Пошаговое описание заполнения каждого поля шаблона – в подразделе **[Паспорт качества](\equipment\models\templates\quality_passport.md)**.
 
 {% endnote %}
 
