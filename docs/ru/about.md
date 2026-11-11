@@ -47,8 +47,21 @@
 
 {% endnote %}
 
+## Паспорта качества
 
+Для железобетонных изделий путь аналогичен остальному оборудованию:
 
+1. [**Создайте модель**](https://docs.qrpassport.tech/ru/equipment/models/create_model.html#forma-sozdaniya-modeli)
+2. [**Настройте шаблон паспорта**](https://docs.qrpassport.tech/ru/equipment/models/templates.html#dobavlenie-shablona)
+3. [**Зарегистрируйте изделие**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#registraciya-izdeliya)
+4. [**Подпишите паспорт**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#stranica-pasporta-izdeliya-v-statuse-ozhidaet-podpisi)
+5. [**Скачайте паспорт и QR-код**](https://docs.qrpassport.tech/ru/equipment/registered_products/about.html#massovye-dejstviya-s-izdeliyami-v-spiske)
+
+{% note info %}
+
+Пошаговое описание заполнения каждого поля шаблона – в подразделе [Паспорт качества](../equipment/models/templates/quality_passport.md).
+
+{% endnote %}
 
 
 

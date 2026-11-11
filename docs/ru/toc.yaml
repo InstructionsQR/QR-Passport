@@ -75,6 +75,8 @@ items:
             href: equipment/models/templates/electric_drives.md
           - name: Другое оборудование
             href: equipment/models/templates/other_equipment.md
+          - name: Паспорт качества
+            href: equipment/models/templates/quality_passport.md
       - name: Детали
         items:
           - name: О разделе
